@@ -1,0 +1,2102 @@
+</html>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EventHub - Contact Us</title>
+
+    <!-- Bootstrap 5.3 CSS (Latest) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <!-- Bootstrap Icons (Latest) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+    <!-- EventHub Header - From navbar.html -->
+    <nav class="navbar navbar-expand-lg eventhub-navbar">
+        <div class="container-fluid px-4">
+            <!-- Brand Logo -->
+            <a class="navbar-brand eventhub-brand d-flex align-items-center" href="index.html">
+                <div class="brand-icon me-2">
+                    <i class="bi bi-calendar-event me-1"></i>
+                </div>
+                <span class="brand-text">EventHub</span>
+            </a>
+
+            <!-- Mobile Toggle Button -->
+            <button class="navbar-toggler custom-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navigation Items -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <!-- Left Navigation -->
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link eventhub-nav-link" href="index.html">
+                            <i class="bi bi-house-fill me-1"></i>
+                            Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link eventhub-nav-link" href="event-listing.html">
+                            <i class="bi bi-calendar3 me-1"></i>Events
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link eventhub-nav-link dropdown-toggle" href="#" id="categoriesDropdown"
+                            role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-grid-3x3-gap me-1"></i>
+                            Categories
+                        </a>
+                        <ul class="dropdown-menu eventhub-dropdown" aria-labelledby="categoriesDropdown">
+                            <li><a class="dropdown-item" href="event-listing.html?category=music"><i
+                                        class="bi bi-music-note me-2"></i>Music</a></li>
+                            <li><a class="dropdown-item" href="event-listing.html?category=sports"><i
+                                        class="bi bi-trophy me-2"></i>Sports</a></li>
+                            <li><a class="dropdown-item" href="event-listing.html?category=arts"><i
+                                        class="bi bi-palette me-2"></i>Arts & Culture</a>
+                            </li>
+                            <li><a class="dropdown-item" href="event-listing.html?category=business"><i
+                                        class="bi bi-briefcase me-2"></i>Business</a></li>
+                            <li><a class="dropdown-item" href="event-listing.html?category=food"><i
+                                        class="bi bi-cup-hot me-2"></i>Food & Drink</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link eventhub-nav-link" href="about.html">
+                            <i class="bi bi-info-circle me-1"></i>About
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link eventhub-nav-link active" href="contact.html">
+                            <i class="bi bi-envelope me-1"></i>Contact
+                        </a>
+                    </li>
+                </ul>
+
+                <!-- Right Navigation - Auth Buttons -->
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="btn eventhub-btn-login me-2" href="login.html">
+                            <i class="bi bi-box-arrow-in-right me-1"></i>
+                            LOGIN
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn eventhub-btn-signup" href="register.html">
+                            <i class="bi bi-person-plus me-1"></i>
+                            SIGN UP
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <div class="page-header-content">
+                        <h1 class="page-title">Contact Us</h1>
+                        <p class="page-subtitle">We're here to help! Get in touch with our friendly team</p>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb justify-content-center">
+                                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Contact</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Methods Section -->
+    <section class="contact-methods py-5">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="contact-method-card">
+                        <div class="method-icon">
+                            <i class="bi bi-telephone-fill"></i>
+                        </div>
+                        <h4>Call Us</h4>
+                        <p>Speak directly with our customer service team</p>
+                        <div class="method-details">
+                            <a href="tel:+94112345678" class="contact-link">+94 11 234 5678</a>
+                            <small>Mon-Fri: 9:00 AM - 6:00 PM</small>
+                            <small>Sat: 9:00 AM - 2:00 PM</small>
+                        </div>
+                        <button class="btn btn-method" onclick="initiateCall()">
+                            <i class="bi bi-telephone me-2"></i>Call Now
+                        </button>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="contact-method-card">
+                        <div class="method-icon">
+                            <i class="bi bi-envelope-fill"></i>
+                        </div>
+                        <h4>Email Us</h4>
+                        <p>Send us a message and we'll respond within 24 hours</p>
+                        <div class="method-details">
+                            <a href="mailto:info@eventhub.lk" class="contact-link">info@eventhub.lk</a>
+                            <a href="mailto:support@eventhub.lk" class="contact-link">support@eventhub.lk</a>
+                            <small>24/7 Email Support</small>
+                        </div>
+                        <button class="btn btn-method" onclick="initiateEmail()">
+                            <i class="bi bi-envelope me-2"></i>Send Email
+                        </button>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="contact-method-card">
+                        <div class="method-icon">
+                            <i class="bi bi-chat-dots-fill"></i>
+                        </div>
+                        <h4>Live Chat</h4>
+                        <p>Chat with our support team in real-time</p>
+                        <div class="method-details">
+                            <span class="status-indicator online"></span>
+                            <span class="status-text">Currently Online</span>
+                            <small>Average response: 2 minutes</small>
+                        </div>
+                        <button class="btn btn-method" onclick="startLiveChat()">
+                            <i class="bi bi-chat-dots me-2"></i>Start Chat
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form Section -->
+    <section class="contact-form-section py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center mb-5">
+                    <h2 class="section-title">Send Us a Message</h2>
+                    <p class="section-subtitle">Fill out the form below and we'll get back to you as soon as possible
+                    </p>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="contact-form-card">
+                        <form id="contactForm" onsubmit="submitContactForm(event)">
+                            <div class="row g-3">
+                                <!-- Personal Information -->
+                                <div class="col-md-6">
+                                    <label for="firstName" class="form-label">
+                                        <i class="bi bi-person me-1"></i>First Name *
+                                    </label>
+                                    <input type="text" class="form-control" id="firstName" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="lastName" class="form-label">
+                                        <i class="bi bi-person me-1"></i>Last Name *
+                                    </label>
+                                    <input type="text" class="form-control" id="lastName" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="email" class="form-label">
+                                        <i class="bi bi-envelope me-1"></i>Email Address *
+                                    </label>
+                                    <input type="email" class="form-control" id="email" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="phone" class="form-label">
+                                        <i class="bi bi-telephone me-1"></i>Phone Number
+                                    </label>
+                                    <input type="tel" class="form-control" id="phone" placeholder="+94 XX XXX XXXX">
+                                </div>
+
+                                <!-- Inquiry Details -->
+                                <div class="col-md-6">
+                                    <label for="inquiryType" class="form-label">
+                                        <i class="bi bi-tag me-1"></i>Inquiry Type *
+                                    </label>
+                                    <select class="form-select" id="inquiryType" required
+                                        onchange="handleInquiryTypeChange()">
+                                        <option value="">Select inquiry type</option>
+                                        <option value="general">General Information</option>
+                                        <option value="booking">Booking Support</option>
+                                        <option value="technical">Technical Issue</option>
+                                        <option value="organizer">Event Organizer</option>
+                                        <option value="partnership">Partnership</option>
+                                        <option value="feedback">Feedback</option>
+                                        <option value="media">Media Inquiry</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="priority" class="form-label">
+                                        <i class="bi bi-exclamation-triangle me-1"></i>Priority
+                                    </label>
+                                    <select class="form-select" id="priority">
+                                        <option value="low">Low</option>
+                                        <option value="medium" selected>Medium</option>
+                                        <option value="high">High</option>
+                                        <option value="urgent">Urgent</option>
+                                    </select>
+                                </div>
+
+                                <!-- Event Reference (conditional) -->
+                                <div class="col-12" id="eventReferenceField" style="display: none;">
+                                    <label for="eventReference" class="form-label">
+                                        <i class="bi bi-calendar-event me-1"></i>Event Reference
+                                    </label>
+                                    <input type="text" class="form-control" id="eventReference"
+                                        placeholder="Event name or booking reference">
+                                </div>
+
+                                <!-- Subject and Message -->
+                                <div class="col-12">
+                                    <label for="subject" class="form-label">
+                                        <i class="bi bi-pencil me-1"></i>Subject *
+                                    </label>
+                                    <input type="text" class="form-control" id="subject" required
+                                        placeholder="Brief description of your inquiry">
+                                </div>
+                                <div class="col-12">
+                                    <label for="message" class="form-label">
+                                        <i class="bi bi-chat-left-text me-1"></i>Message *
+                                    </label>
+                                    <textarea class="form-control" id="message" rows="6" required
+                                        placeholder="Please provide detailed information about your inquiry..."></textarea>
+                                    <div class="character-count">
+                                        <small class="text-muted">
+                                            <span id="messageCount">0</span>/1000 characters
+                                        </small>
+                                    </div>
+                                </div>
+
+                                <!-- File Attachment -->
+                                <div class="col-12">
+                                    <label for="attachment" class="form-label">
+                                        <i class="bi bi-paperclip me-1"></i>Attachment (Optional)
+                                    </label>
+                                    <input type="file" class="form-control" id="attachment"
+                                        accept=".jpg,.jpeg,.png,.pdf,.doc,.docx" multiple>
+                                    <small class="form-text text-muted">
+                                        Accepted formats: JPG, PNG, PDF, DOC, DOCX (Max 5MB per file)
+                                    </small>
+                                </div>
+
+                                <!-- Preferences -->
+                                <div class="col-12">
+                                    <label class="form-label">
+                                        <i class="bi bi-clock me-1"></i>Preferred Contact Time
+                                    </label>
+                                    <div class="contact-time-options">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="contactTime" id="morning"
+                                                value="morning">
+                                            <label class="form-check-label" for="morning">Morning (9AM-12PM)</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="contactTime"
+                                                id="afternoon" value="afternoon" checked>
+                                            <label class="form-check-label" for="afternoon">Afternoon (12PM-5PM)</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="contactTime" id="evening"
+                                                value="evening">
+                                            <label class="form-check-label" for="evening">Evening (5PM-8PM)</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="contactTime" id="anytime"
+                                                value="anytime">
+                                            <label class="form-check-label" for="anytime">Anytime</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Newsletter Subscription -->
+                                <div class="col-12">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="newsletter" value="yes">
+                                        <label class="form-check-label" for="newsletter">
+                                            Subscribe to our newsletter for event updates and special offers
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Privacy Policy -->
+                                <div class="col-12">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="privacy" required>
+                                        <label class="form-check-label" for="privacy">
+                                            I agree to the <a href="#" onclick="showPrivacyPolicy()">Privacy Policy</a>
+                                            and
+                                            <a href="#" onclick="showTerms()">Terms of Service</a> *
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Submit Button -->
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-submit w-100">
+                                        <i class="bi bi-send me-2"></i>Send Message
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Office Information Section -->
+    <section class="office-info py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center mb-5">
+                    <h2 class="section-title">Visit Our Office</h2>
+                    <p class="section-subtitle">We'd love to meet you in person</p>
+                </div>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-6">
+                    <div class="office-details">
+                        <div class="office-card">
+                            <div class="office-icon">
+                                <i class="bi bi-building"></i>
+                            </div>
+                            <div class="office-content">
+                                <h4>EventHub Headquarters</h4>
+                                <div class="office-address">
+                                    <p><strong>EventHub (Pvt) Ltd</strong></p>
+                                    <p>No. 123, Galle Road<br>
+                                        Colombo 03, Sri Lanka</p>
+                                </div>
+
+                                <div class="office-hours">
+                                    <h6><i class="bi bi-clock me-2"></i>Business Hours</h6>
+                                    <div class="hours-grid">
+                                        <div class="hours-row">
+                                            <span>Monday - Friday</span>
+                                            <span>9:00 AM - 6:00 PM</span>
+                                        </div>
+                                        <div class="hours-row">
+                                            <span>Saturday</span>
+                                            <span>9:00 AM - 2:00 PM</span>
+                                        </div>
+                                        <div class="hours-row">
+                                            <span>Sunday</span>
+                                            <span>Closed</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="office-amenities">
+                                    <h6><i class="bi bi-check-circle me-2"></i>Amenities</h6>
+                                    <ul class="amenities-list">
+                                        <li><i class="bi bi-p-circle me-2"></i>Free parking available</li>
+                                        <li><i class="bi bi-wifi me-2"></i>Free Wi-Fi</li>
+                                        <li><i class="bi bi-cup-hot me-2"></i>Complimentary refreshments</li>
+                                        <li><i class="bi bi-universal-access me-2"></i>Wheelchair accessible</li>
+                                    </ul>
+                                </div>
+
+                                <div class="office-actions">
+                                    <button class="btn btn-directions" onclick="getDirections()">
+                                        <i class="bi bi-geo-alt me-2"></i>Get Directions
+                                    </button>
+                                    <button class="btn btn-appointment" onclick="scheduleAppointment()">
+                                        <i class="bi bi-calendar-check me-2"></i>Schedule Visit
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="office-map">
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.798475112887!2d79.86125431477334!3d6.914712295010567!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae259615d7a6b35%3A0x6b2c7f4e6c4b8a9d!2sGalle%20Rd%2C%20Colombo%2003!5e0!3m2!1sen!2slk!4v1645123456789!5m2!1sen!2slk"
+                            width="100%" height="100%" style="border:0; border-radius: 1rem;" allowfullscreen=""
+                            loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                        <div class="map-overlay">
+                            <div class="map-info">
+                                <h6>EventHub Office</h6>
+                                <p>123 Galle Road, Colombo 03</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center mb-5">
+                    <h2 class="section-title">Frequently Asked Questions</h2>
+                    <p class="section-subtitle">Quick answers to common questions</p>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="accordion" id="faqAccordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="faq1">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapse1" aria-expanded="true" aria-controls="collapse1">
+                                    <i class="bi bi-question-circle me-3"></i>
+                                    How do I book tickets for an event?
+                                </button>
+                            </h2>
+                            <div id="collapse1" class="accordion-collapse collapse show" aria-labelledby="faq1"
+                                data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Booking tickets is easy! Simply browse events on our platform, select your preferred
+                                    event,
+                                    choose ticket type and quantity, then proceed to checkout. You'll receive your
+                                    QR-coded
+                                    e-tickets via email immediately after successful payment.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="faq2">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
+                                    <i class="bi bi-credit-card me-3"></i>
+                                    What payment methods do you accept?
+                                </button>
+                            </h2>
+                            <div id="collapse2" class="accordion-collapse collapse" aria-labelledby="faq2"
+                                data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    We accept all major credit and debit cards (Visa, MasterCard, American Express),
+                                    local bank cards, mobile payments, and online banking transfers. All transactions
+                                    are secure and PCI DSS compliant.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="faq3">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapse3" aria-expanded="false" aria-controls="collapse3">
+                                    <i class="bi bi-arrow-clockwise me-3"></i>
+                                    Can I get a refund for my tickets?
+                                </button>
+                            </h2>
+                            <div id="collapse3" class="accordion-collapse collapse" aria-labelledby="faq3"
+                                data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Yes, tickets are refundable up to 48 hours before the event start time. Processing
+                                    fees may apply.
+                                    For events that are cancelled or postponed, full refunds are automatically processed
+                                    within 7-10 business days.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="faq4">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
+                                    <i class="bi bi-qr-code me-3"></i>
+                                    How do I use my e-ticket at the event?
+                                </button>
+                            </h2>
+                            <div id="collapse4" class="accordion-collapse collapse" aria-labelledby="faq4"
+                                data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Simply show your QR code (digital or printed) at the event entrance. Our staff will
+                                    scan it
+                                    for quick validation. Make sure to bring a valid photo ID that matches the name on
+                                    your booking.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="faq5">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapse5" aria-expanded="false" aria-controls="collapse5">
+                                    <i class="bi bi-megaphone me-3"></i>
+                                    How can I organize an event through EventHub?
+                                </button>
+                            </h2>
+                            <div id="collapse5" class="accordion-collapse collapse" aria-labelledby="faq5"
+                                data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Create an organizer account, complete your profile verification, then use our event
+                                    creation tools
+                                    to set up your event details, pricing, and promotion. Our team reviews and approves
+                                    events within 24-48 hours.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="faq6">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapse6" aria-expanded="false" aria-controls="collapse6">
+                                    <i class="bi bi-headset me-3"></i>
+                                    How quickly do you respond to support requests?
+                                </button>
+                            </h2>
+                            <div id="collapse6" class="accordion-collapse collapse" aria-labelledby="faq6"
+                                data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    We aim to respond to all inquiries within 24 hours during business days. For urgent
+                                    matters,
+                                    please use our live chat or call our support hotline. High priority issues are
+                                    addressed within 2-4 hours.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <div class="footer-brand">
+                        <div class="brand d-flex align-items-center mb-3">
+                            <i class="bi bi-calendar-event me-2"></i>
+                            <span class="brand-text">EventHub</span>
+                        </div>
+                        <p class="footer-description">Sri Lanka's premier event ticketing platform. Discover, book, and
+                            enjoy amazing events across the country.</p>
+                        <div class="social-links">
+                            <a href="#" class="social-link"><i class="bi bi-facebook"></i></a>
+                            <a href="#" class="social-link"><i class="bi bi-twitter"></i></a>
+                            <a href="#" class="social-link"><i class="bi bi-instagram"></i></a>
+                            <a href="#" class="social-link"><i class="bi bi-linkedin"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <h5 class="footer-title">Quick Links</h5>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="event-listing.html">Events</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <h5 class="footer-title">Categories</h5>
+                    <ul class="footer-links">
+                        <li><a href="event-listing.html?category=music">Music</a></li>
+                        <li><a href="event-listing.html?category=sports">Sports</a></li>
+                        <li><a href="event-listing.html?category=arts">Arts & Culture</a></li>
+                        <li><a href="event-listing.html?category=business">Business</a></li>
+                        <li><a href="event-listing.html?category=food">Food & Drink</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <h5 class="footer-title">For Organizers</h5>
+                    <ul class="footer-links">
+                        <li><a href="register.html?role=organizer">Create Account</a></li>
+                        <li><a href="organizer-dashboard.html">Dashboard</a></li>
+                        <li><a href="create-event.html">Create Event</a></li>
+                        <li><a href="sales-reports.html">Sales Reports</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <h5 class="footer-title">Support</h5>
+                    <ul class="footer-links">
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="footer-divider">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <p class="footer-copyright">&copy; 2025 EventHub. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p class="footer-tagline">Made with ❤️ in Sri Lanka</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+
+    <style>
+        /* EventHub Custom Styles */
+        * {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            line-height: 1.6;
+        }
+
+        /* Navbar Styling - From navbar.html */
+        .eventhub-navbar {
+            background-color: #ffffff;
+            border-bottom: 1px solid #e9ecef;
+            padding: 0.75rem 0;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .eventhub-brand {
+            text-decoration: none;
+            color: #6366f1 !important;
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .eventhub-brand:hover {
+            color: #5855eb !important;
+            text-decoration: none;
+        }
+
+        .brand-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .brand-text {
+            color: #6366f1;
+            font-weight: 700;
+        }
+
+        .eventhub-nav-link {
+            color: #64748b !important;
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 0.5rem 1rem !important;
+            margin: 0 0.25rem;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .eventhub-nav-link:hover {
+            color: #6366f1 !important;
+            background-color: rgba(99, 102, 241, 0.1);
+        }
+
+        .eventhub-nav-link.active {
+            color: #6366f1 !important;
+            background-color: rgba(99, 102, 241, 0.15);
+            font-weight: 600;
+        }
+
+        .eventhub-dropdown {
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            padding: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .eventhub-dropdown .dropdown-item {
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            color: #64748b;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .eventhub-dropdown .dropdown-item:hover {
+            background-color: rgba(99, 102, 241, 0.1);
+            color: #6366f1;
+        }
+
+        .eventhub-btn-login {
+            background: transparent;
+            border: 2px solid #6366f1;
+            color: #6366f1 !important;
+            font-weight: 600;
+            font-size: 0.85rem;
+            padding: 0.6rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            letter-spacing: 0.5px;
+        }
+
+        .eventhub-btn-login:hover {
+            background-color: #6366f1;
+            color: white !important;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+
+        .eventhub-btn-signup {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            border: none;
+            color: white !important;
+            font-weight: 600;
+            font-size: 0.85rem;
+            padding: 0.6rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            letter-spacing: 0.5px;
+        }
+
+        .eventhub-btn-signup:hover {
+            background: linear-gradient(135deg, #5855eb 0%, #7c3aed 100%);
+            color: white !important;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
+        }
+
+        .custom-toggler {
+            border: none;
+            padding: 0.25rem 0.5rem;
+        }
+
+        .custom-toggler:focus {
+            box-shadow: 0 0 0 0.2rem rgba(99, 102, 241, 0.25);
+        }
+
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            padding: 4rem 0 3rem;
+            color: white;
+        }
+
+        .page-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .page-subtitle {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .breadcrumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            padding: 0.75rem 1.5rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .breadcrumb-item a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+        }
+
+        .breadcrumb-item a:hover {
+            color: white;
+        }
+
+        .breadcrumb-item.active {
+            color: white;
+        }
+
+        /* Section Styling */
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: #64748b;
+            margin-bottom: 0;
+        }
+
+        /* Contact Methods */
+        .contact-methods {
+            background: white;
+            margin-top: -2rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .contact-method-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            border: 1px solid #f1f5f9;
+            text-align: center;
+            height: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .contact-method-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        .method-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+        }
+
+        .method-icon i {
+            font-size: 2rem;
+            color: white;
+        }
+
+        .contact-method-card h4 {
+            color: #374151;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .contact-method-card p {
+            color: #64748b;
+            margin-bottom: 1.5rem;
+        }
+
+        .method-details {
+            margin-bottom: 2rem;
+        }
+
+        .contact-link {
+            display: block;
+            color: #6366f1;
+            font-weight: 600;
+            text-decoration: none;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .contact-link:hover {
+            color: #5855eb;
+            text-decoration: underline;
+        }
+
+        .method-details small {
+            display: block;
+            color: #64748b;
+            margin-bottom: 0.25rem;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+
+        .status-indicator.online {
+            background: #10b981;
+            animation: pulse 2s infinite;
+        }
+
+        .status-text {
+            color: #10b981;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .btn-method {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            border: none;
+            color: white;
+            font-weight: 600;
+            padding: 0.875rem 2rem;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-method:hover {
+            background: linear-gradient(135deg, #5855eb 0%, #7c3aed 100%);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Contact Form */
+        .contact-form-section {
+            background: #f8fafc;
+        }
+
+        .contact-form-card {
+            background: white;
+            padding: 3rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            border: 1px solid #f1f5f9;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-control,
+        .form-select {
+            border: 2px solid #e5e7eb;
+            border-radius: 0.75rem;
+            padding: 0.875rem 1rem;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 0.2rem rgba(99, 102, 241, 0.15);
+        }
+
+        .character-count {
+            text-align: right;
+            margin-top: 0.5rem;
+        }
+
+        .contact-time-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .form-check-input:checked {
+            background-color: #6366f1;
+            border-color: #6366f1;
+        }
+
+        .form-check-input:focus {
+            box-shadow: 0 0 0 0.2rem rgba(99, 102, 241, 0.15);
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            border: none;
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
+            padding: 1rem 2rem;
+            border-radius: 0.75rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-submit:hover {
+            background: linear-gradient(135deg, #5855eb 0%, #7c3aed 100%);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
+        }
+
+        /* Office Info */
+        .office-info {
+            background: white;
+        }
+
+        .office-card {
+            display: flex;
+            gap: 2rem;
+            background: white;
+            padding: 2.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid #f1f5f9;
+            height: 100%;
+        }
+
+        .office-icon {
+            width: 80px;
+            height: 80px;
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .office-icon i {
+            font-size: 2rem;
+            color: #6366f1;
+        }
+
+        .office-content {
+            flex: 1;
+        }
+
+        .office-content h4 {
+            color: #374151;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .office-address {
+            margin-bottom: 1.5rem;
+        }
+
+        .office-address p {
+            color: #64748b;
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+
+        .office-hours {
+            margin-bottom: 1.5rem;
+        }
+
+        .office-hours h6 {
+            color: #374151;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .hours-grid {
+            background: #f8fafc;
+            padding: 1rem;
+            border-radius: 0.5rem;
+        }
+
+        .hours-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            color: #64748b;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .hours-row:last-child {
+            border-bottom: none;
+        }
+
+        .office-amenities {
+            margin-bottom: 2rem;
+        }
+
+        .office-amenities h6 {
+            color: #374151;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .amenities-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .amenities-list li {
+            display: flex;
+            align-items: center;
+            color: #64748b;
+            margin-bottom: 0.5rem;
+        }
+
+        .office-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-directions,
+        .btn-appointment {
+            background: transparent;
+            border: 2px solid #6366f1;
+            color: #6366f1;
+            font-weight: 600;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .btn-directions:hover,
+        .btn-appointment:hover {
+            background: #6366f1;
+            color: white;
+        }
+
+        .office-map {
+            position: relative;
+            height: 500px;
+            border-radius: 1rem;
+            overflow: hidden;
+        }
+
+        .map-overlay {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 1rem;
+            border-radius: 0.75rem;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .map-info h6 {
+            color: #374151;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .map-info p {
+            color: #64748b;
+            margin: 0;
+            font-size: 0.9rem;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            background: #f8fafc;
+        }
+
+        .accordion-item {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.75rem !important;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .accordion-button {
+            background: white;
+            color: #374151;
+            font-weight: 600;
+            border: none;
+            padding: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        .accordion-button:not(.collapsed) {
+            background: rgba(99, 102, 241, 0.05);
+            color: #6366f1;
+            box-shadow: none;
+        }
+
+        .accordion-button:focus {
+            box-shadow: 0 0 0 0.2rem rgba(99, 102, 241, 0.15);
+        }
+
+        .accordion-body {
+            padding: 1.5rem;
+            color: #64748b;
+            line-height: 1.7;
+        }
+
+        /* Footer */
+        .footer {
+            background: #1e293b;
+            color: white;
+            padding: 3rem 0 1rem;
+        }
+
+        .footer-brand .brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #6366f1;
+        }
+
+        .footer-brand .brand i {
+            font-size: 1.5rem;
+        }
+
+        .footer-description {
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6366f1;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: #6366f1;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .footer-title {
+            color: white;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #6366f1;
+        }
+
+        .footer-divider {
+            border-color: #334155;
+            margin: 2rem 0 1rem;
+        }
+
+        .footer-copyright,
+        .footer-tagline {
+            color: #94a3b8;
+            margin: 0;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 991.98px) {
+            .navbar-collapse {
+                margin-top: 1rem;
+                padding: 1rem;
+                background-color: white;
+                border-radius: 12px;
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+                border: 1px solid #e2e8f0;
+            }
+
+            .eventhub-nav-link {
+                padding: 0.75rem 1rem !important;
+                margin: 0.25rem 0;
+            }
+
+            .eventhub-btn-login,
+            .eventhub-btn-signup {
+                width: 100%;
+                justify-content: center;
+                margin: 0.5rem 0;
+            }
+
+            .navbar-nav.ms-auto {
+                margin-top: 1rem;
+                border-top: 1px solid #e2e8f0;
+                padding-top: 1rem;
+            }
+
+            .page-title {
+                font-size: 2.5rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .contact-form-card {
+                padding: 2rem;
+            }
+
+            .office-card {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .office-map {
+                height: 300px;
+                margin-top: 2rem;
+            }
+
+            .contact-time-options {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .office-actions {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .section-title {
+                font-size: 1.75rem;
+            }
+
+            .contact-form-card {
+                padding: 1.5rem;
+            }
+
+            .contact-method-card {
+                padding: 2rem 1.5rem;
+            }
+
+            .office-card {
+                padding: 2rem 1.5rem;
+            }
+        }
+
+        /* Animation Classes */
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.7;
+                transform: scale(0.9);
+            }
+        }
+
+        .loading-dots {
+            display: inline-block;
+        }
+
+        .loading-dots::after {
+            content: '';
+            animation: dots 1.5s infinite;
+        }
+
+        @keyframes dots {
+
+            0%,
+            20% {
+                content: '';
+            }
+
+            40% {
+                content: '.';
+            }
+
+            60% {
+                content: '..';
+            }
+
+            80%,
+            100% {
+                content: '...';
+            }
+        }
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Mobile menu auto-close
+            const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+            const navbarCollapse = document.querySelector('.navbar-collapse');
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function () {
+                    if (window.innerWidth < 992) {
+                        const bsCollapse = bootstrap.Collapse.getInstance(navbarCollapse) ||
+                            new bootstrap.Collapse(navbarCollapse);
+                        bsCollapse.hide();
+                    }
+                });
+            });
+
+            // Character counter for message textarea
+            const messageTextarea = document.getElementById('message');
+            const messageCount = document.getElementById('messageCount');
+
+            messageTextarea.addEventListener('input', function () {
+                const count = this.value.length;
+                messageCount.textContent = count;
+
+                if (count > 1000) {
+                    messageCount.parentElement.classList.add('text-danger');
+                    this.value = this.value.substring(0, 1000);
+                    messageCount.textContent = 1000;
+                } else {
+                    messageCount.parentElement.classList.remove('text-danger');
+                }
+            });
+
+            // Form validation and enhancement
+            const contactForm = document.getElementById('contactForm');
+            const inputs = contactForm.querySelectorAll('input, select, textarea');
+
+            inputs.forEach(input => {
+                input.addEventListener('blur', validateField);
+                input.addEventListener('input', clearFieldError);
+            });
+
+            // Scroll animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('fade-in-up');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            // Observe elements for animation
+            document.querySelectorAll('.contact-method-card, .contact-form-card, .office-card, .accordion-item').forEach(el => {
+                observer.observe(el);
+            });
+        });
+
+        function handleInquiryTypeChange() {
+            const inquiryType = document.getElementById('inquiryType').value;
+            const eventReferenceField = document.getElementById('eventReferenceField');
+
+            // Show event reference field for booking or technical issues
+            if (inquiryType === 'booking' || inquiryType === 'technical') {
+                eventReferenceField.style.display = 'block';
+                eventReferenceField.querySelector('input').required = true;
+            } else {
+                eventReferenceField.style.display = 'none';
+                eventReferenceField.querySelector('input').required = false;
+            }
+        }
+
+        function validateField(event) {
+            const field = event.target;
+            const value = field.value.trim();
+
+            // Remove existing error styling
+            field.classList.remove('is-invalid');
+
+            // Validate required fields
+            if (field.required && !value) {
+                showFieldError(field, 'This field is required');
+                return false;
+            }
+
+            // Email validation
+            if (field.type === 'email' && value) {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(value)) {
+                    showFieldError(field, 'Please enter a valid email address');
+                    return false;
+                }
+            }
+
+            // Phone validation
+            if (field.id === 'phone' && value) {
+                const phoneRegex = /^[\+]?[0-9\s\-\(\)]{10,}$/;
+                if (!phoneRegex.test(value)) {
+                    showFieldError(field, 'Please enter a valid phone number');
+                    return false;
+                }
+            }
+
+            // Show success styling
+            field.classList.add('is-valid');
+            return true;
+        }
+
+        function showFieldError(field, message) {
+            field.classList.add('is-invalid');
+
+            // Remove existing error message
+            const existingError = field.parentNode.querySelector('.invalid-feedback');
+            if (existingError) {
+                existingError.remove();
+            }
+
+            // Add error message
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'invalid-feedback';
+            errorDiv.textContent = message;
+            field.parentNode.appendChild(errorDiv);
+        }
+
+        function clearFieldError(event) {
+            const field = event.target;
+            field.classList.remove('is-invalid', 'is-valid');
+
+            const errorMessage = field.parentNode.querySelector('.invalid-feedback');
+            if (errorMessage) {
+                errorMessage.remove();
+            }
+        }
+
+        function submitContactForm(event) {
+            event.preventDefault();
+
+            const form = event.target;
+            const formData = new FormData(form);
+            const submitBtn = form.querySelector('button[type="submit"]');
+
+            // Validate all fields
+            const inputs = form.querySelectorAll('input[required], select[required], textarea[required]');
+            let isValid = true;
+
+            inputs.forEach(input => {
+                if (!validateField({ target: input })) {
+                    isValid = false;
+                }
+            });
+
+            if (!isValid) {
+                Swal.fire({
+                    title: 'Please Fix Errors',
+                    text: 'Please correct the highlighted fields before submitting',
+                    icon: 'error',
+                    confirmButtonColor: '#6366f1'
+                });
+                return;
+            }
+
+            // Show loading state
+            const originalText = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="bi bi-hourglass-split me-2"></i>Sending<span class="loading-dots"></span>';
+
+            // Simulate form submission
+            setTimeout(() => {
+                // Reset button
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
+
+                // Collect form data for display
+                const contactData = {
+                    name: `${formData.get('firstName') || ''} ${formData.get('lastName') || ''}`.trim(),
+                    email: formData.get('email'),
+                    phone: formData.get('phone') || 'Not provided',
+                    inquiryType: formData.get('inquiryType'),
+                    priority: formData.get('priority'),
+                    subject: formData.get('subject'),
+                    message: formData.get('message'),
+                    contactTime: formData.get('contactTime') || 'anytime',
+                    newsletter: formData.get('newsletter') === 'yes'
+                };
+
+                // Store in localStorage for demo
+                const submissions = JSON.parse(localStorage.getItem('contactSubmissions') || '[]');
+                submissions.unshift({
+                    ...contactData,
+                    id: Date.now(),
+                    timestamp: new Date().toISOString(),
+                    status: 'received'
+                });
+                localStorage.setItem('contactSubmissions', JSON.stringify(submissions.slice(0, 10))); // Keep last 10
+
+                // Success message
+                Swal.fire({
+                    title: 'Message Sent Successfully!',
+                    html: `
+                        <div class="text-start">
+                            <p><strong>Thank you, ${contactData.name}!</strong></p>
+                            <p>We've received your ${getInquiryTypeLabel(contactData.inquiryType)} inquiry and will respond within:</p>
+                            <ul class="list-unstyled mt-3">
+                                <li><i class="bi bi-clock text-primary me-2"></i>${getResponseTime(contactData.priority)}</li>
+                                <li><i class="bi bi-envelope text-primary me-2"></i>Email: ${contactData.email}</li>
+                                <li><i class="bi bi-hash text-primary me-2"></i>Reference: #${Date.now().toString().slice(-6)}</li>
+                            </ul>
+                            ${contactData.newsletter ? '<p class="text-success small"><i class="bi bi-check-circle me-1"></i>Subscribed to newsletter</p>' : ''}
+                        </div>
+                    `,
+                    icon: 'success',
+                    confirmButtonColor: '#6366f1',
+                    confirmButtonText: 'Great!',
+                    showCancelButton: true,
+                    cancelButtonText: 'Submit Another',
+                    cancelButtonColor: '#64748b'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Reset form
+                        form.reset();
+                        document.getElementById('eventReferenceField').style.display = 'none';
+                        document.getElementById('messageCount').textContent = '0';
+
+                        // Clear validation classes
+                        inputs.forEach(input => {
+                            input.classList.remove('is-valid', 'is-invalid');
+                            const errorMsg = input.parentNode.querySelector('.invalid-feedback');
+                            if (errorMsg) errorMsg.remove();
+                        });
+                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                        // Keep form for another submission
+                        form.reset();
+                        document.getElementById('messageCount').textContent = '0';
+                    }
+                });
+
+            }, 2000);
+        }
+
+        function getInquiryTypeLabel(type) {
+            const labels = {
+                'general': 'general information',
+                'booking': 'booking support',
+                'technical': 'technical support',
+                'organizer': 'event organizer',
+                'partnership': 'partnership',
+                'feedback': 'feedback',
+                'media': 'media',
+                'other': 'general'
+            };
+            return labels[type] || 'general';
+        }
+
+        function getResponseTime(priority) {
+            const times = {
+                'urgent': '2-4 hours',
+                'high': '4-8 hours',
+                'medium': '24 hours',
+                'low': '48 hours'
+            };
+            return times[priority] || '24 hours';
+        }
+
+        // Contact method actions
+        function initiateCall() {
+            Swal.fire({
+                title: 'Call EventHub',
+                html: `
+                    <div class="text-center">
+                        <div class="mb-3">
+                            <i class="bi bi-telephone-fill text-primary" style="font-size: 3rem;"></i>
+                        </div>
+                        <p class="mb-3">Choose your preferred calling option:</p>
+                        <div class="d-grid gap-2">
+                            <a href="tel:+94112345678" class="btn btn-primary">
+                                <i class="bi bi-telephone me-2"></i>Call Now: +94 11 234 5678
+                            </a>
+                            <button class="btn btn-outline-primary" onclick="scheduleCallback()">
+                                <i class="bi bi-calendar-check me-2"></i>Schedule Callback
+                            </button>
+                        </div>
+                        <small class="text-muted mt-2 d-block">
+                            Available Mon-Fri: 9AM-6PM, Sat: 9AM-2PM
+                        </small>
+                    </div>
+                `,
+                showConfirmButton: false,
+                showCloseButton: true
+            });
+        }
+
+        function initiateEmail() {
+            Swal.fire({
+                title: 'Email EventHub',
+                html: `
+                    <div class="text-center">
+                        <div class="mb-3">
+                            <i class="bi bi-envelope-fill text-primary" style="font-size: 3rem;"></i>
+                        </div>
+                        <p class="mb-3">Choose your email option:</p>
+                        <div class="d-grid gap-2">
+                            <a href="mailto:info@eventhub.lk" class="btn btn-primary">
+                                <i class="bi bi-envelope me-2"></i>General: info@eventhub.lk
+                            </a>
+                            <a href="mailto:support@eventhub.lk" class="btn btn-outline-primary">
+                                <i class="bi bi-headset me-2"></i>Support: support@eventhub.lk
+                            </a>
+                            <button class="btn btn-outline-secondary" onclick="document.getElementById('contactForm').scrollIntoView({behavior: 'smooth'});">
+                                <i class="bi bi-form me-2"></i>Use Contact Form
+                            </button>
+                        </div>
+                        <small class="text-muted mt-2 d-block">
+                            We respond within 24 hours
+                        </small>
+                    </div>
+                `,
+                showConfirmButton: false,
+                showCloseButton: true
+            });
+        }
+
+        function startLiveChat() {
+            Swal.fire({
+                title: 'Live Chat',
+                html: `
+                    <div class="text-center">
+                        <div class="mb-3">
+                            <i class="bi bi-chat-dots-fill text-success" style="font-size: 3rem;"></i>
+                        </div>
+                        <p class="mb-3">
+                            <span class="badge bg-success me-2">
+                                <i class="bi bi-circle-fill me-1" style="font-size: 0.5rem;"></i>Online
+                            </span>
+                            Our support team is ready to help!
+                        </p>
+                        <p class="small text-muted mb-3">Average response time: 2 minutes</p>
+                        <button class="btn btn-success" onclick="openChatWindow()">
+                            <i class="bi bi-chat-dots me-2"></i>Start Chat Now
+                        </button>
+                    </div>
+                `,
+                showConfirmButton: false,
+                showCloseButton: true
+            });
+        }
+
+        function openChatWindow() {
+            // Simulate opening chat widget
+            Swal.fire({
+                title: 'Chat Started',
+                text: 'Opening chat window... You would be connected to our support team.',
+                icon: 'success',
+                timer: 2000,
+                timerProgressBar: true,
+                showConfirmButton: false
+            });
+        }
+
+        function scheduleCallback() {
+            Swal.fire({
+                title: 'Schedule Callback',
+                html: `
+                    <form id="callbackForm">
+                        <div class="mb-3 text-start">
+                            <label class="form-label">Your Phone Number</label>
+                            <input type="tel" class="form-control" id="callbackPhone" required>
+                        </div>
+                        <div class="mb-3 text-start">
+                            <label class="form-label">Preferred Time</label>
+                            <select class="form-select" id="callbackTime" required>
+                                <option value="">Select time slot</option>
+                                <option value="morning">Morning (9AM-12PM)</option>
+                                <option value="afternoon">Afternoon (12PM-5PM)</option>
+                                <option value="evening">Evening (5PM-8PM)</option>
+                            </select>
+                        </div>
+                        <div class="mb-3 text-start">
+                            <label class="form-label">Brief description of your inquiry</label>
+                            <textarea class="form-control" id="callbackMessage" rows="3"></textarea>
+                        </div>
+                    </form>
+                `,
+                showCancelButton: true,
+                confirmButtonText: 'Schedule Callback',
+                confirmButtonColor: '#6366f1',
+                preConfirm: () => {
+                    const phone = document.getElementById('callbackPhone').value;
+                    const time = document.getElementById('callbackTime').value;
+                    const message = document.getElementById('callbackMessage').value;
+
+                    if (!phone || !time) {
+                        Swal.showValidationMessage('Please fill in required fields');
+                        return false;
+                    }
+
+                    return { phone, time, message };
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: 'Callback Scheduled!',
+                        text: `We'll call you at ${result.value.phone} during your preferred ${result.value.time} slot.`,
+                        icon: 'success',
+                        confirmButtonColor: '#6366f1'
+                    });
+                }
+            });
+        }
+
+        function getDirections() {
+            const address = "123 Galle Road, Colombo 03, Sri Lanka";
+            const encodedAddress = encodeURIComponent(address);
+
+            Swal.fire({
+                title: 'Get Directions',
+                html: `
+                    <div class="text-center">
+                        <div class="mb-3">
+                            <i class="bi bi-geo-alt-fill text-primary" style="font-size: 3rem;"></i>
+                        </div>
+                        <p><strong>EventHub Office</strong><br>123 Galle Road, Colombo 03</p>
+                        <div class="d-grid gap-2 mt-3">
+                            <a href="https://maps.google.com/maps?daddr=${encodedAddress}" target="_blank" class="btn btn-primary">
+                                <i class="bi bi-geo-alt me-2"></i>Open in Google Maps
+                            </a>
+                            <a href="https://waze.com/ul?q=${encodedAddress}" target="_blank" class="btn btn-outline-primary">
+                                <i class="bi bi-navigation me-2"></i>Open in Waze
+                            </a>
+                            <button class="btn btn-outline-secondary" onclick="copyAddress()">
+                                <i class="bi bi-clipboard me-2"></i>Copy Address
+                            </button>
+                        </div>
+                    </div>
+                `,
+                showConfirmButton: false,
+                showCloseButton: true
+            });
+        }
+
+        function copyAddress() {
+            const address = "123 Galle Road, Colombo 03, Sri Lanka";
+            navigator.clipboard.writeText(address).then(() => {
+                Swal.fire({
+                    title: 'Address Copied!',
+                    text: 'Address has been copied to your clipboard',
+                    icon: 'success',
+                    timer: 2000,
+                    timerProgressBar: true,
+                    showConfirmButton: false
+                });
+            });
+        }
+
+        function scheduleAppointment() {
+            Swal.fire({
+                title: 'Schedule Office Visit',
+                html: `
+                    <form id="appointmentForm">
+                        <div class="mb-3 text-start">
+                            <label class="form-label">Your Name</label>
+                            <input type="text" class="form-control" id="appointmentName" required>
+                        </div>
+                        <div class="mb-3 text-start">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control" id="appointmentEmail" required>
+                        </div>
+                        <div class="mb-3 text-start">
+                            <label class="form-label">Preferred Date</label>
+                            <input type="date" class="form-control" id="appointmentDate" required>
+                        </div>
+                        <div class="mb-3 text-start">
+                            <label class="form-label">Preferred Time</label>
+                            <select class="form-select" id="appointmentTime" required>
+                                <option value="">Select time</option>
+                                <option value="09:00">9:00 AM</option>
+                                <option value="10:00">10:00 AM</option>
+                                <option value="11:00">11:00 AM</option>
+                                <option value="14:00">2:00 PM</option>
+                                <option value="15:00">3:00 PM</option>
+                                <option value="16:00">4:00 PM</option>
+                            </select>
+                        </div>
+                        <div class="mb-3 text-start">
+                            <label class="form-label">Purpose of Visit</label>
+                            <select class="form-select" id="appointmentPurpose" required>
+                                <option value="">Select purpose</option>
+                                <option value="general">General Inquiry</option>
+                                <option value="organizer">Event Organization</option>
+                                <option value="partnership">Partnership Discussion</option>
+                                <option value="support">Technical Support</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </form>
+                `,
+                showCancelButton: true,
+                confirmButtonText: 'Schedule Visit',
+                confirmButtonColor: '#6366f1',
+                preConfirm: () => {
+                    const name = document.getElementById('appointmentName').value;
+                    const email = document.getElementById('appointmentEmail').value;
+                    const date = document.getElementById('appointmentDate').value;
+                    const time = document.getElementById('appointmentTime').value;
+                    const purpose = document.getElementById('appointmentPurpose').value;
+
+                    if (!name || !email || !date || !time || !purpose) {
+                        Swal.showValidationMessage('Please fill in all fields');
+                        return false;
+                    }
+
+                    // Check if date is in the future
+                    const selectedDate = new Date(date);
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0);
+
+                    if (selectedDate < today) {
+                        Swal.showValidationMessage('Please select a future date');
+                        return false;
+                    }
+
+                    return { name, email, date, time, purpose };
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const data = result.value;
+                    const formattedDate = new Date(data.date).toLocaleDateString('en-US', {
+                        weekday: 'long',
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    });
+
+                    Swal.fire({
+                        title: 'Appointment Scheduled!',
+                        html: `
+                            <div class="text-start">
+                                <p><strong>Your visit is scheduled for:</strong></p>
+                                <ul class="list-unstyled">
+                                    <li><i class="bi bi-calendar text-primary me-2"></i>${formattedDate}</li>
+                                    <li><i class="bi bi-clock text-primary me-2"></i>${data.time}</li>
+                                    <li><i class="bi bi-person text-primary me-2"></i>${data.name}</li>
+                                    <li><i class="bi bi-tag text-primary me-2"></i>${data.purpose}</li>
+                                </ul>
+                                <p class="small text-muted">A confirmation email will be sent to ${data.email}</p>
+                            </div>
+                        `,
+                        icon: 'success',
+                        confirmButtonColor: '#6366f1'
+                    });
+                }
+            });
+
+            // Set minimum date to tomorrow
+            setTimeout(() => {
+                const tomorrow = new Date();
+                tomorrow.setDate(tomorrow.getDate() + 1);
+                const minDate = tomorrow.toISOString().split('T')[0];
+                const dateInput = document.getElementById('appointmentDate');
+                if (dateInput) {
+                    dateInput.setAttribute('min', minDate);
+                }
+            }, 100);
+        }
+
+        function showPrivacyPolicy() {
+            Swal.fire({
+                title: 'Privacy Policy',
+                html: `
+                    <div class="text-start" style="max-height: 400px; overflow-y: auto;">
+                        <h6>Information Collection</h6>
+                        <p>We collect information you provide directly to us, such as when you create an account, make a booking, or contact us.</p>
+                        
+                        <h6>Use of Information</h6>
+                        <p>We use the information we collect to provide, maintain, and improve our services, process transactions, and communicate with you.</p>
+                        
+                        <h6>Information Sharing</h6>
+                        <p>We do not sell, trade, or rent your personal information to third parties without your consent.</p>
+                        
+                        <h6>Data Security</h6>
+                        <p>We implement appropriate security measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction.</p>
+                        
+                        <h6>Contact Us</h6>
+                        <p>If you have questions about this Privacy Policy, please contact us at info@eventhub.lk</p>
+                    </div>
+                `,
+                confirmButtonText: 'I Understand',
+                confirmButtonColor: '#6366f1'
+            });
+        }
+
+        function showTerms() {
+            Swal.fire({
+                title: 'Terms of Service',
+                html: `
+                    <div class="text-start" style="max-height: 400px; overflow-y: auto;">
+                        <h6>Acceptance of Terms</h6>
+                        <p>By using EventHub, you agree to be bound by these Terms of Service.</p>
+                        
+                        <h6>Service Description</h6>
+                        <p>EventHub provides an online platform for event ticketing and management services.</p>
+                        
+                        <h6>User Responsibilities</h6>
+                        <p>Users must provide accurate information and comply with all applicable laws when using our services.</p>
+                        
+                        <h6>Booking and Cancellation</h6>
+                        <p>All bookings are subject to event organizer terms. Cancellation policies vary by event.</p>
+                        
+                        <h6>Limitation of Liability</h6>
+                        <p>EventHub's liability is limited to the amount paid for tickets, except where prohibited by law.</p>
+                    </div>
+                `,
+                confirmButtonText: 'I Agree',
+                confirmButtonColor: '#6366f1'
+            });
+        }
+
+        // Auto-fill form for demo purposes
+        function fillDemoData() {
+            if (window.location.search.includes('demo=true')) {
+                setTimeout(() => {
+                    document.getElementById('firstName').value = 'Samantha';
+                    document.getElementById('lastName').value = 'Perera';
+                    document.getElementById('email').value = 'samantha.perera@email.com';
+                    document.getElementById('phone').value = '+94 77 123 4567';
+                    document.getElementById('inquiryType').value = 'booking';
+                    document.getElementById('subject').value = 'Question about upcoming concert';
+                    document.getElementById('message').value = 'Hi, I wanted to inquire about the Christmas Music Concert. Are there any group discounts available for bookings of 10 or more tickets?';
+                    handleInquiryTypeChange();
+                }, 1000);
+            }
+        }
+
+        // Initialize demo data if needed
+        fillDemoData();
+    </script>
+
+</body>
