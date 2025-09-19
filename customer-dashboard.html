@@ -1,0 +1,1503 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EventHub - My Dashboard</title>
+
+    <!-- Bootstrap 5.3 CSS (Latest) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <!-- Bootstrap Icons (Latest) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+    <!-- EventHub Header - Authenticated -->
+    <nav class="navbar navbar-expand-lg eventhub-navbar">
+        <div class="container-fluid px-4">
+            <!-- Brand Logo -->
+            <a class="navbar-brand eventhub-brand d-flex align-items-center" href="index.html">
+                <div class="brand-icon me-2">
+                    <i class="bi bi-calendar-event me-1"></i>
+                </div>
+                <span class="brand-text">EventHub</span>
+            </a>
+
+            <!-- Mobile Toggle Button -->
+            <button class="navbar-toggler custom-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navigation Items -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <!-- Left Navigation -->
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link eventhub-nav-link" href="index.html">
+                            <i class="bi bi-house-fill me-1"></i>
+                            Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link eventhub-nav-link" href="event-listing.html">
+                            <i class="bi bi-calendar3 me-1"></i>Events
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link eventhub-nav-link" href="my-bookings.html">
+                            <i class="bi bi-ticket-perforated me-1"></i>My Bookings
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link eventhub-nav-link" href="my-tickets.html">
+                            <i class="bi bi-qr-code me-1"></i>My Tickets
+                        </a>
+                    </li>
+                </ul>
+
+                <!-- Right Navigation - User Menu -->
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle user-menu" href="#" id="userDropdown" role="button" 
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            <div class="user-avatar">
+                                <i class="bi bi-person-circle"></i>
+                            </div>
+                            <span class="user-name" id="userName">Priya Fernando</span>
+                        </a>
+                        <ul class="dropdown-menu user-dropdown" aria-labelledby="userDropdown">
+                            <li><a class="dropdown-item active" href="customer-dashboard.html">
+                                <i class="bi bi-speedometer2 me-2"></i>Dashboard</a></li>
+                            <li><a class="dropdown-item" href="user-profile.html">
+                                <i class="bi bi-person me-2"></i>Edit Profile</a></li>
+                            <li><a class="dropdown-item" href="my-bookings.html">
+                                <i class="bi bi-ticket-perforated me-2"></i>My Bookings</a></li>
+                            <li><a class="dropdown-item" href="payment-history.html">
+                                <i class="bi bi-credit-card me-2"></i>Payment History</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#" onclick="logout()">
+                                <i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Dashboard Content -->
+    <div class="dashboard-container">
+        <!-- Welcome Header -->
+        <section class="welcome-header">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="welcome-content">
+                            <div class="welcome-text">
+                                <h1 class="welcome-title">Welcome back, <span id="welcomeName">Priya</span>! 👋</h1>
+                                <p class="welcome-subtitle">Ready to discover your next amazing event experience?</p>
+                            </div>
+                            <div class="loyalty-points">
+                                <div class="points-card">
+                                    <div class="points-icon">
+                                        <i class="bi bi-star-fill"></i>
+                                    </div>
+                                    <div class="points-content">
+                                        <h4 id="loyaltyPoints">1,250</h4>
+                                        <p>Loyalty Points</p>
+                                        <small>Earn more by attending events!</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dashboard Stats -->
+        <section class="dashboard-stats py-4">
+            <div class="container-fluid">
+                <div class="row g-4">
+                    <div class="col-xl-3 col-lg-6 col-md-6">
+                        <div class="stat-card">
+                            <div class="stat-icon events">
+                                <i class="bi bi-calendar-event"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h4 id="totalBookings">12</h4>
+                                <p>Total Bookings</p>
+                                <small class="stat-change positive">+2 this month</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-6 col-md-6">
+                        <div class="stat-card">
+                            <div class="stat-icon upcoming">
+                                <i class="bi bi-clock"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h4 id="upcomingEvents">3</h4>
+                                <p>Upcoming Events</p>
+                                <small class="stat-change">Next: Tomorrow</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-6 col-md-6">
+                        <div class="stat-card">
+                            <div class="stat-icon spent">
+                                <i class="bi bi-currency-dollar"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h4 id="totalSpent">Rs. 18,500</h4>
+                                <p>Total Spent</p>
+                                <small class="stat-change">This year</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-6 col-md-6">
+                        <div class="stat-card">
+                            <div class="stat-icon favorites">
+                                <i class="bi bi-heart-fill"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h4 id="favoriteEvents">8</h4>
+                                <p>Favorite Events</p>
+                                <small class="stat-change">Saved</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Dashboard Content -->
+        <section class="dashboard-main py-4">
+            <div class="container-fluid">
+                <div class="row g-4">
+                    <!-- Left Column -->
+                    <div class="col-lg-8">
+                        <!-- Quick Actions -->
+                        <div class="dashboard-card mb-4">
+                            <div class="card-header">
+                                <h5 class="card-title">
+                                    <i class="bi bi-lightning-fill me-2"></i>Quick Actions
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="quick-actions">
+                                    <a href="event-listing.html" class="action-item">
+                                        <div class="action-icon">
+                                            <i class="bi bi-search"></i>
+                                        </div>
+                                        <div class="action-content">
+                                            <h6>Discover Events</h6>
+                                            <p>Find amazing events near you</p>
+                                        </div>
+                                    </a>
+                                    <a href="my-tickets.html" class="action-item">
+                                        <div class="action-icon">
+                                            <i class="bi bi-qr-code"></i>
+                                        </div>
+                                        <div class="action-content">
+                                            <h6>My Tickets</h6>
+                                            <p>View your digital tickets</p>
+                                        </div>
+                                    </a>
+                                    <a href="my-bookings.html" class="action-item">
+                                        <div class="action-icon">
+                                            <i class="bi bi-ticket-perforated"></i>
+                                        </div>
+                                        <div class="action-content">
+                                            <h6>Booking History</h6>
+                                            <p>Manage your bookings</p>
+                                        </div>
+                                    </a>
+                                    <a href="user-profile.html" class="action-item">
+                                        <div class="action-icon">
+                                            <i class="bi bi-person-gear"></i>
+                                        </div>
+                                        <div class="action-content">
+                                            <h6>Profile Settings</h6>
+                                            <p>Update your information</p>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Upcoming Events -->
+                        <div class="dashboard-card mb-4">
+                            <div class="card-header">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h5 class="card-title">
+                                        <i class="bi bi-calendar-check me-2"></i>Your Upcoming Events
+                                    </h5>
+                                    <a href="my-bookings.html" class="btn btn-sm btn-outline-primary">View All</a>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div id="upcomingEventsList" class="upcoming-events">
+                                    <!-- Events will be loaded here -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Recent Activity -->
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <h5 class="card-title">
+                                    <i class="bi bi-clock-history me-2"></i>Recent Activity
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="activity-timeline" id="activityTimeline">
+                                    <!-- Activity items will be loaded here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column -->
+                    <div class="col-lg-4">
+                        <!-- Profile Summary -->
+                        <div class="dashboard-card mb-4">
+                            <div class="card-body text-center">
+                                <div class="profile-avatar">
+                                    <i class="bi bi-person-circle"></i>
+                                </div>
+                                <h5 id="profileName">Priya Fernando</h5>
+                                <p class="text-muted" id="profileEmail">priya.fernando@email.com</p>
+                                <div class="profile-badges">
+                                    <span class="badge bg-primary">Event Enthusiast</span>
+                                    <span class="badge bg-success">Verified</span>
+                                </div>
+                                <div class="profile-stats mt-3">
+                                    <div class="row text-center">
+                                        <div class="col-4">
+                                            <strong>12</strong>
+                                            <small class="d-block text-muted">Events</small>
+                                        </div>
+                                        <div class="col-4">
+                                            <strong>1.2K</strong>
+                                            <small class="d-block text-muted">Points</small>
+                                        </div>
+                                        <div class="col-4">
+                                            <strong>6</strong>
+                                            <small class="d-block text-muted">Months</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a href="user-profile.html" class="btn btn-primary mt-3">
+                                    <i class="bi bi-pencil me-2"></i>Edit Profile
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Recommended Events -->
+                        <div class="dashboard-card mb-4">
+                            <div class="card-header">
+                                <h5 class="card-title">
+                                    <i class="bi bi-stars me-2"></i>Recommended for You
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <div id="recommendedEvents" class="recommended-events">
+                                    <!-- Recommended events will be loaded here -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Event Preferences -->
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <h5 class="card-title">
+                                    <i class="bi bi-heart me-2"></i>Your Interests
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="interest-tags" id="userInterests">
+                                    <!-- Interest tags will be loaded here -->
+                                </div>
+                                <button class="btn btn-outline-primary btn-sm mt-3 w-100" onclick="editInterests()">
+                                    <i class="bi bi-plus-circle me-2"></i>Update Interests
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+
+    <style>
+        /* EventHub Custom Styles */
+        * {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f8fafc;
+            line-height: 1.6;
+        }
+
+        /* Navbar Styling - Authenticated */
+        .eventhub-navbar {
+            background-color: #ffffff;
+            border-bottom: 1px solid #e9ecef;
+            padding: 0.75rem 0;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .eventhub-brand {
+            text-decoration: none;
+            color: #6366f1 !important;
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .eventhub-brand:hover {
+            color: #5855eb !important;
+            text-decoration: none;
+        }
+
+        .brand-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .brand-text {
+            color: #6366f1;
+            font-weight: 700;
+        }
+
+        .eventhub-nav-link {
+            color: #64748b !important;
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 0.5rem 1rem !important;
+            margin: 0 0.25rem;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .eventhub-nav-link:hover {
+            color: #6366f1 !important;
+            background-color: rgba(99, 102, 241, 0.1);
+        }
+
+        .eventhub-nav-link.active {
+            color: #6366f1 !important;
+            background-color: rgba(99, 102, 241, 0.15);
+            font-weight: 600;
+        }
+
+        /* User Menu */
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.5rem 1rem !important;
+            border-radius: 50px;
+            background: rgba(99, 102, 241, 0.1);
+            color: #6366f1 !important;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .user-menu:hover {
+            background: rgba(99, 102, 241, 0.15);
+            color: #6366f1 !important;
+        }
+
+        .user-avatar {
+            font-size: 1.5rem;
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .user-dropdown {
+            border-radius: 1rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            border: 1px solid #e2e8f0;
+            padding: 0.5rem;
+            min-width: 220px;
+        }
+
+        .user-dropdown .dropdown-item {
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+            margin-bottom: 0.25rem;
+            transition: all 0.2s ease;
+        }
+
+        .user-dropdown .dropdown-item:hover {
+            background-color: rgba(99, 102, 241, 0.1);
+            color: #6366f1;
+        }
+
+        .user-dropdown .dropdown-item.active {
+            background-color: rgba(99, 102, 241, 0.15);
+            color: #6366f1;
+            font-weight: 600;
+        }
+
+        .custom-toggler {
+            border: none;
+            padding: 0.25rem 0.5rem;
+        }
+
+        .custom-toggler:focus {
+            box-shadow: 0 0 0 0.2rem rgba(99, 102, 241, 0.25);
+        }
+
+        /* Dashboard Container */
+        .dashboard-container {
+            min-height: calc(100vh - 80px);
+        }
+
+        /* Welcome Header */
+        .welcome-header {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            padding: 3rem 0 2rem;
+        }
+
+        .welcome-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .welcome-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            line-height: 1.2;
+        }
+
+        .welcome-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin: 0;
+        }
+
+        .loyalty-points {
+            flex-shrink: 0;
+        }
+
+        .points-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .points-icon {
+            font-size: 2rem;
+            color: #fbbf24;
+            margin-bottom: 0.5rem;
+        }
+
+        .points-content h4 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+            color: white;
+        }
+
+        .points-content p {
+            margin-bottom: 0.25rem;
+            font-weight: 600;
+            color: white;
+        }
+
+        .points-content small {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.85rem;
+        }
+
+        /* Dashboard Stats */
+        .dashboard-stats {
+            margin-top: -2rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid #f1f5f9;
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .stat-icon.events {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+        }
+
+        .stat-icon.upcoming {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        }
+
+        .stat-icon.spent {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+
+        .stat-icon.favorites {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        }
+
+        .stat-content h4 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #374151;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-content p {
+            color: #64748b;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .stat-change {
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+
+        .stat-change.positive {
+            color: #10b981;
+        }
+
+        /* Dashboard Cards */
+        .dashboard-card {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid #f1f5f9;
+            overflow: hidden;
+        }
+
+        .card-header {
+            background: #f8fafc;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 1.5rem;
+        }
+
+        .card-title {
+            color: #374151;
+            font-weight: 600;
+            margin: 0;
+            font-size: 1.1rem;
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .action-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border: 2px solid #f1f5f9;
+            border-radius: 0.75rem;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
+        }
+
+        .action-item:hover {
+            border-color: #6366f1;
+            background: rgba(99, 102, 241, 0.05);
+            color: inherit;
+            text-decoration: none;
+            transform: translateY(-2px);
+        }
+
+        .action-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            color: #6366f1;
+            flex-shrink: 0;
+        }
+
+        .action-content h6 {
+            color: #374151;
+            margin-bottom: 0.25rem;
+            font-weight: 600;
+        }
+
+        .action-content p {
+            color: #64748b;
+            margin: 0;
+            font-size: 0.9rem;
+        }
+
+        /* Upcoming Events */
+        .upcoming-events {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .upcoming-event-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.75rem;
+            transition: all 0.3s ease;
+        }
+
+        .upcoming-event-item:hover {
+            border-color: #6366f1;
+            background: rgba(99, 102, 241, 0.05);
+        }
+
+        .event-date-badge {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            text-align: center;
+            min-width: 60px;
+            flex-shrink: 0;
+        }
+
+        .event-date-badge .month {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            line-height: 1;
+        }
+
+        .event-date-badge .day {
+            font-size: 1.25rem;
+            font-weight: 700;
+            line-height: 1;
+            margin-top: 0.25rem;
+        }
+
+        .event-info h6 {
+            color: #374151;
+            margin-bottom: 0.25rem;
+            font-weight: 600;
+        }
+
+        .event-info p {
+            color: #64748b;
+            margin-bottom: 0.25rem;
+            font-size: 0.9rem;
+        }
+
+        .event-info small {
+            color: #6366f1;
+            font-weight: 600;
+        }
+
+        /* Activity Timeline */
+        .activity-timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .activity-timeline::before {
+            content: '';
+            position: absolute;
+            left: 1rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #e2e8f0;
+        }
+
+        .activity-item {
+            position: relative;
+            margin-bottom: 1.5rem;
+            padding-left: 1rem;
+        }
+
+        .activity-item::before {
+            content: '';
+            position: absolute;
+            left: -2.5rem;
+            top: 0.5rem;
+            width: 12px;
+            height: 12px;
+            background: #6366f1;
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 0 0 3px #e0e7ff;
+        }
+
+        .activity-time {
+            font-size: 0.8rem;
+            color: #64748b;
+            margin-bottom: 0.25rem;
+        }
+
+        .activity-title {
+            color: #374151;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .activity-description {
+            color: #64748b;
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        /* Profile Summary */
+        .profile-avatar {
+            font-size: 4rem;
+            color: #6366f1;
+            margin-bottom: 1rem;
+        }
+
+        .profile-badges {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+
+        .profile-stats {
+            border-top: 1px solid #e2e8f0;
+            padding-top: 1rem;
+        }
+
+        /* Recommended Events */
+        .recommended-events {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .recommended-event-item {
+            border: 1px solid #e2e8f0;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .recommended-event-item:hover {
+            border-color: #6366f1;
+            background: rgba(99, 102, 241, 0.05);
+            color: inherit;
+            text-decoration: none;
+            transform: translateY(-2px);
+        }
+
+        .recommended-event-item h6 {
+            color: #374151;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .recommended-event-item p {
+            color: #64748b;
+            margin-bottom: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        .recommended-event-item .price {
+            color: #10b981;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        /* Interest Tags */
+        .interest-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .interest-tag {
+            background: rgba(99, 102, 241, 0.1);
+            color: #6366f1;
+            padding: 0.5rem 1rem;
+            border-radius: 1.5rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        /* Empty States */
+        .empty-state {
+            text-align: center;
+            padding: 2rem;
+            color: #64748b;
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            color: #e2e8f0;
+            margin-bottom: 1rem;
+        }
+
+        .empty-state h6 {
+            color: #374151;
+            margin-bottom: 0.5rem;
+        }
+
+        .empty-state p {
+            margin-bottom: 1.5rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 991.98px) {
+            .navbar-collapse {
+                margin-top: 1rem;
+                padding: 1rem;
+                background-color: white;
+                border-radius: 12px;
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+                border: 1px solid #e2e8f0;
+            }
+
+            .eventhub-nav-link {
+                padding: 0.75rem 1rem !important;
+                margin: 0.25rem 0;
+            }
+
+            .user-menu {
+                width: 100%;
+                justify-content: center;
+                margin-top: 1rem;
+                border-top: 1px solid #e2e8f0;
+                padding-top: 1rem !important;
+            }
+
+            .welcome-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .welcome-title {
+                font-size: 2rem;
+            }
+
+            .quick-actions {
+                grid-template-columns: 1fr;
+            }
+
+            .action-item {
+                justify-content: center;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .welcome-header {
+                padding: 2rem 0 1.5rem;
+            }
+
+            .welcome-title {
+                font-size: 1.75rem;
+            }
+
+            .dashboard-stats {
+                margin-top: -1rem;
+            }
+
+            .card-header,
+            .card-body {
+                padding: 1rem;
+            }
+
+            .upcoming-event-item {
+                flex-direction: column;
+                text-align: center;
+                gap: 0.75rem;
+            }
+
+            .activity-timeline {
+                padding-left: 1.5rem;
+            }
+
+            .activity-timeline::before {
+                left: 0.75rem;
+            }
+
+            .activity-item::before {
+                left: -2rem;
+            }
+        }
+
+        /* Animations */
+        .fade-in {
+            animation: fadeIn 0.6s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .slide-in {
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+    </style>
+
+    <script>
+        // Sample user data
+        let currentUser = null;
+
+        // Sample data
+        const sampleBookings = [
+            {
+                id: 1,
+                eventTitle: "Christmas Music Concert",
+                eventDate: "2025-12-25",
+                eventTime: "7:00 PM",
+                venue: "BMICH, Colombo",
+                ticketCount: 2,
+                status: "confirmed"
+            },
+            {
+                id: 2,
+                eventTitle: "Tech Innovation Summit",
+                eventDate: "2025-01-15",
+                eventTime: "9:00 AM",
+                venue: "Kandy City Center",
+                ticketCount: 1,
+                status: "confirmed"
+            },
+            {
+                id: 3,
+                eventTitle: "Jazz Night Under Stars",
+                eventDate: "2025-01-30",
+                eventTime: "8:00 PM",
+                venue: "Royal Botanical Gardens",
+                ticketCount: 2,
+                status: "confirmed"
+            }
+        ];
+
+        const sampleActivity = [
+            {
+                time: "2 hours ago",
+                title: "Payment Successful",
+                description: "Paid Rs. 3,500 for Jazz Night Under Stars tickets"
+            },
+            {
+                time: "1 day ago",
+                title: "Event Added to Favorites",
+                description: "Added Colombo Food Festival to your favorites"
+            },
+            {
+                time: "3 days ago",
+                title: "Booking Confirmed",
+                description: "Your booking for Tech Innovation Summit has been confirmed"
+            },
+            {
+                time: "1 week ago",
+                title: "Profile Updated",
+                description: "Updated your notification preferences"
+            },
+            {
+                time: "2 weeks ago",
+                title: "Welcome to EventHub!",
+                description: "Your account has been successfully created"
+            }
+        ];
+
+        const recommendedEvents = [
+            {
+                title: "Contemporary Art Exhibition",
+                date: "2025-02-05",
+                venue: "National Art Gallery",
+                price: "Rs. 500"
+            },
+            {
+                title: "Startup Pitch Competition",
+                date: "2025-02-15",
+                venue: "Negombo Business Center",
+                price: "Rs. 2,000"
+            },
+            {
+                title: "Healthy Living Workshop",
+                date: "2025-02-28",
+                venue: "Colombo Medical Center",
+                price: "Rs. 1,200"
+            }
+        ];
+
+        document.addEventListener('DOMContentLoaded', function () {
+            initializeDashboard();
+            loadUserData();
+            loadDashboardData();
+            setupEventListeners();
+        });
+
+        function initializeDashboard() {
+            // Check if user is logged in
+            const sessionData = localStorage.getItem('userSession') || sessionStorage.getItem('userSession');
+            
+            if (!sessionData) {
+                // Redirect to login if not authenticated
+                window.location.href = 'login.html?redirect=customer-dashboard.html';
+                return;
+            }
+
+            currentUser = JSON.parse(sessionData);
+            
+            // Verify user role
+            if (currentUser.role !== 'customer') {
+                Swal.fire({
+                    title: 'Access Denied',
+                    text: 'This dashboard is only accessible to customers.',
+                    icon: 'error',
+                    confirmButtonColor: '#6366f1'
+                }).then(() => {
+                    window.location.href = 'login.html';
+                });
+                return;
+            }
+        }
+
+        function loadUserData() {
+            if (!currentUser) return;
+
+            // Update user name displays
+            document.getElementById('userName').textContent = currentUser.name;
+            document.getElementById('welcomeName').textContent = currentUser.name.split(' ')[0];
+            document.getElementById('profileName').textContent = currentUser.name;
+            document.getElementById('profileEmail').textContent = currentUser.email;
+
+            // Load user interests
+            loadUserInterests();
+        }
+
+        function loadUserInterests() {
+            const interests = ['Music', 'Arts & Culture', 'Technology', 'Food & Drink'];
+            const container = document.getElementById('userInterests');
+            
+            container.innerHTML = interests.map(interest => 
+                `<span class="interest-tag">${interest}</span>`
+            ).join('');
+        }
+
+        function loadDashboardData() {
+            loadUpcomingEvents();
+            loadRecentActivity();
+            loadRecommendedEvents();
+            updateStats();
+        }
+
+        function loadUpcomingEvents() {
+            const container = document.getElementById('upcomingEventsList');
+            const upcomingBookings = sampleBookings.filter(booking => 
+                new Date(booking.eventDate) > new Date()
+            ).slice(0, 3);
+
+            if (upcomingBookings.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="bi bi-calendar-x"></i>
+                        <h6>No Upcoming Events</h6>
+                        <p>You don't have any upcoming events. Discover amazing events to attend!</p>
+                        <a href="event-listing.html" class="btn btn-primary btn-sm">
+                            <i class="bi bi-search me-2"></i>Discover Events
+                        </a>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = upcomingBookings.map(booking => {
+                const eventDate = new Date(booking.eventDate);
+                const month = eventDate.toLocaleDateString('en-US', { month: 'short' });
+                const day = eventDate.getDate();
+
+                return `
+                    <div class="upcoming-event-item fade-in">
+                        <div class="event-date-badge">
+                            <div class="month">${month}</div>
+                            <div class="day">${day}</div>
+                        </div>
+                        <div class="event-info flex-grow-1">
+                            <h6>${booking.eventTitle}</h6>
+                            <p><i class="bi bi-clock me-1"></i>${booking.eventTime}</p>
+                            <p><i class="bi bi-geo-alt me-1"></i>${booking.venue}</p>
+                            <small><i class="bi bi-ticket me-1"></i>${booking.ticketCount} ticket(s)</small>
+                        </div>
+                        <div class="event-actions">
+                            <a href="my-tickets.html?event=${booking.id}" class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-qr-code"></i>
+                            </a>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function loadRecentActivity() {
+            const container = document.getElementById('activityTimeline');
+            
+            container.innerHTML = sampleActivity.map((activity, index) => `
+                <div class="activity-item slide-in" style="animation-delay: ${index * 0.1}s">
+                    <div class="activity-time">${activity.time}</div>
+                    <div class="activity-title">${activity.title}</div>
+                    <div class="activity-description">${activity.description}</div>
+                </div>
+            `).join('');
+        }
+
+        function loadRecommendedEvents() {
+            const container = document.getElementById('recommendedEvents');
+            
+            container.innerHTML = recommendedEvents.map(event => {
+                const eventDate = new Date(event.date);
+                const formattedDate = eventDate.toLocaleDateString('en-US', {
+                    month: 'short',
+                    day: 'numeric'
+                });
+
+                return `
+                    <a href="event-details.html" class="recommended-event-item">
+                        <h6>${event.title}</h6>
+                        <p><i class="bi bi-calendar3 me-1"></i>${formattedDate}</p>
+                        <p><i class="bi bi-geo-alt me-1"></i>${event.venue}</p>
+                        <div class="price">${event.price}</div>
+                    </a>
+                `;
+            }).join('');
+        }
+
+        function updateStats() {
+            // Update stats with real data or keep sample values
+            const totalBookings = sampleBookings.length;
+            const upcomingCount = sampleBookings.filter(b => new Date(b.eventDate) > new Date()).length;
+            const favoriteEvents = JSON.parse(localStorage.getItem('favoriteEvents') || '[]').length;
+
+            document.getElementById('totalBookings').textContent = totalBookings;
+            document.getElementById('upcomingEvents').textContent = upcomingCount;
+            document.getElementById('favoriteEvents').textContent = favoriteEvents;
+
+            // Update loyalty points with animation
+            animateNumber('loyaltyPoints', 1250);
+        }
+
+        function animateNumber(elementId, targetValue) {
+            const element = document.getElementById(elementId);
+            const startValue = 0;
+            const duration = 2000;
+            const startTime = Date.now();
+
+            function update() {
+                const elapsed = Date.now() - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const currentValue = Math.floor(startValue + (targetValue - startValue) * progress);
+                
+                element.textContent = currentValue.toLocaleString();
+                
+                if (progress < 1) {
+                    requestAnimationFrame(update);
+                }
+            }
+            
+            requestAnimationFrame(update);
+        }
+
+        function setupEventListeners() {
+            // Mobile menu auto-close
+            const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+            const navbarCollapse = document.querySelector('.navbar-collapse');
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function () {
+                    if (window.innerWidth < 992) {
+                        const bsCollapse = bootstrap.Collapse.getInstance(navbarCollapse) ||
+                            new bootstrap.Collapse(navbarCollapse);
+                        bsCollapse.hide();
+                    }
+                });
+            });
+
+            // Add scroll animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('fade-in');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            // Observe stat cards for animation
+            document.querySelectorAll('.stat-card').forEach(card => {
+                observer.observe(card);
+            });
+        }
+
+        function editInterests() {
+            const currentInterests = ['music', 'arts', 'technology', 'food'];
+            
+            Swal.fire({
+                title: 'Update Your Interests',
+                html: `
+                    <div class="text-start">
+                        <p class="mb-3">Select categories you're interested in:</p>
+                        <div class="interest-checkboxes">
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox" id="interest-music" value="music" ${currentInterests.includes('music') ? 'checked' : ''}>
+                                <label class="form-check-label" for="interest-music">
+                                    <i class="bi bi-music-note me-2"></i>Music & Concerts
+                                </label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox" id="interest-sports" value="sports" ${currentInterests.includes('sports') ? 'checked' : ''}>
+                                <label class="form-check-label" for="interest-sports">
+                                    <i class="bi bi-trophy me-2"></i>Sports & Fitness
+                                </label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox" id="interest-arts" value="arts" ${currentInterests.includes('arts') ? 'checked' : ''}>
+                                <label class="form-check-label" for="interest-arts">
+                                    <i class="bi bi-palette me-2"></i>Arts & Culture
+                                </label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox" id="interest-business" value="business" ${currentInterests.includes('business') ? 'checked' : ''}>
+                                <label class="form-check-label" for="interest-business">
+                                    <i class="bi bi-briefcase me-2"></i>Business & Networking
+                                </label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox" id="interest-food" value="food" ${currentInterests.includes('food') ? 'checked' : ''}>
+                                <label class="form-check-label" for="interest-food">
+                                    <i class="bi bi-cup-hot me-2"></i>Food & Drink
+                                </label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox" id="interest-technology" value="technology" ${currentInterests.includes('technology') ? 'checked' : ''}>
+                                <label class="form-check-label" for="interest-technology">
+                                    <i class="bi bi-laptop me-2"></i>Technology
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                showCancelButton: true,
+                confirmButtonText: 'Update Interests',
+                confirmButtonColor: '#6366f1',
+                preConfirm: () => {
+                    const selected = [];
+                    document.querySelectorAll('.interest-checkboxes input:checked').forEach(input => {
+                        selected.push(input.value);
+                    });
+                    return selected;
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const newInterests = result.value;
+                    updateUserInterests(newInterests);
+                    
+                    Swal.fire({
+                        title: 'Interests Updated!',
+                        text: 'Your interests have been updated. You\'ll see better event recommendations.',
+                        icon: 'success',
+                        confirmButtonColor: '#6366f1'
+                    });
+                }
+            });
+        }
+
+        function updateUserInterests(interests) {
+            const interestLabels = {
+                music: 'Music',
+                sports: 'Sports',
+                arts: 'Arts & Culture',
+                business: 'Business',
+                food: 'Food & Drink',
+                technology: 'Technology'
+            };
+
+            const container = document.getElementById('userInterests');
+            container.innerHTML = interests.map(interest => 
+                `<span class="interest-tag">${interestLabels[interest]}</span>`
+            ).join('');
+
+            // Save to user data
+            if (currentUser) {
+                currentUser.interests = interests;
+                const storageKey = localStorage.getItem('userSession') ? 'userSession' : 'userSession';
+                const storage = localStorage.getItem('userSession') ? localStorage : sessionStorage;
+                storage.setItem(storageKey, JSON.stringify(currentUser));
+            }
+        }
+
+        function logout() {
+            Swal.fire({
+                title: 'Sign Out',
+                text: 'Are you sure you want to sign out?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, Sign Out',
+                cancelButtonText: 'Cancel',
+                confirmButtonColor: '#ef4444'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Clear session data
+                    localStorage.removeItem('userSession');
+                    sessionStorage.removeItem('userSession');
+                    localStorage.removeItem('userLoggedIn');
+                    localStorage.removeItem('userName');
+                    localStorage.removeItem('userRole');
+                    
+                    // Show success message
+                    Swal.fire({
+                        title: 'Signed Out Successfully',
+                        text: 'You have been signed out of your account.',
+                        icon: 'success',
+                        timer: 2000,
+                        timerProgressBar: true,
+                        showConfirmButton: false
+                    }).then(() => {
+                        window.location.href = 'index.html';
+                    });
+                }
+            });
+        }
+
+        // Welcome message for returning users
+        function showWelcomeMessage() {
+            const lastLogin = localStorage.getItem('lastLoginTime');
+            const currentTime = new Date().getTime();
+            
+            if (!lastLogin || (currentTime - parseInt(lastLogin)) > 24 * 60 * 60 * 1000) {
+                setTimeout(() => {
+                    Swal.fire({
+                        title: `Welcome back, ${currentUser.name.split(' ')[0]}! 🎉`,
+                        html: `
+                            <div class="text-center">
+                                <p>We're excited to see you again!</p>
+                                <div class="mt-3">
+                                    <i class="bi bi-gift text-primary" style="font-size: 2rem;"></i>
+                                </div>
+                                <p class="mt-2"><strong>+50 Loyalty Points</strong> for logging in today!</p>
+                            </div>
+                        `,
+                        icon: 'success',
+                        confirmButtonText: 'Awesome!',
+                        confirmButtonColor: '#6366f1',
+                        timer: 5000,
+                        timerProgressBar: true
+                    });
+                }, 2000);
+                
+                localStorage.setItem('lastLoginTime', currentTime.toString());
+            }
+        }
+
+        // Show welcome message for returning users
+        if (currentUser) {
+            showWelcomeMessage();
+        }
+
+        // Auto-refresh data every 5 minutes
+        setInterval(() => {
+            loadRecommendedEvents();
+        }, 5 * 60 * 1000);
+    </script>
+
+</body>
+
+</html>

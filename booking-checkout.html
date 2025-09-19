@@ -1,0 +1,2547 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EventHub - Complete Your Booking</title>
+
+    <!-- Bootstrap 5.3 CSS (Latest) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <!-- Bootstrap Icons (Latest) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+    <!-- EventHub Header - Authenticated -->
+    <nav class="navbar navbar-expand-lg eventhub-navbar">
+        <div class="container-fluid px-4">
+            <!-- Brand Logo -->
+            <a class="navbar-brand eventhub-brand d-flex align-items-center" href="index.html">
+                <div class="brand-icon me-2">
+                    <i class="bi bi-calendar-event me-1"></i>
+                </div>
+                <span class="brand-text">EventHub</span>
+            </a>
+
+            <!-- Mobile Toggle Button -->
+            <button class="navbar-toggler custom-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navigation Items -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <!-- Left Navigation -->
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link eventhub-nav-link" href="index.html">
+                            <i class="bi bi-house-fill me-1"></i>
+                            Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link eventhub-nav-link" href="event-listing.html">
+                            <i class="bi bi-calendar3 me-1"></i>Events
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link eventhub-nav-link" href="my-bookings.html">
+                            <i class="bi bi-ticket-perforated me-1"></i>My Bookings
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link eventhub-nav-link" href="my-tickets.html">
+                            <i class="bi bi-qr-code me-1"></i>My Tickets
+                        </a>
+                    </li>
+                </ul>
+
+                <!-- Right Navigation - User Menu -->
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle user-menu" href="#" id="userDropdown" role="button" 
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            <div class="user-avatar">
+                                <i class="bi bi-person-circle"></i>
+                            </div>
+                            <span class="user-name" id="userName">Priya Fernando</span>
+                        </a>
+                        <ul class="dropdown-menu user-dropdown" aria-labelledby="userDropdown">
+                            <li><a class="dropdown-item" href="customer-dashboard.html">
+                                <i class="bi bi-speedometer2 me-2"></i>Dashboard</a></li>
+                            <li><a class="dropdown-item" href="user-profile.html">
+                                <i class="bi bi-person me-2"></i>Edit Profile</a></li>
+                            <li><a class="dropdown-item" href="my-bookings.html">
+                                <i class="bi bi-ticket-perforated me-2"></i>My Bookings</a></li>
+                            <li><a class="dropdown-item" href="payment-history.html">
+                                <i class="bi bi-credit-card me-2"></i>Payment History</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#" onclick="logout()">
+                                <i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Booking Progress Steps -->
+    <section class="booking-progress">
+        <div class="container-fluid">
+            <div class="progress-steps">
+                <div class="step completed">
+                    <div class="step-icon">
+                        <i class="bi bi-check"></i>
+                    </div>
+                    <span class="step-label">Select Event</span>
+                </div>
+                <div class="step completed">
+                    <div class="step-icon">
+                        <i class="bi bi-check"></i>
+                    </div>
+                    <span class="step-label">Choose Tickets</span>
+                </div>
+                <div class="step active">
+                    <div class="step-icon">
+                        <i class="bi bi-credit-card"></i>
+                    </div>
+                    <span class="step-label">Checkout</span>
+                </div>
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="bi bi-check-circle"></i>
+                    </div>
+                    <span class="step-label">Confirmation</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Checkout Content -->
+    <div class="checkout-container">
+        <div class="container-fluid py-4">
+            <div class="row g-4">
+                <!-- Left Column - Checkout Form -->
+                <div class="col-lg-8">
+                    <!-- Booking Details Review -->
+                    <div class="checkout-card mb-4">
+                        <div class="card-header">
+                            <h5 class="card-title">
+                                <i class="bi bi-ticket-perforated me-2"></i>Booking Details
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="event-summary">
+                                <div class="event-image">
+                                    <img src="pictures/events/jazz-night.jpg" alt="Event Image" class="img-fluid">
+                                </div>
+                                <div class="event-info">
+                                    <h4 id="eventTitle">Jazz Night Under Stars</h4>
+                                    <div class="event-details">
+                                        <p><i class="bi bi-calendar3 me-2"></i><span id="eventDate">Saturday, January 30, 2025</span></p>
+                                        <p><i class="bi bi-clock me-2"></i><span id="eventTime">8:00 PM - 11:00 PM</span></p>
+                                        <p><i class="bi bi-geo-alt me-2"></i><span id="eventVenue">Royal Botanical Gardens, Kandy</span></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Ticket Selection Summary -->
+                            <div class="ticket-summary mt-4">
+                                <h6>Selected Tickets</h6>
+                                <div id="selectedTickets" class="ticket-items">
+                                    <!-- Tickets will be loaded here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contact Information -->
+                    <div class="checkout-card mb-4">
+                        <div class="card-header">
+                            <h5 class="card-title">
+                                <i class="bi bi-person me-2"></i>Contact Information
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <form id="contactForm">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label for="firstName" class="form-label">First Name *</label>
+                                        <input type="text" class="form-control" id="firstName" value="Priya" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="lastName" class="form-label">Last Name *</label>
+                                        <input type="text" class="form-control" id="lastName" value="Fernando" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="email" class="form-label">Email Address *</label>
+                                        <input type="email" class="form-control" id="email" value="priya.fernando@email.com" required>
+                                        <div class="form-text">Tickets will be sent to this email</div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="phone" class="form-label">Phone Number *</label>
+                                        <input type="tel" class="form-control" id="phone" value="+94 77 123 4567" required>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Payment Information -->
+                    <div class="checkout-card mb-4">
+                        <div class="card-header">
+                            <h5 class="card-title">
+                                <i class="bi bi-credit-card me-2"></i>Payment Information
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <!-- Payment Method Selection -->
+                            <div class="payment-methods mb-4">
+                                <h6>Select Payment Method</h6>
+                                <div class="payment-options">
+                                    <div class="payment-option">
+                                        <input type="radio" id="paymentCard" name="paymentMethod" value="card" checked>
+                                        <label for="paymentCard" class="payment-label">
+                                            <div class="payment-icon">
+                                                <i class="bi bi-credit-card"></i>
+                                            </div>
+                                            <div class="payment-content">
+                                                <h6>Credit/Debit Card</h6>
+                                                <p>Visa, Mastercard, American Express</p>
+                                            </div>
+                                            <div class="payment-logos">
+                                                <img src="pictures/payments/visa.png" alt="Visa" class="payment-logo">
+                                                <img src="pictures/payments/mastercard.png" alt="Mastercard" class="payment-logo">
+                                            </div>
+                                        </label>
+                                    </div>
+                                    <div class="payment-option">
+                                        <input type="radio" id="paymentPaypal" name="paymentMethod" value="paypal">
+                                        <label for="paymentPaypal" class="payment-label">
+                                            <div class="payment-icon">
+                                                <i class="bi bi-paypal"></i>
+                                            </div>
+                                            <div class="payment-content">
+                                                <h6>PayPal</h6>
+                                                <p>Pay securely with your PayPal account</p>
+                                            </div>
+                                            <div class="payment-logos">
+                                                <img src="pictures/payments/paypal.png" alt="PayPal" class="payment-logo">
+                                            </div>
+                                        </label>
+                                    </div>
+                                    <div class="payment-option">
+                                        <input type="radio" id="paymentBankTransfer" name="paymentMethod" value="bank">
+                                        <label for="paymentBankTransfer" class="payment-label">
+                                            <div class="payment-icon">
+                                                <i class="bi bi-bank"></i>
+                                            </div>
+                                            <div class="payment-content">
+                                                <h6>Bank Transfer</h6>
+                                                <p>Direct bank transfer (Local banks)</p>
+                                            </div>
+                                            <div class="payment-logos">
+                                                <img src="pictures/payments/bank.png" alt="Bank" class="payment-logo">
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Card Payment Form -->
+                            <div id="cardPaymentForm" class="payment-form">
+                                <form id="creditCardForm">
+                                    <div class="row g-3">
+                                        <div class="col-12">
+                                            <label for="cardNumber" class="form-label">Card Number *</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="cardNumber" 
+                                                       placeholder="1234 5678 9012 3456" maxlength="19" required>
+                                                <span class="input-group-text">
+                                                    <i class="bi bi-credit-card" id="cardTypeIcon"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="cardExpiry" class="form-label">Expiry Date *</label>
+                                            <input type="text" class="form-control" id="cardExpiry" 
+                                                   placeholder="MM/YY" maxlength="5" required>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="cardCvv" class="form-label">CVV *</label>
+                                            <input type="text" class="form-control" id="cardCvv" 
+                                                   placeholder="123" maxlength="4" required>
+                                        </div>
+                                        <div class="col-12">
+                                            <label for="cardName" class="form-label">Cardholder Name *</label>
+                                            <input type="text" class="form-control" id="cardName" 
+                                                   placeholder="Name as it appears on card" required>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <!-- PayPal Payment Form -->
+                            <div id="paypalPaymentForm" class="payment-form" style="display: none;">
+                                <div class="paypal-info">
+                                    <div class="paypal-notice">
+                                        <i class="bi bi-info-circle me-2"></i>
+                                        You will be redirected to PayPal to complete your payment securely.
+                                    </div>
+                                    <div class="paypal-email">
+                                        <label for="paypalEmail" class="form-label">PayPal Email (Optional)</label>
+                                        <input type="email" class="form-control" id="paypalEmail" 
+                                               placeholder="your-paypal@email.com">
+                                        <div class="form-text">Pre-fill your PayPal login</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Bank Transfer Payment Form -->
+                            <div id="bankPaymentForm" class="payment-form" style="display: none;">
+                                <div class="bank-info">
+                                    <div class="bank-notice">
+                                        <i class="bi bi-info-circle me-2"></i>
+                                        You will receive bank transfer instructions after confirming your booking.
+                                    </div>
+                                    <div class="bank-details">
+                                        <h6>Payment will be held for 24 hours</h6>
+                                        <p>Complete the bank transfer within 24 hours to confirm your booking. 
+                                           Failure to complete payment will result in automatic cancellation.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Billing Address -->
+                    <div class="checkout-card mb-4">
+                        <div class="card-header">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="card-title">
+                                    <i class="bi bi-house me-2"></i>Billing Address
+                                </h5>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="sameAsContact" checked>
+                                    <label class="form-check-label" for="sameAsContact">
+                                        Same as contact information
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <form id="billingForm">
+                                <div class="row g-3">
+                                    <div class="col-12">
+                                        <label for="billingAddress" class="form-label">Street Address *</label>
+                                        <input type="text" class="form-control" id="billingAddress" 
+                                               value="123 Galle Road, Colombo 03" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="billingCity" class="form-label">City *</label>
+                                        <input type="text" class="form-control" id="billingCity" value="Colombo" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="billingProvince" class="form-label">Province *</label>
+                                        <select class="form-select" id="billingProvince" required>
+                                            <option value="">Select Province</option>
+                                            <option value="western" selected>Western Province</option>
+                                            <option value="central">Central Province</option>
+                                            <option value="southern">Southern Province</option>
+                                            <option value="northern">Northern Province</option>
+                                            <option value="eastern">Eastern Province</option>
+                                            <option value="north-western">North Western Province</option>
+                                            <option value="north-central">North Central Province</option>
+                                            <option value="uva">Uva Province</option>
+                                            <option value="sabaragamuwa">Sabaragamuwa Province</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="billingPostalCode" class="form-label">Postal Code *</label>
+                                        <input type="text" class="form-control" id="billingPostalCode" value="00300" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="billingCountry" class="form-label">Country *</label>
+                                        <select class="form-select" id="billingCountry" required>
+                                            <option value="lk" selected>Sri Lanka</option>
+                                            <option value="in">India</option>
+                                            <option value="us">United States</option>
+                                            <option value="uk">United Kingdom</option>
+                                            <option value="au">Australia</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column - Order Summary -->
+                <div class="col-lg-4">
+                    <div class="order-summary-card sticky-top">
+                        <div class="card-header">
+                            <h5 class="card-title">
+                                <i class="bi bi-receipt me-2"></i>Order Summary
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <!-- Order Items -->
+                            <div class="order-items" id="orderItems">
+                                <!-- Order items will be loaded here -->
+                            </div>
+
+                            <!-- Discount Code Section -->
+                            <div class="discount-section">
+                                <div class="discount-toggle" onclick="toggleDiscountForm()">
+                                    <i class="bi bi-tag me-2"></i>
+                                    <span>Have a discount code?</span>
+                                    <i class="bi bi-chevron-down toggle-icon"></i>
+                                </div>
+                                <div class="discount-form" id="discountForm" style="display: none;">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="discountCode" 
+                                               placeholder="Enter discount code">
+                                        <button class="btn btn-outline-primary" type="button" onclick="applyDiscount()">
+                                            Apply
+                                        </button>
+                                    </div>
+                                    <div class="discount-message" id="discountMessage"></div>
+                                </div>
+                            </div>
+
+                            <!-- Loyalty Points Section -->
+                            <div class="loyalty-section">
+                                <div class="loyalty-info">
+                                    <i class="bi bi-star-fill me-2"></i>
+                                    <span>Available Loyalty Points: <strong id="availablePoints">1,250</strong></span>
+                                </div>
+                                <div class="loyalty-form">
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" id="pointsToUse" 
+                                               placeholder="Points to use" min="0" max="1250">
+                                        <button class="btn btn-outline-success" type="button" onclick="applyPoints()">
+                                            Use Points
+                                        </button>
+                                    </div>
+                                    <div class="form-text">100 points = Rs. 100 discount</div>
+                                </div>
+                            </div>
+
+                            <!-- Price Breakdown -->
+                            <div class="price-breakdown">
+                                <div class="price-row">
+                                    <span>Subtotal</span>
+                                    <span id="subtotal">Rs. 7,000</span>
+                                </div>
+                                <div class="price-row" id="discountRow" style="display: none;">
+                                    <span>Discount</span>
+                                    <span id="discountAmount" class="text-success">-Rs. 0</span>
+                                </div>
+                                <div class="price-row" id="pointsRow" style="display: none;">
+                                    <span>Loyalty Points</span>
+                                    <span id="pointsAmount" class="text-success">-Rs. 0</span>
+                                </div>
+                                <div class="price-row">
+                                    <span>Service Fee</span>
+                                    <span id="serviceFee">Rs. 350</span>
+                                </div>
+                                <div class="price-row">
+                                    <span>Processing Fee</span>
+                                    <span id="processingFee">Rs. 150</span>
+                                </div>
+                                <hr>
+                                <div class="price-row total">
+                                    <span>Total</span>
+                                    <span id="totalAmount">Rs. 7,500</span>
+                                </div>
+                            </div>
+
+                            <!-- Terms and Conditions -->
+                            <div class="terms-section">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="agreeTerms" required>
+                                    <label class="form-check-label" for="agreeTerms">
+                                        I agree to the <a href="terms.html" target="_blank">Terms & Conditions</a> 
+                                        and <a href="privacy.html" target="_blank">Privacy Policy</a>
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="agreeRefund" required>
+                                    <label class="form-check-label" for="agreeRefund">
+                                        I understand the <a href="refund-policy.html" target="_blank">cancellation and refund policy</a>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Complete Purchase Button -->
+                            <button class="btn btn-primary btn-lg w-100 complete-purchase-btn" onclick="completePurchase()">
+                                <i class="bi bi-lock-fill me-2"></i>
+                                Complete Secure Purchase
+                            </button>
+
+                            <!-- Security Badges -->
+                            <div class="security-badges">
+                                <div class="security-item">
+                                    <i class="bi bi-shield-check text-success"></i>
+                                    <small>256-bit SSL Encryption</small>
+                                </div>
+                                <div class="security-item">
+                                    <i class="bi bi-credit-card text-primary"></i>
+                                    <small>PCI DSS Compliant</small>
+                                </div>
+                                <div class="security-item">
+                                    <i class="bi bi-arrow-clockwise text-info"></i>
+                                    <small>30-day Money Back Guarantee</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+
+    <style>
+        /* EventHub Custom Styles */
+        * {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f8fafc;
+            line-height: 1.6;
+        }
+
+        /* Navbar Styling - Authenticated */
+        .eventhub-navbar {
+            background-color: #ffffff;
+            border-bottom: 1px solid #e9ecef;
+            padding: 0.75rem 0;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .eventhub-brand {
+            text-decoration: none;
+            color: #6366f1 !important;
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .eventhub-brand:hover {
+            color: #5855eb !important;
+            text-decoration: none;
+        }
+
+        .brand-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .brand-text {
+            color: #6366f1;
+            font-weight: 700;
+        }
+
+        .eventhub-nav-link {
+            color: #64748b !important;
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 0.5rem 1rem !important;
+            margin: 0 0.25rem;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .eventhub-nav-link:hover {
+            color: #6366f1 !important;
+            background-color: rgba(99, 102, 241, 0.1);
+        }
+
+        .eventhub-nav-link.active {
+            color: #6366f1 !important;
+            background-color: rgba(99, 102, 241, 0.15);
+            font-weight: 600;
+        }
+
+        /* User Menu */
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.5rem 1rem !important;
+            border-radius: 50px;
+            background: rgba(99, 102, 241, 0.1);
+            color: #6366f1 !important;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .user-menu:hover {
+            background: rgba(99, 102, 241, 0.15);
+            color: #6366f1 !important;
+        }
+
+        .user-avatar {
+            font-size: 1.5rem;
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .user-dropdown {
+            border-radius: 1rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            border: 1px solid #e2e8f0;
+            padding: 0.5rem;
+            min-width: 220px;
+        }
+
+        .user-dropdown .dropdown-item {
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+            margin-bottom: 0.25rem;
+            transition: all 0.2s ease;
+        }
+
+        .user-dropdown .dropdown-item:hover {
+            background-color: rgba(99, 102, 241, 0.1);
+            color: #6366f1;
+        }
+
+        .user-dropdown .dropdown-item.active {
+            background-color: rgba(99, 102, 241, 0.15);
+            color: #6366f1;
+            font-weight: 600;
+        }
+
+        .custom-toggler {
+            border: none;
+            padding: 0.25rem 0.5rem;
+        }
+
+        .custom-toggler:focus {
+            box-shadow: 0 0 0 0.2rem rgba(99, 102, 241, 0.25);
+        }
+
+        /* Booking Progress Steps */
+        .booking-progress {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            padding: 2rem 0;
+            color: white;
+        }
+
+        .progress-steps {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .progress-steps::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-50%);
+        }
+
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            flex: 1;
+            z-index: 1;
+        }
+
+        .step-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .step.completed .step-icon {
+            background: rgba(255, 255, 255, 0.9);
+            color: #6366f1;
+        }
+
+        .step.active .step-icon {
+            background: white;
+            color: #6366f1;
+            box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.3);
+        }
+
+        .step-label {
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-align: center;
+            opacity: 0.8;
+        }
+
+        .step.completed .step-label,
+        .step.active .step-label {
+            opacity: 1;
+            font-weight: 600;
+        }
+
+        /* Checkout Container */
+        .checkout-container {
+            min-height: calc(100vh - 200px);
+        }
+
+        /* Checkout Cards */
+        .checkout-card,
+        .order-summary-card {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid #f1f5f9;
+            overflow: hidden;
+        }
+
+        .card-header {
+            background: #f8fafc;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 1.5rem;
+        }
+
+        .card-title {
+            color: #374151;
+            font-weight: 600;
+            margin: 0;
+            font-size: 1.1rem;
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        /* Event Summary */
+        .event-summary {
+            display: flex;
+            gap: 1.5rem;
+            align-items: flex-start;
+        }
+
+        .event-image {
+            flex-shrink: 0;
+            width: 120px;
+            height: 120px;
+            border-radius: 0.75rem;
+            overflow: hidden;
+        }
+
+        .event-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .event-info h4 {
+            color: #374151;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .event-details p {
+            color: #64748b;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .event-details i {
+            color: #6366f1;
+            width: 20px;
+        }
+
+        /* Ticket Summary */
+        .ticket-summary h6 {
+            color: #374151;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .ticket-items {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .ticket-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 0.5rem;
+            border: 1px solid #e2e8f0;
+        }
+
+        .ticket-info h6 {
+            color: #374151;
+            margin-bottom: 0.25rem;
+            font-size: 0.95rem;
+        }
+
+        .ticket-info p {
+            color: #64748b;
+            margin: 0;
+            font-size: 0.85rem;
+        }
+
+        .ticket-price {
+            text-align: right;
+        }
+
+        .ticket-price .price {
+            color: #374151;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .ticket-price .quantity {
+            color: #64748b;
+            font-size: 0.85rem;
+        }
+
+        /* Form Styling */
+        .form-label {
+            color: #374151;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-control,
+        .form-select {
+            border: 2px solid #e2e8f0;
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 0.2rem rgba(99, 102, 241, 0.15);
+        }
+
+        .form-text {
+            color: #64748b;
+            font-size: 0.85rem;
+            margin-top: 0.25rem;
+        }
+
+        /* Payment Methods */
+        .payment-methods h6 {
+            color: #374151;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .payment-options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .payment-option {
+            position: relative;
+        }
+
+        .payment-option input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .payment-label {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.25rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 0.75rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .payment-label:hover {
+            border-color: #6366f1;
+            background: rgba(99, 102, 241, 0.05);
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .payment-option input:checked + .payment-label {
+            border-color: #6366f1;
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .payment-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            color: #6366f1;
+            flex-shrink: 0;
+        }
+
+        .payment-content {
+            flex: 1;
+        }
+
+        .payment-content h6 {
+            color: #374151;
+            margin-bottom: 0.25rem;
+            font-weight: 600;
+        }
+
+        .payment-content p {
+            color: #64748b;
+            margin: 0;
+            font-size: 0.9rem;
+        }
+
+        .payment-logos {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .payment-logo {
+            height: 30px;
+            width: auto;
+            border-radius: 4px;
+        }
+
+        /* Payment Forms */
+        .payment-form {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .paypal-notice,
+        .bank-notice {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            color: #1e40af;
+        }
+
+        .bank-details h6 {
+            color: #374151;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .bank-details p {
+            color: #64748b;
+            margin: 0;
+            font-size: 0.9rem;
+        }
+
+        /* Order Summary */
+        .order-summary-card {
+            position: sticky;
+            top: 100px;
+        }
+
+        .order-items {
+            margin-bottom: 1.5rem;
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .order-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-info h6 {
+            color: #374151;
+            margin-bottom: 0.25rem;
+            font-size: 0.9rem;
+        }
+
+        .item-info p {
+            color: #64748b;
+            margin: 0;
+            font-size: 0.8rem;
+        }
+
+        .item-price {
+            color: #374151;
+            font-weight: 600;
+        }
+
+        /* Discount Section */
+        .discount-section {
+            margin-bottom: 1.5rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+
+        .discount-toggle {
+            padding: 1rem;
+            background: #f8fafc;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.3s ease;
+        }
+
+        .discount-toggle:hover {
+            background: #f1f5f9;
+        }
+
+        .discount-toggle .toggle-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .discount-toggle.active .toggle-icon {
+            transform: rotate(180deg);
+        }
+
+        .discount-form {
+            padding: 1rem;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .discount-message {
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        .discount-message.success {
+            color: #10b981;
+        }
+
+        .discount-message.error {
+            color: #ef4444;
+        }
+
+        /* Loyalty Section */
+        .loyalty-section {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: #fef3e2;
+            border: 1px solid #fed7aa;
+            border-radius: 0.5rem;
+        }
+
+        .loyalty-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            color: #ea580c;
+            font-weight: 500;
+        }
+
+        .loyalty-form .form-text {
+            color: #ea580c;
+        }
+
+        /* Price Breakdown */
+        .price-breakdown {
+            margin-bottom: 1.5rem;
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            color: #64748b;
+        }
+
+        .price-row.total {
+            padding-top: 1rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        /* Terms Section */
+        .terms-section {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 0.5rem;
+            border: 1px solid #e2e8f0;
+        }
+
+        .terms-section .form-check {
+            margin-bottom: 0.75rem;
+        }
+
+        .terms-section .form-check:last-child {
+            margin-bottom: 0;
+        }
+
+        .terms-section a {
+            color: #6366f1;
+            text-decoration: none;
+        }
+
+        .terms-section a:hover {
+            text-decoration: underline;
+        }
+
+        /* Complete Purchase Button */
+        .complete-purchase-btn {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            border: none;
+            color: white;
+            font-weight: 600;
+            padding: 1rem 1.5rem;
+            border-radius: 0.75rem;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            margin-bottom: 1.5rem;
+        }
+
+        .complete-purchase-btn:hover {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+        }
+
+        .complete-purchase-btn:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Security Badges */
+        .security-badges {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .security-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #64748b;
+        }
+
+        .security-item small {
+            font-size: 0.8rem;
+        }
+
+        /* Card Input Styling */
+        #cardNumber {
+            font-family: 'Courier New', monospace;
+            letter-spacing: 1px;
+        }
+
+        #cardExpiry,
+        #cardCvv {
+            font-family: 'Courier New', monospace;
+        }
+
+        /* Input Group Styling */
+        .input-group-text {
+            background: #f8fafc;
+            border-color: #e2e8f0;
+            color: #64748b;
+        }
+
+        /* Animations */
+        .fade-in {
+            animation: fadeIn 0.6s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .slide-in {
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            position: relative;
+            pointer-events: none;
+        }
+
+        .loading::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            margin: -10px 0 0 -10px;
+            border: 2px solid #e2e8f0;
+            border-top: 2px solid #6366f1;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 991.98px) {
+            .navbar-collapse {
+                margin-top: 1rem;
+                padding: 1rem;
+                background-color: white;
+                border-radius: 12px;
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+                border: 1px solid #e2e8f0;
+            }
+
+            .eventhub-nav-link {
+                padding: 0.75rem 1rem !important;
+                margin: 0.25rem 0;
+            }
+
+            .user-menu {
+                width: 100%;
+                justify-content: center;
+                margin-top: 1rem;
+                border-top: 1px solid #e2e8f0;
+                padding-top: 1rem !important;
+            }
+
+            .order-summary-card {
+                position: static;
+                margin-top: 2rem;
+            }
+
+            .progress-steps {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .progress-steps::before {
+                display: none;
+            }
+
+            .step {
+                flex-direction: row;
+                justify-content: flex-start;
+                text-align: left;
+            }
+
+            .step-icon {
+                margin-bottom: 0;
+                margin-right: 1rem;
+            }
+
+            .event-summary {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .event-image {
+                width: 100%;
+                height: 200px;
+            }
+
+            .payment-options {
+                gap: 0.75rem;
+            }
+
+            .payment-label {
+                padding: 1rem;
+            }
+
+            .payment-content h6 {
+                font-size: 0.9rem;
+            }
+
+            .payment-content p {
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .booking-progress {
+                padding: 1.5rem 0;
+            }
+
+            .card-header,
+            .card-body {
+                padding: 1rem;
+            }
+
+            .event-image {
+                height: 150px;
+            }
+
+            .event-info h4 {
+                font-size: 1.25rem;
+            }
+
+            .payment-label {
+                flex-direction: column;
+                text-align: center;
+                gap: 0.75rem;
+            }
+
+            .payment-logos {
+                justify-content: center;
+            }
+
+            .complete-purchase-btn {
+                font-size: 1rem;
+                padding: 0.875rem 1.25rem;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            .navbar,
+            .booking-progress,
+            .complete-purchase-btn,
+            .security-badges {
+                display: none;
+            }
+            
+            body {
+                background: white;
+            }
+            
+            .checkout-card,
+            .order-summary-card {
+                box-shadow: none;
+                border: 1px solid #000;
+            }
+        }
+    </style>
+
+    <script>
+        // Current user and booking data
+        let currentUser = null;
+        let bookingData = null;
+        let currentTotal = 7500;
+        let appliedDiscount = 0;
+        let usedPoints = 0;
+
+        // Sample booking data
+        const sampleBooking = {
+            eventId: 'jazz-night-2025',
+            eventTitle: 'Jazz Night Under Stars',
+            eventDate: '2025-01-30',
+            eventTime: '8:00 PM - 11:00 PM',
+            eventVenue: 'Royal Botanical Gardens, Kandy',
+            eventImage: 'picture/event-jazz.jpg',
+            tickets: [
+                {
+                    type: 'VIP',
+                    price: 4500,
+                    quantity: 1,
+                    description: 'Premium seating with complimentary drinks'
+                },
+                {
+                    type: 'Regular',
+                    price: 2500,
+                    quantity: 1,
+                    description: 'Standard seating'
+                }
+            ],
+            subtotal: 7000,
+            serviceFee: 350,
+            processingFee: 150,
+            total: 7500
+        };
+
+        // Available discount codes
+        const discountCodes = {
+            'WELCOME10': { type: 'percentage', value: 10, description: '10% off your first booking' },
+            'JAZZ25': { type: 'fixed', value: 500, description: 'Rs. 500 off Jazz events' },
+            'STUDENT': { type: 'percentage', value: 15, description: '15% student discount' },
+            'EARLYBIRD': { type: 'fixed', value: 1000, description: 'Early bird special' }
+        };
+
+        document.addEventListener('DOMContentLoaded', function () {
+            initializeCheckout();
+            loadBookingData();
+            setupEventListeners();
+            setupFormValidation();
+            loadUserData();
+        });
+
+        function initializeCheckout() {
+            // Check if user is logged in
+            const sessionData = localStorage.getItem('userSession') || sessionStorage.getItem('userSession');
+            
+            if (!sessionData) {
+                window.location.href = 'login.html?redirect=booking-checkout.html';
+                return;
+            }
+
+            currentUser = JSON.parse(sessionData);
+            
+            if (currentUser.role !== 'customer') {
+                Swal.fire({
+                    title: 'Access Denied',
+                    text: 'This page is only accessible to customers.',
+                    icon: 'error',
+                    confirmButtonColor: '#6366f1'
+                }).then(() => {
+                    window.location.href = 'login.html';
+                });
+                return;
+            }
+
+            // Try to load booking data from multiple sources
+            let bookingDataFound = false;
+
+            // 1. Check sessionStorage for current booking from event details
+            const sessionBooking = sessionStorage.getItem('currentBooking');
+            if (sessionBooking) {
+                try {
+                    const bookingInfo = JSON.parse(sessionBooking);
+                    bookingData = convertToFullBookingData(bookingInfo);
+                    bookingDataFound = true;
+                } catch (error) {
+                    console.error('Error parsing session booking:', error);
+                }
+            }
+
+            // 2. Check URL parameters for event ID
+            if (!bookingDataFound) {
+                const urlParams = new URLSearchParams(window.location.search);
+                const eventId = parseInt(urlParams.get('event')) || parseInt(urlParams.get('id'));
+                
+                if (eventId) {
+                    bookingData = loadBookingDataByEventId(eventId);
+                    bookingDataFound = true;
+                }
+            }
+
+            // 3. Use sample booking data as fallback
+            if (!bookingDataFound) {
+                bookingData = sampleBooking;
+                
+                // Show warning but don't redirect
+                setTimeout(() => {
+                    Swal.fire({
+                        title: 'Using Sample Data',
+                        text: 'No specific booking selected. Using sample event for demonstration.',
+                        icon: 'info',
+                        confirmButtonColor: '#6366f1',
+                        timer: 3000,
+                        timerProgressBar: true
+                    });
+                }, 1000);
+            }
+        }
+
+        function convertToFullBookingData(bookingInfo) {
+            // Convert event details booking data to full checkout format
+            const eventData = loadEventById(bookingInfo.eventId);
+            
+            return {
+                eventId: bookingInfo.eventId,
+                eventTitle: bookingInfo.eventTitle || eventData.title,
+                eventDate: eventData.date,
+                eventTime: eventData.time,
+                eventVenue: eventData.venue,
+                eventImage: eventData.image,
+                tickets: [{
+                    type: capitalizeFirst(bookingInfo.ticketType || 'regular'),
+                    price: bookingInfo.ticketPrice || eventData.price,
+                    quantity: bookingInfo.quantity || 1,
+                    description: getTicketDescription(bookingInfo.ticketType || 'regular')
+                }],
+                subtotal: (bookingInfo.ticketPrice || eventData.price) * (bookingInfo.quantity || 1),
+                serviceFee: 350,
+                processingFee: 150,
+                total: bookingInfo.totalAmount || ((bookingInfo.ticketPrice || eventData.price) * (bookingInfo.quantity || 1)) + 500
+            };
+        }
+
+        function loadEventById(eventId) {
+            // Sample events data matching the event details page
+            const eventsData = {
+                1: { 
+                    title: 'Christmas Music Concert', 
+                    date: '2025-12-25', 
+                    time: '7:00 PM', 
+                    venue: 'BMICH, Colombo',
+                    price: 2500,
+                    image: 'picture/event-concert.jpg'
+                },
+                2: { 
+                    title: 'Tech Innovation Summit 2025', 
+                    date: '2025-01-15', 
+                    time: '9:00 AM', 
+                    venue: 'Kandy City Center',
+                    price: 5000,
+                    image: 'picture/event-tech.jpg'
+                },
+                3: { 
+                    title: 'Colombo Food Festival', 
+                    date: '2025-02-10', 
+                    time: '11:00 AM', 
+                    venue: 'Galle Face Green',
+                    price: 1500,
+                    image: 'picture/event-food.jpg'
+                },
+                4: { 
+                    title: 'Jazz Night Under Stars', 
+                    date: '2025-01-30', 
+                    time: '8:00 PM', 
+                    venue: 'Royal Botanical Gardens, Kandy',
+                    price: 3500,
+                    image: 'picture/event-jazz.jpg'
+                },
+                5: { 
+                    title: 'Art Exhibition Opening', 
+                    date: '2025-03-15', 
+                    time: '6:00 PM', 
+                    venue: 'National Art Gallery',
+                    price: 1000,
+                    image: 'picture/event-art.jpg'
+                },
+                6: { 
+                    title: 'Business Networking Event', 
+                    date: '2025-02-20', 
+                    time: '7:00 PM', 
+                    venue: 'Hilton Colombo',
+                    price: 4000,
+                    image: 'picture/event-business.jpg'
+                },
+                7: { 
+                    title: 'Sports Championship Finals', 
+                    date: '2025-04-10', 
+                    time: '3:00 PM', 
+                    venue: 'R. Premadasa Stadium',
+                    price: 2000,
+                    image: 'picture/event-sports.jpg'
+                },
+                8: { 
+                    title: 'Wellness & Yoga Retreat', 
+                    date: '2025-03-25', 
+                    time: '6:00 AM', 
+                    venue: 'Mount Lavinia Beach',
+                    price: 2500,
+                    image: 'picture/event-wellness.jpg'
+                }
+            };
+
+            return eventsData[eventId] || eventsData[1];
+        }
+
+        function loadBookingDataByEventId(eventId) {
+            const eventData = loadEventById(eventId);
+            
+            return {
+                eventId: eventId,
+                eventTitle: eventData.title,
+                eventDate: eventData.date,
+                eventTime: eventData.time,
+                eventVenue: eventData.venue,
+                eventImage: eventData.image,
+                tickets: [{
+                    type: 'Regular',
+                    price: eventData.price,
+                    quantity: 1,
+                    description: 'Standard seating with great view'
+                }],
+                subtotal: eventData.price,
+                serviceFee: 350,
+                processingFee: 150,
+                total: eventData.price + 500
+            };
+        }
+
+        function capitalizeFirst(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        }
+
+        function getTicketDescription(ticketType) {
+            const descriptions = {
+                regular: 'Standard seating with great view',
+                premium: 'Premium seating with complimentary refreshments',
+                vip: 'VIP experience with best seats and backstage access'
+            };
+            return descriptions[ticketType] || descriptions.regular;
+        }
+
+        function loadUserData() {
+            if (!currentUser) return;
+
+            // Pre-fill contact information
+            const nameParts = currentUser.name.split(' ');
+            document.getElementById('firstName').value = nameParts[0] || '';
+            document.getElementById('lastName').value = nameParts.slice(1).join(' ') || '';
+            document.getElementById('email').value = currentUser.email || '';
+            document.getElementById('phone').value = currentUser.phone || '';
+
+            // Pre-fill billing address if available
+            if (currentUser.address) {
+                document.getElementById('billingAddress').value = currentUser.address.street || '';
+                document.getElementById('billingCity').value = currentUser.address.city || '';
+                document.getElementById('billingProvince').value = currentUser.address.province || '';
+                document.getElementById('billingPostalCode').value = currentUser.address.postalCode || '';
+                document.getElementById('billingCountry').value = currentUser.address.country || '';
+            }
+
+            // Update user name in navbar
+            document.getElementById('userName').textContent = currentUser.name;
+
+            // Load loyalty points
+            const loyaltyPoints = currentUser.loyaltyPoints || 1250;
+            document.getElementById('availablePoints').textContent = loyaltyPoints.toLocaleString();
+            document.getElementById('pointsToUse').max = loyaltyPoints;
+        }
+
+        function loadBookingData() {
+            if (!bookingData) return;
+
+            // Update event information
+            document.getElementById('eventTitle').textContent = bookingData.eventTitle;
+            document.getElementById('eventDate').textContent = formatEventDate(bookingData.eventDate);
+            document.getElementById('eventTime').textContent = bookingData.eventTime;
+            document.getElementById('eventVenue').textContent = bookingData.eventVenue;
+
+            // Load selected tickets
+            loadSelectedTickets();
+            loadOrderSummary();
+            updateTotalAmount();
+        }
+
+        function loadSelectedTickets() {
+            const container = document.getElementById('selectedTickets');
+            
+            container.innerHTML = bookingData.tickets.map(ticket => `
+                <div class="ticket-item">
+                    <div class="ticket-info">
+                        <h6>${ticket.type} Ticket</h6>
+                        <p>${ticket.description}</p>
+                    </div>
+                    <div class="ticket-price">
+                        <div class="price">Rs. ${ticket.price.toLocaleString()}</div>
+                        <div class="quantity">Qty: ${ticket.quantity}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function loadOrderSummary() {
+            const container = document.getElementById('orderItems');
+            
+            container.innerHTML = bookingData.tickets.map(ticket => `
+                <div class="order-item">
+                    <div class="item-info">
+                        <h6>${ticket.type} Ticket × ${ticket.quantity}</h6>
+                        <p>${ticket.description}</p>
+                    </div>
+                    <div class="item-price">Rs. ${(ticket.price * ticket.quantity).toLocaleString()}</div>
+                </div>
+            `).join('');
+        }
+
+        function formatEventDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+        }
+
+        function setupEventListeners() {
+            // Payment method selection
+            document.querySelectorAll('input[name="paymentMethod"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    showPaymentForm(this.value);
+                });
+            });
+
+            // Card number formatting
+            document.getElementById('cardNumber').addEventListener('input', function(e) {
+                formatCardNumber(e.target);
+                detectCardType(e.target.value);
+            });
+
+            // Card expiry formatting
+            document.getElementById('cardExpiry').addEventListener('input', function(e) {
+                formatCardExpiry(e.target);
+            });
+
+            // CVV input restriction
+            document.getElementById('cardCvv').addEventListener('input', function(e) {
+                this.value = this.value.replace(/\D/g, '');
+            });
+
+            // Billing address toggle
+            document.getElementById('sameAsContact').addEventListener('change', function() {
+                toggleBillingAddress(this.checked);
+            });
+
+            // Mobile menu auto-close
+            const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+            const navbarCollapse = document.querySelector('.navbar-collapse');
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function () {
+                    if (window.innerWidth < 992) {
+                        const bsCollapse = bootstrap.Collapse.getInstance(navbarCollapse) ||
+                            new bootstrap.Collapse(navbarCollapse);
+                        bsCollapse.hide();
+                    }
+                });
+            });
+
+            // Auto-save form data
+            startAutoSave();
+        }
+
+        function showPaymentForm(method) {
+            // Hide all payment forms
+            document.querySelectorAll('.payment-form').forEach(form => {
+                form.style.display = 'none';
+            });
+
+            // Show selected payment form
+            const formId = method + 'PaymentForm';
+            const form = document.getElementById(formId);
+            if (form) {
+                form.style.display = 'block';
+                form.classList.add('fade-in');
+            }
+        }
+
+        function formatCardNumber(input) {
+            let value = input.value.replace(/\s/g, '').replace(/\D/g, '');
+            let formattedValue = value.replace(/(.{4})/g, '$1 ').trim();
+            
+            if (formattedValue.length > 19) {
+                formattedValue = formattedValue.substring(0, 19);
+            }
+            
+            input.value = formattedValue;
+        }
+
+        function detectCardType(cardNumber) {
+            const cleanNumber = cardNumber.replace(/\s/g, '');
+            const cardTypeIcon = document.getElementById('cardTypeIcon');
+            
+            if (cleanNumber.match(/^4/)) {
+                cardTypeIcon.className = 'bi bi-credit-card text-primary';
+                cardTypeIcon.title = 'Visa';
+            } else if (cleanNumber.match(/^5[1-5]/)) {
+                cardTypeIcon.className = 'bi bi-credit-card text-warning';
+                cardTypeIcon.title = 'Mastercard';
+            } else if (cleanNumber.match(/^3[47]/)) {
+                cardTypeIcon.className = 'bi bi-credit-card text-success';
+                cardTypeIcon.title = 'American Express';
+            } else {
+                cardTypeIcon.className = 'bi bi-credit-card';
+                cardTypeIcon.title = 'Credit Card';
+            }
+        }
+
+        function formatCardExpiry(input) {
+            let value = input.value.replace(/\D/g, '');
+            
+            if (value.length >= 2) {
+                value = value.substring(0, 2) + '/' + value.substring(2, 4);
+            }
+            
+            input.value = value;
+        }
+
+        function toggleBillingAddress(sameAsContact) {
+            const billingForm = document.getElementById('billingForm');
+            const billingInputs = billingForm.querySelectorAll('input, select');
+            
+            if (sameAsContact) {
+                // Pre-fill with contact information
+                document.getElementById('billingAddress').value = '123 Galle Road, Colombo 03';
+                document.getElementById('billingCity').value = 'Colombo';
+                document.getElementById('billingProvince').value = 'western';
+                document.getElementById('billingPostalCode').value = '00300';
+                document.getElementById('billingCountry').value = 'lk';
+                
+                // Disable inputs
+                billingInputs.forEach(input => {
+                    input.disabled = true;
+                    input.style.backgroundColor = '#f8fafc';
+                });
+            } else {
+                // Enable inputs
+                billingInputs.forEach(input => {
+                    input.disabled = false;
+                    input.style.backgroundColor = '';
+                });
+            }
+        }
+
+        function toggleDiscountForm() {
+            const discountForm = document.getElementById('discountForm');
+            const toggle = document.querySelector('.discount-toggle');
+            
+            if (discountForm.style.display === 'none') {
+                discountForm.style.display = 'block';
+                toggle.classList.add('active');
+            } else {
+                discountForm.style.display = 'none';
+                toggle.classList.remove('active');
+            }
+        }
+
+        function applyDiscount() {
+            const discountCode = document.getElementById('discountCode').value.trim().toUpperCase();
+            const messageDiv = document.getElementById('discountMessage');
+
+            if (!discountCode) {
+                showDiscountMessage('Please enter a discount code.', 'error');
+                return;
+            }
+
+            const discount = discountCodes[discountCode];
+            
+            if (!discount) {
+                showDiscountMessage('Invalid discount code. Please check and try again.', 'error');
+                return;
+            }
+
+            // Apply discount
+            if (discount.type === 'percentage') {
+                appliedDiscount = Math.round((bookingData.subtotal * discount.value) / 100);
+            } else {
+                appliedDiscount = discount.value;
+            }
+
+            // Ensure discount doesn't exceed subtotal
+            appliedDiscount = Math.min(appliedDiscount, bookingData.subtotal);
+
+            showDiscountMessage(`Discount applied: ${discount.description}`, 'success');
+            updateDiscountDisplay();
+            updateTotalAmount();
+
+            // Disable discount input
+            document.getElementById('discountCode').disabled = true;
+            document.querySelector('.discount-form button').textContent = 'Applied';
+            document.querySelector('.discount-form button').disabled = true;
+        }
+
+        function showDiscountMessage(message, type) {
+            const messageDiv = document.getElementById('discountMessage');
+            messageDiv.textContent = message;
+            messageDiv.className = `discount-message ${type}`;
+        }
+
+        function updateDiscountDisplay() {
+            const discountRow = document.getElementById('discountRow');
+            const discountAmount = document.getElementById('discountAmount');
+
+            if (appliedDiscount > 0) {
+                discountRow.style.display = 'flex';
+                discountAmount.textContent = `-Rs. ${appliedDiscount.toLocaleString()}`;
+            } else {
+                discountRow.style.display = 'none';
+            }
+        }
+
+        function applyPoints() {
+            const pointsInput = document.getElementById('pointsToUse');
+            const pointsToUse = parseInt(pointsInput.value) || 0;
+            const availablePoints = parseInt(document.getElementById('availablePoints').textContent.replace(/,/g, ''));
+
+            if (pointsToUse <= 0) {
+                Swal.fire({
+                    title: 'Invalid Points',
+                    text: 'Please enter a valid number of points to use.',
+                    icon: 'warning',
+                    confirmButtonColor: '#6366f1'
+                });
+                return;
+            }
+
+            if (pointsToUse > availablePoints) {
+                Swal.fire({
+                    title: 'Insufficient Points',
+                    text: `You only have ${availablePoints.toLocaleString()} points available.`,
+                    icon: 'warning',
+                    confirmButtonColor: '#6366f1'
+                });
+                return;
+            }
+
+            // 100 points = Rs. 100 discount
+            const pointsDiscount = pointsToUse;
+            const remainingTotal = currentTotal - appliedDiscount;
+
+            // Ensure points discount doesn't exceed remaining total
+            usedPoints = Math.min(pointsDiscount, remainingTotal);
+
+            updatePointsDisplay();
+            updateTotalAmount();
+
+            // Update available points display
+            const newAvailablePoints = availablePoints - pointsToUse;
+            document.getElementById('availablePoints').textContent = newAvailablePoints.toLocaleString();
+
+            // Disable points input
+            pointsInput.disabled = true;
+            document.querySelector('.loyalty-form button').textContent = 'Applied';
+            document.querySelector('.loyalty-form button').disabled = true;
+
+            Swal.fire({
+                title: 'Points Applied!',
+                text: `${pointsToUse.toLocaleString()} points applied for Rs. ${usedPoints.toLocaleString()} discount.`,
+                icon: 'success',
+                confirmButtonColor: '#6366f1',
+                timer: 3000,
+                timerProgressBar: true
+            });
+        }
+
+        function updatePointsDisplay() {
+            const pointsRow = document.getElementById('pointsRow');
+            const pointsAmount = document.getElementById('pointsAmount');
+
+            if (usedPoints > 0) {
+                pointsRow.style.display = 'flex';
+                pointsAmount.textContent = `-Rs. ${usedPoints.toLocaleString()}`;
+            } else {
+                pointsRow.style.display = 'none';
+            }
+        }
+
+        function updateTotalAmount() {
+            const subtotal = bookingData.subtotal;
+            const serviceFee = bookingData.serviceFee;
+            const processingFee = bookingData.processingFee;
+
+            // Calculate new total
+            currentTotal = subtotal + serviceFee + processingFee - appliedDiscount - usedPoints;
+
+            // Update display
+            document.getElementById('subtotal').textContent = `Rs. ${subtotal.toLocaleString()}`;
+            document.getElementById('serviceFee').textContent = `Rs. ${serviceFee.toLocaleString()}`;
+            document.getElementById('processingFee').textContent = `Rs. ${processingFee.toLocaleString()}`;
+            document.getElementById('totalAmount').textContent = `Rs. ${currentTotal.toLocaleString()}`;
+        }
+
+        function setupFormValidation() {
+            // Real-time validation for required fields
+            const requiredFields = document.querySelectorAll('input[required], select[required]');
+            
+            requiredFields.forEach(field => {
+                field.addEventListener('blur', function() {
+                    validateField(this);
+                });
+
+                field.addEventListener('input', function() {
+                    if (this.classList.contains('is-invalid')) {
+                        validateField(this);
+                    }
+                });
+            });
+
+            // Email validation
+            document.getElementById('email').addEventListener('blur', function() {
+                validateEmail(this);
+            });
+
+            // Phone validation
+            document.getElementById('phone').addEventListener('blur', function() {
+                validatePhone(this);
+            });
+
+            // Card validation
+            document.getElementById('cardNumber').addEventListener('blur', function() {
+                validateCardNumber(this);
+            });
+
+            document.getElementById('cardExpiry').addEventListener('blur', function() {
+                validateCardExpiry(this);
+            });
+
+            document.getElementById('cardCvv').addEventListener('blur', function() {
+                validateCardCvv(this);
+            });
+        }
+
+        function validateField(field) {
+            if (!field) return true; // If field doesn't exist, consider it valid
+            
+            const value = field.value.trim();
+            const isValid = value !== '';
+            
+            if (isValid) {
+                field.classList.remove('is-invalid');
+                field.classList.add('is-valid');
+            } else {
+                field.classList.remove('is-valid');
+                field.classList.add('is-invalid');
+            }
+
+            return isValid;
+        }
+
+        function validateEmail(field) {
+            if (!field) return true;
+            
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            const value = field.value.trim();
+            const isValid = value !== '' && emailRegex.test(value);
+
+            if (isValid) {
+                field.classList.remove('is-invalid');
+                field.classList.add('is-valid');
+            } else {
+                field.classList.remove('is-valid');
+                field.classList.add('is-invalid');
+            }
+
+            return isValid;
+        }
+
+        function validatePhone(field) {
+            if (!field) return true;
+            
+            const phoneRegex = /^[\+]?[\d\s\-\(\)]{10,}$/;
+            const value = field.value.trim();
+            const isValid = value !== '' && phoneRegex.test(value);
+
+            if (isValid) {
+                field.classList.remove('is-invalid');
+                field.classList.add('is-valid');
+            } else {
+                field.classList.remove('is-valid');
+                field.classList.add('is-invalid');
+            }
+
+            return isValid;
+        }
+
+        function validateCardNumber(field) {
+            const cardNumber = field.value.replace(/\s/g, '');
+            const isValid = /^\d{13,19}$/.test(cardNumber) && luhnCheck(cardNumber);
+
+            if (isValid) {
+                field.classList.remove('is-invalid');
+                field.classList.add('is-valid');
+            } else {
+                field.classList.remove('is-valid');
+                field.classList.add('is-invalid');
+            }
+
+            return isValid;
+        }
+
+        function luhnCheck(cardNumber) {
+            let sum = 0;
+            let isEven = false;
+
+            for (let i = cardNumber.length - 1; i >= 0; i--) {
+                let digit = parseInt(cardNumber.charAt(i));
+
+                if (isEven) {
+                    digit *= 2;
+                    if (digit > 9) {
+                        digit -= 9;
+                    }
+                }
+
+                sum += digit;
+                isEven = !isEven;
+            }
+
+            return sum % 10 === 0;
+        }
+
+        function validateCardExpiry(field) {
+            const expiry = field.value;
+            const isValid = /^\d{2}\/\d{2}$/.test(expiry);
+
+            if (isValid) {
+                const [month, year] = expiry.split('/');
+                const expiryDate = new Date(2000 + parseInt(year), parseInt(month) - 1);
+                const now = new Date();
+                
+                if (expiryDate > now) {
+                    field.classList.remove('is-invalid');
+                    field.classList.add('is-valid');
+                    return true;
+                }
+            }
+
+            field.classList.remove('is-valid');
+            field.classList.add('is-invalid');
+            return false;
+        }
+
+        function validateCardCvv(field) {
+            const cvv = field.value;
+            const isValid = /^\d{3,4}$/.test(cvv);
+
+            if (isValid) {
+                field.classList.remove('is-invalid');
+                field.classList.add('is-valid');
+            } else {
+                field.classList.remove('is-valid');
+                field.classList.add('is-invalid');
+            }
+
+            return isValid;
+        }
+
+        function completePurchase() {
+            // Check terms agreement first
+            const agreeTerms = document.getElementById('agreeTerms');
+            const agreeRefund = document.getElementById('agreeRefund');
+            
+            if (!agreeTerms || !agreeTerms.checked || !agreeRefund || !agreeRefund.checked) {
+                Swal.fire({
+                    title: 'Terms Agreement Required',
+                    text: 'Please agree to the Terms & Conditions and Refund Policy to continue.',
+                    icon: 'warning',
+                    confirmButtonColor: '#6366f1'
+                });
+                
+                // Scroll to terms section
+                const termsSection = document.querySelector('.terms-section');
+                if (termsSection) {
+                    termsSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+                return;
+            }
+
+            // Validate all forms
+            if (!validateAllForms()) {
+                return;
+            }
+
+            // Show confirmation dialog
+            Swal.fire({
+                title: 'Confirm Your Purchase',
+                html: `
+                    <div class="text-start">
+                        <p><strong>Event:</strong> ${bookingData.eventTitle}</p>
+                        <p><strong>Date:</strong> ${formatEventDate(bookingData.eventDate)}</p>
+                        <p><strong>Total Amount:</strong> Rs. ${currentTotal.toLocaleString()}</p>
+                        <hr>
+                        <p class="text-muted">By confirming, you agree to complete the payment and our terms of service.</p>
+                    </div>
+                `,
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Confirm & Pay',
+                cancelButtonText: 'Review Details',
+                confirmButtonColor: '#10b981',
+                cancelButtonColor: '#6b7280'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    processPayment();
+                }
+            });
+        }
+
+        function validateAllForms() {
+            let isValid = true;
+            const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+
+            // Validate contact information
+            const contactFields = ['firstName', 'lastName', 'email', 'phone'];
+            contactFields.forEach(fieldId => {
+                const field = document.getElementById(fieldId);
+                if (field && !validateField(field)) {
+                    isValid = false;
+                }
+            });
+
+            // Validate email specifically
+            const emailField = document.getElementById('email');
+            if (emailField && !validateEmail(emailField)) {
+                isValid = false;
+            }
+
+            // Validate phone specifically
+            const phoneField = document.getElementById('phone');
+            if (phoneField && !validatePhone(phoneField)) {
+                isValid = false;
+            }
+
+            // Validate billing address (only if not disabled)
+            const billingFields = ['billingAddress', 'billingCity', 'billingProvince', 'billingPostalCode', 'billingCountry'];
+            billingFields.forEach(fieldId => {
+                const field = document.getElementById(fieldId);
+                if (field && !field.disabled && !validateField(field)) {
+                    isValid = false;
+                }
+            });
+
+            // Validate payment method specific fields
+            if (paymentMethod === 'card') {
+                const cardForm = document.getElementById('cardPaymentForm');
+                if (cardForm && cardForm.style.display !== 'none') {
+                    const cardFields = ['cardNumber', 'cardExpiry', 'cardCvv', 'cardName'];
+                    cardFields.forEach(fieldId => {
+                        const field = document.getElementById(fieldId);
+                        if (field && !validateField(field)) {
+                            isValid = false;
+                        }
+                    });
+
+                    // Additional card validations
+                    const cardNumber = document.getElementById('cardNumber');
+                    const cardExpiry = document.getElementById('cardExpiry');
+                    const cardCvv = document.getElementById('cardCvv');
+
+                    if (cardNumber && !validateCardNumber(cardNumber)) isValid = false;
+                    if (cardExpiry && !validateCardExpiry(cardExpiry)) isValid = false;
+                    if (cardCvv && !validateCardCvv(cardCvv)) isValid = false;
+                }
+            }
+
+            if (!isValid) {
+                Swal.fire({
+                    title: 'Please Complete All Required Fields',
+                    text: 'Some required information is missing or invalid. Please review your details.',
+                    icon: 'warning',
+                    confirmButtonColor: '#6366f1'
+                });
+
+                // Scroll to first invalid field
+                const firstInvalid = document.querySelector('.is-invalid');
+                if (firstInvalid && firstInvalid.offsetParent !== null) {
+                    firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    setTimeout(() => firstInvalid.focus(), 500);
+                }
+            }
+
+            return isValid;
+        }
+
+        function processPayment() {
+            const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+            const purchaseBtn = document.querySelector('.complete-purchase-btn');
+
+            // Disable purchase button and show loading
+            purchaseBtn.disabled = true;
+            purchaseBtn.innerHTML = '<i class="bi bi-arrow-clockwise me-2"></i>Processing Payment...';
+            purchaseBtn.classList.add('loading');
+
+            // Simulate payment processing
+            setTimeout(() => {
+                processPaymentMethod(paymentMethod);
+            }, 2000);
+        }
+
+        function processPaymentMethod(method) {
+            const bookingId = generateBookingId();
+            const paymentData = {
+                bookingId: bookingId,
+                eventId: bookingData.eventId,
+                userId: currentUser.id,
+                paymentMethod: method,
+                amount: currentTotal,
+                tickets: bookingData.tickets,
+                contactInfo: getContactInfo(),
+                billingInfo: getBillingInfo(),
+                appliedDiscount: appliedDiscount,
+                usedPoints: usedPoints,
+                timestamp: new Date().toISOString()
+            };
+
+            // Save booking data
+            saveBookingData(paymentData);
+
+            // Show success message based on payment method
+            if (method === 'card') {
+                showPaymentSuccess(bookingId);
+            } else if (method === 'paypal') {
+                // Redirect to PayPal (simulated)
+                window.location.href = `payment-success.html?booking=${bookingId}&method=paypal`;
+            } else if (method === 'bank') {
+                // Show bank transfer instructions
+                showBankTransferInstructions(bookingId);
+            }
+        }
+
+        function generateBookingId() {
+            return 'BK' + Date.now() + Math.random().toString(36).substr(2, 5).toUpperCase();
+        }
+
+        function getContactInfo() {
+            return {
+                firstName: document.getElementById('firstName').value,
+                lastName: document.getElementById('lastName').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value
+            };
+        }
+
+        function getBillingInfo() {
+            return {
+                address: document.getElementById('billingAddress').value,
+                city: document.getElementById('billingCity').value,
+                province: document.getElementById('billingProvince').value,
+                postalCode: document.getElementById('billingPostalCode').value,
+                country: document.getElementById('billingCountry').value
+            };
+        }
+
+        function saveBookingData(paymentData) {
+            // Save to localStorage (in real app, save to backend)
+            let bookings = JSON.parse(localStorage.getItem('userBookings') || '[]');
+            bookings.push(paymentData);
+            localStorage.setItem('userBookings', JSON.stringify(bookings));
+
+            // Update user loyalty points
+            if (currentUser) {
+                const earnedPoints = Math.floor(currentTotal / 100); // 1 point per Rs. 100
+                const newTotalPoints = (currentUser.loyaltyPoints || 1250) - usedPoints + earnedPoints;
+                currentUser.loyaltyPoints = newTotalPoints;
+
+                // Save updated user data
+                const storageKey = localStorage.getItem('userSession') ? 'userSession' : 'userSession';
+                const storage = localStorage.getItem('userSession') ? localStorage : sessionStorage;
+                storage.setItem(storageKey, JSON.stringify(currentUser));
+            }
+        }
+
+        function showPaymentSuccess(bookingId) {
+            Swal.fire({
+                title: 'Payment Successful! 🎉',
+                html: `
+                    <div class="text-center">
+                        <p class="mb-3">Your booking has been confirmed!</p>
+                        <div class="alert alert-success">
+                            <strong>Booking ID:</strong> ${bookingId}
+                        </div>
+                        <p>You will receive a confirmation email with your e-tickets shortly.</p>
+                    </div>
+                `,
+                icon: 'success',
+                confirmButtonText: 'View My Tickets',
+                confirmButtonColor: '#10b981',
+                allowOutsideClick: false,
+                allowEscapeKey: false
+            }).then(() => {
+                window.location.href = `payment-success.html?booking=${bookingId}`;
+            });
+        }
+
+        function showBankTransferInstructions(bookingId) {
+            Swal.fire({
+                title: 'Bank Transfer Instructions',
+                html: `
+                    <div class="text-start">
+                        <p><strong>Booking ID:</strong> ${bookingId}</p>
+                        <hr>
+                        <p><strong>Please transfer Rs. ${currentTotal.toLocaleString()} to:</strong></p>
+                        <div class="bank-details">
+                            <p><strong>Bank:</strong> Commercial Bank of Ceylon</p>
+                            <p><strong>Account Name:</strong> EventHub (Pvt) Ltd</p>
+                            <p><strong>Account Number:</strong> 8012345678</p>
+                            <p><strong>Branch:</strong> Colombo Main</p>
+                        </div>
+                        <hr>
+                        <p class="text-warning"><strong>Important:</strong> Complete payment within 24 hours to confirm your booking.</p>
+                    </div>
+                `,
+                icon: 'info',
+                confirmButtonText: 'I Understand',
+                confirmButtonColor: '#6366f1',
+                allowOutsideClick: false
+            }).then(() => {
+                window.location.href = `payment-success.html?booking=${bookingId}&method=bank`;
+            });
+        }
+
+        function startAutoSave() {
+            // Auto-save form data every 30 seconds
+            setInterval(() => {
+                const formData = {
+                    contactInfo: getContactInfo(),
+                    billingInfo: getBillingInfo(),
+                    paymentMethod: document.querySelector('input[name="paymentMethod"]:checked')?.value,
+                    timestamp: new Date().toISOString()
+                };
+
+                localStorage.setItem('checkoutDraft', JSON.stringify(formData));
+            }, 30000);
+        }
+
+        function loadDraftData() {
+            const draft = localStorage.getItem('checkoutDraft');
+            if (draft) {
+                try {
+                    const draftData = JSON.parse(draft);
+                    
+                    // Load contact info
+                    if (draftData.contactInfo) {
+                        Object.keys(draftData.contactInfo).forEach(key => {
+                            const element = document.getElementById(key);
+                            if (element && draftData.contactInfo[key]) {
+                                element.value = draftData.contactInfo[key];
+                            }
+                        });
+                    }
+
+                    // Load billing info
+                    if (draftData.billingInfo && !document.getElementById('sameAsContact').checked) {
+                        Object.keys(draftData.billingInfo).forEach(key => {
+                            const element = document.getElementById('billing' + key.charAt(0).toUpperCase() + key.slice(1));
+                            if (element && draftData.billingInfo[key]) {
+                                element.value = draftData.billingInfo[key];
+                            }
+                        });
+                    }
+
+                    // Load payment method
+                    if (draftData.paymentMethod) {
+                        const paymentInput = document.getElementById('payment' + draftData.paymentMethod.charAt(0).toUpperCase() + draftData.paymentMethod.slice(1));
+                        if (paymentInput) {
+                            paymentInput.checked = true;
+                            showPaymentForm(draftData.paymentMethod);
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error loading draft data:', error);
+                }
+            }
+        }
+
+        function clearDraftData() {
+            localStorage.removeItem('checkoutDraft');
+        }
+
+        function logout() {
+            Swal.fire({
+                title: 'Sign Out',
+                text: 'Are you sure you want to sign out? Your booking progress will be saved.',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, Sign Out',
+                cancelButtonText: 'Cancel',
+                confirmButtonColor: '#ef4444'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Clear session data
+                    localStorage.removeItem('userSession');
+                    sessionStorage.removeItem('userSession');
+                    localStorage.removeItem('userLoggedIn');
+                    localStorage.removeItem('userName');
+                    localStorage.removeItem('userRole');
+                    
+                    // Show success message
+                    Swal.fire({
+                        title: 'Signed Out Successfully',
+                        text: 'You have been signed out of your account.',
+                        icon: 'success',
+                        timer: 2000,
+                        timerProgressBar: true,
+                        showConfirmButton: false
+                    }).then(() => {
+                        window.location.href = 'index.html';
+                    });
+                }
+            });
+        }
+
+        // Load draft data when page loads
+        if (currentUser) {
+            loadDraftData();
+        }
+
+        // Clear draft data when leaving page
+        window.addEventListener('beforeunload', () => {
+            clearDraftData();
+        });
+
+        // Initialize billing address toggle
+        toggleBillingAddress(document.getElementById('sameAsContact').checked);
+
+        // Initialize payment method
+        showPaymentForm('card');
+    </script>
+
+</body>
+
+</html>

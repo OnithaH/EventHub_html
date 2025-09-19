@@ -1956,8 +1956,19 @@
             };
 
             // Store booking data and redirect
-            sessionStorage.setItem('currentBooking', JSON.stringify(bookingData));
-            window.location.href = 'booking.html';
+            sessionStorage.setItem('currentBooking', JSON.stringify({
+                eventId: currentEvent.id,
+                eventTitle: currentEvent.title,
+                eventDate: currentEvent.date,
+                eventTime: currentEvent.time,
+                eventVenue: currentEvent.venue,
+                ticketType: selectedTicketType,
+                ticketPrice: ticketPrices[selectedTicketType],
+                quantity: ticketQuantity,
+                discount: appliedDiscount,
+                totalAmount: calculateTotal()
+            }));
+            window.location.href = 'booking-checkout.html';
         }
 
         function addToCart() {
