@@ -23,7 +23,7 @@
 </head>
 
 <body>
-    <!-- EventHub Header - Exact Match -->
+    <!-- EventHub Header - From navbar.html -->
     <nav class="navbar navbar-expand-lg eventhub-navbar">
         <div class="container-fluid px-4">
             <!-- Brand Logo -->
@@ -52,7 +52,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link eventhub-nav-link" href="events.html">
+                        <a class="nav-link eventhub-nav-link" href="event-listing.html">
                             <i class="bi bi-calendar3 me-1"></i>Events
                         </a>
                     </li>
@@ -63,17 +63,23 @@
                             Categories
                         </a>
                         <ul class="dropdown-menu eventhub-dropdown" aria-labelledby="categoriesDropdown">
-                            <li><a class="dropdown-item" href="category-music.html"><i
-                                        class="bi bi-music-note me-2"></i>Music</a></li>
-                            <li><a class="dropdown-item" href="category-sports.html"><i
-                                        class="bi bi-trophy me-2"></i>Sports</a></li>
-                            <li><a class="dropdown-item" href="category-arts.html"><i
-                                        class="bi bi-palette me-2"></i>Arts & Culture</a></li>
-                            <li><a class="dropdown-item" href="category-business.html"><i
-                                        class="bi bi-briefcase me-2"></i>Business</a></li>
-                            <li><a class="dropdown-item" href="category-food.html"><i
-                                        class="bi bi-cup-hot me-2"></i>Food & Drink</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-music-note me-2"></i>Music</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-trophy me-2"></i>Sports</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-palette me-2"></i>Arts & Culture</a>
+                            </li>
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-briefcase me-2"></i>Business</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-cup-hot me-2"></i>Food & Drink</a></li>
                         </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link eventhub-nav-link" href="about.html">
+                            <i class="bi bi-info-circle me-1"></i>About
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link eventhub-nav-link" href="contact.html">
+                            <i class="bi bi-envelope me-1"></i>Contact
+                        </a>
                     </li>
                 </ul>
 
@@ -98,69 +104,87 @@
 
     <!-- Hero Section -->
     <section class="hero-section">
+        <div class="hero-overlay"></div>
         <div class="container">
             <div class="row align-items-center min-vh-75">
                 <div class="col-lg-6">
                     <div class="hero-content">
-                        <h1 class="hero-title">
-                            Discover Amazing
-                            <span class="gradient-text">Events</span>
-                            Near You
-                        </h1>
-                        <p class="hero-subtitle">
-                            From concerts and festivals to workshops and conferences, find the perfect event that matches your interests and book your tickets instantly.
-                        </p>
-                        <div class="hero-search-container">
-                            <div class="search-box">
-                                <div class="input-group">
-                                    <span class="input-group-text">
-                                        <i class="bi bi-search"></i>
-                                    </span>
-                                    <input type="text" class="form-control" id="heroSearchInput" 
-                                           placeholder="Search for events, artists, venues...">
-                                    <button class="btn btn-search" type="button" onclick="performSearch()">
-                                        Search Events
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="search-filters">
-                                <select class="form-select filter-select" id="categoryFilter">
-                                    <option value="">All Categories</option>
-                                    <option value="music">Music</option>
-                                    <option value="sports">Sports</option>
-                                    <option value="arts">Arts & Culture</option>
-                                    <option value="business">Business</option>
-                                    <option value="food">Food & Drink</option>
-                                </select>
-                                <input type="date" class="form-control filter-select" id="dateFilter">
-                                <select class="form-select filter-select" id="locationFilter">
-                                    <option value="">All Locations</option>
-                                    <option value="colombo">Colombo</option>
-                                    <option value="kandy">Kandy</option>
-                                    <option value="galle">Galle</option>
-                                    <option value="jaffna">Jaffna</option>
-                                </select>
-                            </div>
+                        <h1 class="hero-title">Discover Amazing <span class="gradient-text">Events</span> Near You</h1>
+                        <p class="hero-subtitle">From concerts to conferences, find and book tickets for the best events
+                            in Sri Lanka. Create unforgettable memories with EventHub.</p>
+                        <div class="hero-buttons">
+                            <a href="event-listing.html" class="btn btn-hero-primary">
+                                <i class="bi bi-search me-2"></i>Explore Events
+                            </a>
+                            <a href="register.html" class="btn btn-hero-secondary">
+                                <i class="bi bi-person-plus me-2"></i>Get Started
+                            </a>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="hero-image">
-                        <img src="pictures/hero-events.jpg" alt="Amazing Events" class="img-fluid hero-img">
-                        <div class="hero-stats">
-                            <div class="stat-item">
-                                <h3>10,000+</h3>
-                                <p>Events Hosted</p>
+                        <img src="picture/hero-events.jpg" alt="Amazing Events" class="img-fluid rounded-4 shadow-lg">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Search Section -->
+    <section class="search-section py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="search-card">
+                        <h3 class="search-title text-center mb-4">Find Your Perfect Event</h3>
+                        <form class="search-form" onsubmit="handleSearch(event)">
+                            <div class="row g-3">
+                                <div class="col-md-4">
+                                    <div class="search-field">
+                                        <label class="form-label">
+                                            <i class="bi bi-grid-3x3-gap me-2"></i>Category
+                                        </label>
+                                        <select class="form-select" id="searchCategory">
+                                            <option value="">All Categories</option>
+                                            <option value="music">Music</option>
+                                            <option value="sports">Sports</option>
+                                            <option value="arts">Arts & Culture</option>
+                                            <option value="business">Business</option>
+                                            <option value="food">Food & Drink</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="search-field">
+                                        <label class="form-label">
+                                            <i class="bi bi-calendar3 me-2"></i>Date
+                                        </label>
+                                        <input type="date" class="form-control" id="searchDate">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="search-field">
+                                        <label class="form-label">
+                                            <i class="bi bi-geo-alt me-2"></i>Location
+                                        </label>
+                                        <select class="form-select" id="searchLocation">
+                                            <option value="">All Locations</option>
+                                            <option value="colombo">Colombo</option>
+                                            <option value="kandy">Kandy</option>
+                                            <option value="galle">Galle</option>
+                                            <option value="negombo">Negombo</option>
+                                            <option value="jaffna">Jaffna</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="stat-item">
-                                <h3>50,000+</h3>
-                                <p>Happy Customers</p>
+                            <div class="text-center mt-4">
+                                <button type="submit" class="btn btn-search">
+                                    <i class="bi bi-search me-2"></i>Search Events
+                                </button>
                             </div>
-                            <div class="stat-item">
-                                <h3>500+</h3>
-                                <p>Event Organizers</p>
-                            </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -168,43 +192,51 @@
     </section>
 
     <!-- Statistics Section -->
-    <section class="stats-section">
+    <section class="stats-section py-5">
         <div class="container">
-            <div class="row text-center">
-                <div class="col-lg-3 col-md-6 mb-4">
+            <div class="row">
+                <div class="col-md-3 col-sm-6">
                     <div class="stat-card">
                         <div class="stat-icon">
-                            <i class="bi bi-calendar-check"></i>
+                            <i class="bi bi-calendar-event"></i>
                         </div>
-                        <h3 class="stat-number" data-count="10000">0</h3>
-                        <p class="stat-label">Events Organized</p>
+                        <div class="stat-content">
+                            <h3 class="stat-number" data-count="500">0</h3>
+                            <p class="stat-label">Total Events</p>
+                        </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6 mb-4">
+                <div class="col-md-3 col-sm-6">
                     <div class="stat-card">
                         <div class="stat-icon">
                             <i class="bi bi-people"></i>
                         </div>
-                        <h3 class="stat-number" data-count="50000">0</h3>
-                        <p class="stat-label">Happy Attendees</p>
+                        <div class="stat-content">
+                            <h3 class="stat-number" data-count="15000">0</h3>
+                            <p class="stat-label">Happy Customers</p>
+                        </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6 mb-4">
+                <div class="col-md-3 col-sm-6">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="bi bi-ticket-perforated"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 class="stat-number" data-count="25000">0</h3>
+                            <p class="stat-label">Tickets Sold</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
                     <div class="stat-card">
                         <div class="stat-icon">
                             <i class="bi bi-building"></i>
                         </div>
-                        <h3 class="stat-number" data-count="500">0</h3>
-                        <p class="stat-label">Partner Venues</p>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="bi bi-star-fill"></i>
+                        <div class="stat-content">
+                            <h3 class="stat-number" data-count="100">0</h3>
+                            <p class="stat-label">Event Organizers</p>
                         </div>
-                        <h3 class="stat-number" data-count="4.9">0</h3>
-                        <p class="stat-label">Average Rating</p>
                     </div>
                 </div>
             </div>
@@ -212,137 +244,192 @@
     </section>
 
     <!-- Featured Events Section -->
-    <section class="featured-events-section">
+    <section class="featured-events py-5">
         <div class="container">
-            <div class="section-header text-center">
-                <h2 class="section-title">Featured Events</h2>
-                <p class="section-subtitle">Don't miss out on these amazing upcoming events</p>
+            <div class="row">
+                <div class="col-12 text-center mb-5">
+                    <h2 class="section-title">Featured Events</h2>
+                    <p class="section-subtitle">Don't miss out on these amazing upcoming events</p>
+                </div>
             </div>
-            <div class="row" id="featuredEventsContainer">
-                <!-- Featured events will be loaded here -->
+            <div class="row g-4">
+                <!-- Event Card 1 -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="event-card">
+                        <div class="event-image">
+                            <img src="picture/event-concert.jpg" alt="Music Concert" class="img-fluid">
+                            <div class="event-badge">Music</div>
+                            <div class="event-date">
+                                <span class="date-month">Dec</span>
+                                <span class="date-day">25</span>
+                            </div>
+                        </div>
+                        <div class="event-content">
+                            <h4 class="event-title">Christmas Music Concert</h4>
+                            <p class="event-description">A magical evening of Christmas melodies featuring renowned local
+                                and international artists.</p>
+                            <div class="event-details">
+                                <div class="detail-item">
+                                    <i class="bi bi-clock"></i>
+                                    <span>7:00 PM</span>
+                                </div>
+                                <div class="detail-item">
+                                    <i class="bi bi-geo-alt"></i>
+                                    <span>Colombo</span>
+                                </div>
+                                <div class="detail-item">
+                                    <i class="bi bi-currency-dollar"></i>
+                                    <span>From Rs. 2,500</span>
+                                </div>
+                            </div>
+                            <a href="event-details.html" class="btn btn-event">View Details</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Event Card 2 -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="event-card">
+                        <div class="event-image">
+                            <img src="picture/event-tech.jpg" alt="Tech Conference" class="img-fluid">
+                            <div class="event-badge">Business</div>
+                            <div class="event-date">
+                                <span class="date-month">Jan</span>
+                                <span class="date-day">15</span>
+                            </div>
+                        </div>
+                        <div class="event-content">
+                            <h4 class="event-title">Tech Innovation Summit 2025</h4>
+                            <p class="event-description">Join industry leaders and innovators for insights into the
+                                future of technology in Sri Lanka.</p>
+                            <div class="event-details">
+                                <div class="detail-item">
+                                    <i class="bi bi-clock"></i>
+                                    <span>9:00 AM</span>
+                                </div>
+                                <div class="detail-item">
+                                    <i class="bi bi-geo-alt"></i>
+                                    <span>Kandy</span>
+                                </div>
+                                <div class="detail-item">
+                                    <i class="bi bi-currency-dollar"></i>
+                                    <span>From Rs. 5,000</span>
+                                </div>
+                            </div>
+                            <a href="event-details.html" class="btn btn-event">View Details</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Event Card 3 -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="event-card">
+                        <div class="event-image">
+                            <img src="picture/event-food.jpg" alt="Food Festival" class="img-fluid">
+                            <div class="event-badge">Food</div>
+                            <div class="event-date">
+                                <span class="date-month">Feb</span>
+                                <span class="date-day">10</span>
+                            </div>
+                        </div>
+                        <div class="event-content">
+                            <h4 class="event-title">Colombo Food Festival</h4>
+                            <p class="event-description">Experience the best of Sri Lankan cuisine with over 50
+                                restaurants and food vendors.</p>
+                            <div class="event-details">
+                                <div class="detail-item">
+                                    <i class="bi bi-clock"></i>
+                                    <span>11:00 AM</span>
+                                </div>
+                                <div class="detail-item">
+                                    <i class="bi bi-geo-alt"></i>
+                                    <span>Colombo</span>
+                                </div>
+                                <div class="detail-item">
+                                    <i class="bi bi-currency-dollar"></i>
+                                    <span>From Rs. 1,500</span>
+                                </div>
+                            </div>
+                            <a href="event-details.html" class="btn btn-event">View Details</a>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="text-center mt-5">
-                <a href="events.html" class="btn btn-primary btn-lg">View All Events</a>
+            <div class="row mt-5">
+                <div class="col-12 text-center">
+                    <a href="event-listing.html" class="btn btn-view-all">
+                        <i class="bi bi-arrow-right me-2"></i>View All Events
+                    </a>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Categories Section -->
-    <section class="categories-section">
-        <div class="container">
-            <div class="section-header text-center">
-                <h2 class="section-title">Browse by Category</h2>
-                <p class="section-subtitle">Find events that match your interests</p>
-            </div>
-            <div class="row">
-                <div class="col-lg-2 col-md-4 col-6 mb-4">
-                    <div class="category-card" onclick="browseCategory('music')">
-                        <div class="category-icon">
-                            <i class="bi bi-music-note"></i>
-                        </div>
-                        <h5>Music</h5>
-                        <p>Concerts & Festivals</p>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-4 col-6 mb-4">
-                    <div class="category-card" onclick="browseCategory('sports')">
-                        <div class="category-icon">
-                            <i class="bi bi-trophy"></i>
-                        </div>
-                        <h5>Sports</h5>
-                        <p>Games & Tournaments</p>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-4 col-6 mb-4">
-                    <div class="category-card" onclick="browseCategory('arts')">
-                        <div class="category-icon">
-                            <i class="bi bi-palette"></i>
-                        </div>
-                        <h5>Arts</h5>
-                        <p>Theater & Culture</p>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-4 col-6 mb-4">
-                    <div class="category-card" onclick="browseCategory('business')">
-                        <div class="category-icon">
-                            <i class="bi bi-briefcase"></i>
-                        </div>
-                        <h5>Business</h5>
-                        <p>Conferences & Workshops</p>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-4 col-6 mb-4">
-                    <div class="category-card" onclick="browseCategory('food')">
-                        <div class="category-icon">
-                            <i class="bi bi-cup-hot"></i>
-                        </div>
-                        <h5>Food</h5>
-                        <p>Tastings & Markets</p>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-4 col-6 mb-4">
-                    <div class="category-card" onclick="browseCategory('technology')">
-                        <div class="category-icon">
-                            <i class="bi bi-laptop"></i>
-                        </div>
-                        <h5>Technology</h5>
-                        <p>Tech Meetups</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Role-based Navigation Section -->
-    <section class="role-navigation-section">
+    <!-- Role Navigation Section -->
+    <section class="role-section py-5">
         <div class="container">
             <div class="row">
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="role-card customer-card">
+                <div class="col-12 text-center mb-5">
+                    <h2 class="section-title">Join Our Community</h2>
+                    <p class="section-subtitle">Choose your role and start your journey with EventHub</p>
+                </div>
+            </div>
+            <div class="row g-4">
+                <!-- Customer Role -->
+                <div class="col-lg-4">
+                    <div class="role-card">
                         <div class="role-icon">
-                            <i class="bi bi-person-circle"></i>
+                            <i class="bi bi-person-heart"></i>
                         </div>
-                        <h4>For Event Goers</h4>
-                        <p>Discover amazing events, book tickets easily, and enjoy seamless experiences with QR-coded tickets.</p>
+                        <h3 class="role-title">Event Goers</h3>
+                        <p class="role-description">Discover and book tickets for amazing events. Get exclusive deals
+                            and never miss your favorite events.</p>
                         <ul class="role-features">
-                            <li><i class="bi bi-check-circle"></i> Browse & search events</li>
+                            <li><i class="bi bi-check-circle"></i> Easy event discovery</li>
                             <li><i class="bi bi-check-circle"></i> Secure online booking</li>
                             <li><i class="bi bi-check-circle"></i> Digital tickets with QR codes</li>
-                            <li><i class="bi bi-check-circle"></i> Booking history tracking</li>
+                            <li><i class="bi bi-check-circle"></i> Exclusive discounts</li>
                         </ul>
-                        <a href="register.html?role=customer" class="btn btn-outline-primary">Join as Customer</a>
+                        <a href="register.html?role=customer" class="btn btn-role">Join as Customer</a>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="role-card organizer-card">
+
+                <!-- Organizer Role -->
+                <div class="col-lg-4">
+                    <div class="role-card featured">
+                        <div class="featured-badge">Popular</div>
                         <div class="role-icon">
-                            <i class="bi bi-calendar-plus"></i>
+                            <i class="bi bi-megaphone"></i>
                         </div>
-                        <h4>For Event Organizers</h4>
-                        <p>Create and manage your events, set pricing, track sales, and access detailed analytics and reports.</p>
+                        <h3 class="role-title">Event Organizers</h3>
+                        <p class="role-description">Create and manage your events with powerful tools. Track sales,
+                            manage attendees, and grow your audience.</p>
                         <ul class="role-features">
-                            <li><i class="bi bi-check-circle"></i> Create & manage events</li>
-                            <li><i class="bi bi-check-circle"></i> Set ticket prices</li>
+                            <li><i class="bi bi-check-circle"></i> Event creation & management</li>
                             <li><i class="bi bi-check-circle"></i> Real-time sales tracking</li>
-                            <li><i class="bi bi-check-circle"></i> Revenue reports</li>
+                            <li><i class="bi bi-check-circle"></i> Revenue analytics</li>
+                            <li><i class="bi bi-check-circle"></i> Customer insights</li>
                         </ul>
-                        <a href="register.html?role=organizer" class="btn btn-outline-success">Join as Organizer</a>
+                        <a href="register.html?role=organizer" class="btn btn-role">Join as Organizer</a>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="role-card admin-card">
+
+                <!-- Admin Role -->
+                <div class="col-lg-4">
+                    <div class="role-card">
                         <div class="role-icon">
-                            <i class="bi bi-gear-fill"></i>
+                            <i class="bi bi-shield-check"></i>
                         </div>
-                        <h4>System Administration</h4>
-                        <p>Manage the entire platform, monitor activities, generate system reports, and oversee all operations.</p>
+                        <h3 class="role-title">Platform Admin</h3>
+                        <p class="role-description">Manage the entire platform with comprehensive admin tools. Monitor
+                            activities and generate system reports.</p>
                         <ul class="role-features">
                             <li><i class="bi bi-check-circle"></i> User management</li>
-                            <li><i class="bi bi-check-circle"></i> System monitoring</li>
-                            <li><i class="bi bi-check-circle"></i> Analytics & reports</li>
-                            <li><i class="bi bi-check-circle"></i> Platform configuration</li>
+                            <li><i class="bi bi-check-circle"></i> Event moderation</li>
+                            <li><i class="bi bi-check-circle"></i> System analytics</li>
+                            <li><i class="bi bi-check-circle"></i> Financial reports</li>
                         </ul>
-                        <a href="login.html?role=admin" class="btn btn-outline-warning">Admin Access</a>
+                        <a href="admin-login.html" class="btn btn-role">Admin Access</a>
                     </div>
                 </div>
             </div>
@@ -350,67 +437,70 @@
     </section>
 
     <!-- Footer -->
-    <footer class="eventhub-footer">
+    <footer class="footer">
         <div class="container">
-            <div class="row">
-                <div class="col-lg-4 col-md-6 mb-4">
+            <div class="row g-4">
+                <div class="col-lg-4">
                     <div class="footer-brand">
-                        <h5><i class="bi bi-calendar-event me-2"></i>EventHub</h5>
-                        <p>Your premier destination for discovering and booking amazing events. From concerts to conferences, we bring you closer to the experiences you love.</p>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-6 mb-4">
-                    <div class="footer-links">
-                        <h6>Quick Links</h6>
-                        <ul>
-                            <li><a href="events.html">Browse Events</a></li>
-                            <li><a href="about.html">About Us</a></li>
-                            <li><a href="contact.html">Contact</a></li>
-                            <li><a href="register.html">Sign Up</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-6 mb-4">
-                    <div class="footer-links">
-                        <h6>Categories</h6>
-                        <ul>
-                            <li><a href="category-music.html">Music</a></li>
-                            <li><a href="category-sports.html">Sports</a></li>
-                            <li><a href="category-arts.html">Arts & Culture</a></li>
-                            <li><a href="category-business.html">Business</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-6 mb-4">
-                    <div class="footer-links">
-                        <h6>Support</h6>
-                        <ul>
-                            <li><a href="#">Help Center</a></li>
-                            <li><a href="#">Privacy Policy</a></li>
-                            <li><a href="#">Terms of Service</a></li>
-                            <li><a href="#">Refund Policy</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-6 mb-4">
-                    <div class="footer-social">
-                        <h6>Follow Us</h6>
+                        <div class="brand d-flex align-items-center mb-3">
+                            <i class="bi bi-calendar-event me-2"></i>
+                            <span class="brand-text">EventHub</span>
+                        </div>
+                        <p class="footer-description">Sri Lanka's premier event ticketing platform. Discover, book, and
+                            enjoy amazing events across the country.</p>
                         <div class="social-links">
-                            <a href="#"><i class="bi bi-facebook"></i></a>
-                            <a href="#"><i class="bi bi-twitter"></i></a>
-                            <a href="#"><i class="bi bi-instagram"></i></a>
-                            <a href="#"><i class="bi bi-linkedin"></i></a>
+                            <a href="#" class="social-link"><i class="bi bi-facebook"></i></a>
+                            <a href="#" class="social-link"><i class="bi bi-twitter"></i></a>
+                            <a href="#" class="social-link"><i class="bi bi-instagram"></i></a>
+                            <a href="#" class="social-link"><i class="bi bi-linkedin"></i></a>
                         </div>
                     </div>
                 </div>
+                <div class="col-lg-2 col-md-6">
+                    <h5 class="footer-title">Quick Links</h5>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="event-listing.html">Events</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <h5 class="footer-title">Categories</h5>
+                    <ul class="footer-links">
+                        <li><a href="#">Music</a></li>
+                        <li><a href="#">Sports</a></li>
+                        <li><a href="#">Arts & Culture</a></li>
+                        <li><a href="#">Business</a></li>
+                        <li><a href="#">Food & Drink</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <h5 class="footer-title">For Organizers</h5>
+                    <ul class="footer-links">
+                        <li><a href="register.html?role=organizer">Create Account</a></li>
+                        <li><a href="organizer-dashboard.html">Dashboard</a></li>
+                        <li><a href="create-event.html">Create Event</a></li>
+                        <li><a href="sales-reports.html">Sales Reports</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <h5 class="footer-title">Support</h5>
+                    <ul class="footer-links">
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
             </div>
             <hr class="footer-divider">
-            <div class="row">
+            <div class="row align-items-center">
                 <div class="col-md-6">
-                    <p class="footer-copyright">&copy; 2024 EventHub. All rights reserved.</p>
+                    <p class="footer-copyright">&copy; 2025 EventHub. All rights reserved.</p>
                 </div>
                 <div class="col-md-6 text-md-end">
-                    <p class="footer-powered">Powered by StarEvents Pvt Ltd</p>
+                    <p class="footer-tagline">Made with ❤️ in Sri Lanka</p>
                 </div>
             </div>
         </div>
@@ -422,7 +512,7 @@
         crossorigin="anonymous"></script>
 
     <style>
-        /* EventHub Custom Styles - Exact Match */
+        /* EventHub Custom Styles */
         * {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
@@ -431,9 +521,10 @@
             margin: 0;
             padding: 0;
             background-color: #ffffff;
+            line-height: 1.6;
         }
 
-        /* Navbar Styling - Exact Match */
+        /* Navbar Styling - From navbar.html */
         .eventhub-navbar {
             background-color: #f8f9fa;
             border-bottom: 1px solid #e9ecef;
@@ -441,7 +532,6 @@
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
-        /* Brand Styling */
         .eventhub-brand {
             text-decoration: none;
             color: #6366f1 !important;
@@ -458,7 +548,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            color: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
             font-size: 1.5rem;
         }
 
@@ -467,7 +556,6 @@
             font-weight: 700;
         }
 
-        /* Navigation Links */
         .eventhub-nav-link {
             color: #64748b !important;
             font-weight: 500;
@@ -491,7 +579,6 @@
             font-weight: 600;
         }
 
-        /* Dropdown Menu */
         .eventhub-dropdown {
             border: 1px solid #e2e8f0;
             border-radius: 12px;
@@ -515,7 +602,6 @@
             color: #6366f1;
         }
 
-        /* Auth Buttons - Exact Match */
         .eventhub-btn-login {
             background: transparent;
             border: 2px solid #6366f1;
@@ -560,7 +646,6 @@
             box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
         }
 
-        /* Custom Mobile Toggle */
         .custom-toggler {
             border: none;
             padding: 0.25rem 0.5rem;
@@ -572,26 +657,37 @@
 
         /* Hero Section */
         .hero-section {
-            padding: 4rem 0;
-            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-            display: flex;
-            align-items: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 80vh;
+            position: relative;
+            overflow: hidden;
         }
 
-        .min-vh-75 {
-            min-height: 75vh;
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            padding: 2rem 0;
         }
 
         .hero-title {
             font-size: 3.5rem;
             font-weight: 700;
-            line-height: 1.2;
-            color: #1e293b;
+            color: white;
             margin-bottom: 1.5rem;
+            line-height: 1.2;
         }
 
         .gradient-text {
-            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -599,160 +695,175 @@
 
         .hero-subtitle {
             font-size: 1.25rem;
-            color: #64748b;
+            color: rgba(255, 255, 255, 0.9);
             margin-bottom: 2rem;
             line-height: 1.6;
         }
 
-        .hero-search-container {
-            margin-bottom: 2rem;
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
         }
 
-        .search-box .input-group {
-            border-radius: 50px;
-            overflow: hidden;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-        }
-
-        .search-box .input-group-text {
-            background: white;
+        .btn-hero-primary {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
             border: none;
-            color: #6366f1;
-            font-size: 1.1rem;
-        }
-
-        .search-box .form-control {
-            border: none;
-            padding: 1rem 1.5rem;
+            color: #1f2937 !important;
+            font-weight: 600;
             font-size: 1rem;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
         }
 
-        .search-box .form-control:focus {
-            box-shadow: none;
-            outline: none;
+        .btn-hero-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(251, 191, 36, 0.4);
+            color: #1f2937 !important;
+        }
+
+        .btn-hero-secondary {
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white !important;
+            font-weight: 600;
+            font-size: 1rem;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-hero-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+            color: white !important;
+        }
+
+        .hero-image img {
+            border-radius: 1rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .min-vh-75 {
+            min-height: 75vh;
+        }
+
+        /* Search Section */
+        .search-section {
+            background: #f8fafc;
+        }
+
+        .search-card {
+            background: white;
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+        }
+
+        .search-title {
+            color: #1e293b;
+            font-weight: 600;
+            font-size: 1.75rem;
+        }
+
+        .search-field label {
+            color: #64748b;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .search-field .form-select,
+        .search-field .form-control {
+            border: 2px solid #e2e8f0;
+            border-radius: 0.75rem;
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-field .form-select:focus,
+        .search-field .form-control:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 0.2rem rgba(99, 102, 241, 0.15);
         }
 
         .btn-search {
             background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
             border: none;
             color: white;
-            padding: 1rem 2rem;
             font-weight: 600;
+            font-size: 1.1rem;
+            padding: 1rem 3rem;
+            border-radius: 50px;
             transition: all 0.3s ease;
         }
 
         .btn-search:hover {
-            background: linear-gradient(135deg, #5855eb 0%, #7c3aed 100%);
-            transform: translateY(-1px);
-        }
-
-        .search-filters {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .filter-select {
-            border-radius: 25px;
-            border: 2px solid #e2e8f0;
-            padding: 0.75rem 1rem;
-            flex: 1;
-            min-width: 150px;
-        }
-
-        .filter-select:focus {
-            border-color: #6366f1;
-            box-shadow: 0 0 0 0.2rem rgba(99, 102, 241, 0.25);
-        }
-
-        /* Hero Image */
-        .hero-image {
-            position: relative;
-        }
-
-        .hero-img {
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-        }
-
-        .hero-stats {
-            position: absolute;
-            bottom: -20px;
-            left: 20px;
-            background: white;
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-            display: flex;
-            gap: 2rem;
-        }
-
-        .stat-item h3 {
-            color: #6366f1;
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin: 0;
-        }
-
-        .stat-item p {
-            color: #64748b;
-            font-size: 0.9rem;
-            margin: 0;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
+            color: white;
         }
 
         /* Statistics Section */
         .stats-section {
-            padding: 4rem 0;
             background: white;
         }
 
         .stat-card {
             text-align: center;
             padding: 2rem;
-            border-radius: 15px;
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid #f1f5f9;
             transition: all 0.3s ease;
         }
 
         .stat-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
         }
 
         .stat-icon {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
             width: 80px;
             height: 80px;
+            margin: 0 auto 1.5rem;
             background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
             border-radius: 50%;
-            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-size: 2rem;
-            margin: 0 auto 1rem;
+            color: white;
         }
 
         .stat-number {
             font-size: 2.5rem;
             font-weight: 700;
             color: #1e293b;
-            margin: 1rem 0 0.5rem;
+            margin-bottom: 0.5rem;
         }
 
         .stat-label {
             color: #64748b;
             font-weight: 500;
+            font-size: 1.1rem;
             margin: 0;
         }
 
         /* Featured Events Section */
-        .featured-events-section {
-            padding: 4rem 0;
+        .featured-events {
             background: #f8fafc;
-        }
-
-        .section-header {
-            margin-bottom: 3rem;
         }
 
         .section-title {
@@ -763,55 +874,83 @@
         }
 
         .section-subtitle {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             color: #64748b;
-            margin: 0;
+            margin-bottom: 0;
         }
 
         .event-card {
             background: white;
-            border-radius: 15px;
+            border-radius: 1rem;
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
             transition: all 0.3s ease;
-            margin-bottom: 2rem;
+            height: 100%;
         }
 
         .event-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
         }
 
         .event-image {
-            height: 200px;
-            background: linear-gradient(45deg, #6366f1, #8b5cf6);
             position: relative;
+            height: 250px;
             overflow: hidden;
         }
 
-        .event-price {
+        .event-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .event-card:hover .event-image img {
+            transform: scale(1.05);
+        }
+
+        .event-badge {
             position: absolute;
-            top: 15px;
-            right: 15px;
-            background: rgba(255, 255, 255, 0.9);
+            top: 1rem;
+            left: 1rem;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
             padding: 0.5rem 1rem;
-            border-radius: 20px;
+            border-radius: 1.5rem;
+            font-size: 0.85rem;
             font-weight: 600;
-            color: #6366f1;
         }
 
         .event-date {
             position: absolute;
-            top: 15px;
-            left: 15px;
+            top: 1rem;
+            right: 1rem;
             background: rgba(255, 255, 255, 0.9);
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 500;
+            backdrop-filter: blur(10px);
+            padding: 0.75rem;
+            border-radius: 0.75rem;
+            text-align: center;
+            min-width: 60px;
         }
 
-        .event-card-body {
+        .date-month {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #6366f1;
+            text-transform: uppercase;
+        }
+
+        .date-day {
+            display: block;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1e293b;
+            line-height: 1;
+        }
+
+        .event-content {
             padding: 1.5rem;
         }
 
@@ -819,146 +958,137 @@
             font-size: 1.25rem;
             font-weight: 600;
             color: #1e293b;
-            margin-bottom: 0.5rem;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
+            margin-bottom: 0.75rem;
         }
 
-        .event-location {
+        .event-description {
             color: #64748b;
-            font-size: 0.9rem;
-            margin-bottom: 1rem;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .event-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .detail-item {
             display: flex;
             align-items: center;
-        }
-
-        .event-category {
-            display: inline-block;
-            background: rgba(99, 102, 241, 0.1);
-            color: #6366f1;
-            padding: 0.25rem 0.75rem;
-            border-radius: 15px;
-            font-size: 0.8rem;
-            font-weight: 500;
-        }
-
-        /* Categories Section */
-        .categories-section {
-            padding: 4rem 0;
-            background: white;
-        }
-
-        .category-card {
-            background: white;
-            border: 2px solid #e2e8f0;
-            border-radius: 15px;
-            padding: 2rem 1rem;
-            text-align: center;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            height: 100%;
-        }
-
-        .category-card:hover {
-            border-color: #6366f1;
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.15);
-        }
-
-        .category-icon {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-            border-radius: 50%;
-            color: white;
-            font-size: 1.5rem;
-            margin: 0 auto 1rem;
-        }
-
-        .category-card h5 {
-            color: #1e293b;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-
-        .category-card p {
-            color: #64748b;
             font-size: 0.9rem;
-            margin: 0;
+            color: #64748b;
         }
 
-        /* Role Navigation Section */
-        .role-navigation-section {
-            padding: 4rem 0;
-            background: #f8fafc;
+        .detail-item i {
+            color: #6366f1;
+            margin-right: 0.5rem;
+        }
+
+        .btn-event {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            border: none;
+            color: white;
+            font-weight: 600;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            width: 100%;
+            text-align: center;
+        }
+
+        .btn-event:hover {
+            background: linear-gradient(135deg, #5855eb 0%, #7c3aed 100%);
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        .btn-view-all {
+            background: transparent;
+            border: 2px solid #6366f1;
+            color: #6366f1;
+            font-weight: 600;
+            font-size: 1.1rem;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-view-all:hover {
+            background: #6366f1;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Role Section */
+        .role-section {
+            background: white;
         }
 
         .role-card {
             background: white;
-            border-radius: 15px;
-            padding: 2rem;
-            height: 100%;
+            border: 2px solid #f1f5f9;
+            border-radius: 1.5rem;
+            padding: 2.5rem 2rem;
             text-align: center;
-            border: 2px solid #e2e8f0;
             transition: all 0.3s ease;
+            position: relative;
+            height: 100%;
         }
 
         .role-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            border-color: #6366f1;
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.15);
         }
 
-        .customer-card:hover {
-            border-color: #0ea5e9;
+        .role-card.featured {
+            border-color: #6366f1;
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.2);
         }
 
-        .organizer-card:hover {
-            border-color: #10b981;
-        }
-
-        .admin-card:hover {
-            border-color: #f59e0b;
+        .featured-badge {
+            position: absolute;
+            top: -1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            color: #1f2937;
+            padding: 0.5rem 1.5rem;
+            border-radius: 1.5rem;
+            font-weight: 600;
+            font-size: 0.85rem;
         }
 
         .role-icon {
-            display: inline-flex;
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            border-radius: 50%;
+            display: flex;
             align-items: center;
             justify-content: center;
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
+            font-size: 2.5rem;
             color: white;
-            font-size: 2rem;
-            margin: 0 auto 1.5rem;
         }
 
-        .customer-card .role-icon {
-            background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
-        }
-
-        .organizer-card .role-icon {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-        }
-
-        .admin-card .role-icon {
-            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-        }
-
-        .role-card h4 {
-            color: #1e293b;
+        .role-title {
+            font-size: 1.5rem;
             font-weight: 600;
+            color: #1e293b;
             margin-bottom: 1rem;
         }
 
-        .role-card p {
+        .role-description {
             color: #64748b;
-            margin-bottom: 1.5rem;
+            font-size: 1rem;
             line-height: 1.6;
+            margin-bottom: 2rem;
         }
 
         .role-features {
@@ -969,65 +1099,57 @@
         }
 
         .role-features li {
-            padding: 0.5rem 0;
-            color: #64748b;
             display: flex;
             align-items: center;
+            margin-bottom: 0.75rem;
+            color: #64748b;
         }
 
-        .role-features i {
+        .role-features li i {
             color: #10b981;
             margin-right: 0.75rem;
+            font-size: 1.1rem;
+        }
+
+        .btn-role {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            border: none;
+            color: white;
+            font-weight: 600;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .btn-role:hover {
+            background: linear-gradient(135deg, #5855eb 0%, #7c3aed 100%);
+            color: white;
+            transform: translateY(-2px);
         }
 
         /* Footer */
-        .eventhub-footer {
+        .footer {
             background: #1e293b;
-            color: #cbd5e1;
+            color: white;
             padding: 3rem 0 1rem;
         }
 
-        .footer-brand h5 {
-            color: white;
-            font-weight: 600;
-            margin-bottom: 1rem;
-        }
-
-        .footer-brand p {
-            color: #94a3b8;
-            line-height: 1.6;
-        }
-
-        .footer-links h6 {
-            color: white;
-            font-weight: 600;
-            margin-bottom: 1rem;
-        }
-
-        .footer-links ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .footer-links li {
-            margin-bottom: 0.5rem;
-        }
-
-        .footer-links a {
-            color: #94a3b8;
-            text-decoration: none;
-            transition: color 0.2s ease;
-        }
-
-        .footer-links a:hover {
+        .footer-brand .brand {
+            font-size: 1.5rem;
+            font-weight: 700;
             color: #6366f1;
         }
 
-        .footer-social h6 {
-            color: white;
-            font-weight: 600;
-            margin-bottom: 1rem;
+        .footer-brand .brand i {
+            font-size: 1.5rem;
+        }
+
+        .footer-description {
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
         }
 
         .social-links {
@@ -1035,22 +1157,48 @@
             gap: 1rem;
         }
 
-        .social-links a {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
+        .social-link {
             width: 40px;
             height: 40px;
-            background: #334155;
-            color: #94a3b8;
+            background: rgba(99, 102, 241, 0.1);
             border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6366f1;
             text-decoration: none;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
         }
 
-        .social-links a:hover {
+        .social-link:hover {
             background: #6366f1;
             color: white;
+            transform: translateY(-2px);
+        }
+
+        .footer-title {
+            color: white;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #6366f1;
         }
 
         .footer-divider {
@@ -1059,12 +1207,12 @@
         }
 
         .footer-copyright,
-        .footer-powered {
+        .footer-tagline {
             color: #94a3b8;
             margin: 0;
         }
 
-        /* Mobile Responsiveness */
+        /* Responsive Design */
         @media (max-width: 991.98px) {
             .navbar-collapse {
                 margin-top: 1rem;
@@ -1097,103 +1245,52 @@
                 font-size: 2.5rem;
             }
 
-            .search-filters {
+            .hero-buttons {
                 flex-direction: column;
             }
 
-            .hero-stats {
-                position: static;
-                margin-top: 2rem;
-                justify-content: center;
+            .search-card {
+                padding: 2rem 1.5rem;
             }
 
-            .stat-item {
-                text-align: center;
+            .event-details {
+                flex-direction: column;
+                gap: 0.5rem;
             }
         }
 
         @media (max-width: 576px) {
-            .eventhub-navbar {
-                padding: 0.5rem 0;
-            }
-
-            .eventhub-brand {
-                font-size: 1.25rem;
-            }
-
-            .brand-icon {
-                width: 28px;
-                height: 28px;
-                font-size: 0.9rem;
-            }
-
             .hero-title {
                 font-size: 2rem;
-            }
-
-            .hero-subtitle {
-                font-size: 1.1rem;
-            }
-
-            .search-box .form-control {
-                padding: 0.75rem 1rem;
-            }
-
-            .btn-search {
-                padding: 0.75rem 1.5rem;
-            }
-
-            .hero-stats {
-                flex-direction: column;
-                gap: 1rem;
-                padding: 1.5rem;
             }
 
             .section-title {
                 font-size: 2rem;
             }
+
+            .search-card {
+                padding: 1.5rem;
+            }
+
+            .role-card {
+                padding: 2rem 1.5rem;
+            }
         }
 
-        /* Focus states for accessibility */
-        .eventhub-nav-link:focus,
-        .eventhub-btn-login:focus,
-        .eventhub-btn-signup:focus,
-        .btn-search:focus,
-        .category-card:focus {
-            outline: 2px solid #6366f1;
-            outline-offset: 2px;
+        /* Animation Classes */
+        .animate-counter {
+            animation: countUp 2s ease-out;
         }
 
-        /* Animation classes */
-        .fade-in {
-            animation: fadeIn 0.8s ease-in;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .slide-up {
-            animation: slideUp 0.6s ease-out;
-        }
-
-        @keyframes slideUp {
-            from { transform: translateY(30px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-
-        /* Loading states */
-        .loading {
-            pointer-events: none;
-            opacity: 0.6;
-        }
-
-        /* Smooth transitions */
-        * {
-            transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
-            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-            transition-duration: 150ms;
+        @keyframes countUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 
@@ -1213,291 +1310,178 @@
                 });
             });
 
-            // Active link highlighting
-            const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-            navLinks.forEach(link => {
-                const href = link.getAttribute('href');
-                if (href === currentPage || (currentPage === '' && href === 'index.html')) {
-                    link.classList.add('active');
-                } else {
-                    link.classList.remove('active');
-                }
-            });
+            // Counter Animation
+            function animateCounter(element) {
+                const target = parseInt(element.getAttribute('data-count'));
+                let count = 0;
+                const increment = target / 100;
+                const timer = setInterval(() => {
+                    count += increment;
+                    element.textContent = Math.floor(count).toLocaleString();
+                    if (count >= target) {
+                        element.textContent = target.toLocaleString();
+                        clearInterval(timer);
+                    }
+                }, 20);
+            }
 
-            // Load featured events
-            loadFeaturedEvents();
-
-            // Animate statistics counters
-            animateCounters();
-
-            // Add fade-in animations
-            const fadeElements = document.querySelectorAll('.hero-content, .stat-card, .event-card, .category-card, .role-card');
+            // Intersection Observer for counter animation
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        entry.target.classList.add('fade-in');
+                        const counter = entry.target.querySelector('.stat-number');
+                        if (counter && !counter.classList.contains('animate-counter')) {
+                            counter.classList.add('animate-counter');
+                            animateCounter(counter);
+                        }
                     }
                 });
             });
 
-            fadeElements.forEach(el => observer.observe(el));
+            // Observe stat cards
+            document.querySelectorAll('.stat-card').forEach(card => {
+                observer.observe(card);
+            });
 
-            // Set current date as minimum for date filter
-            const dateFilter = document.getElementById('dateFilter');
-            if (dateFilter) {
+            // Set minimum date for search to today
+            const searchDate = document.getElementById('searchDate');
+            if (searchDate) {
                 const today = new Date().toISOString().split('T')[0];
-                dateFilter.min = today;
+                searchDate.setAttribute('min', today);
             }
         });
 
-        // Sample featured events data
-        const featuredEvents = [
-            {
-                id: 1,
-                title: "Summer Music Festival 2024",
-                location: "Colombo",
-                date: "2024-12-25",
-                price: "LKR 2,500",
-                category: "Music",
-                image: "pictures/event-music-festival.jpg"
-            },
-            {
-                id: 2,
-                title: "Cricket Championship Finals",
-                location: "Kandy",
-                date: "2024-12-30",
-                price: "LKR 1,500",
-                category: "Sports",
-                image: "pictures/event-cricket.jpg"
-            },
-            {
-                id: 3,
-                title: "Cultural Dance Performance",
-                location: "Galle",
-                date: "2025-01-05",
-                price: "LKR 1,200",
-                category: "Arts",
-                image: "pictures/event-cultural.jpg"
-            },
-            {
-                id: 4,
-                title: "Tech Conference 2024",
-                location: "Colombo",
-                date: "2025-01-10",
-                price: "LKR 3,500",
-                category: "Business",
-                image: "pictures/event-tech.jpg"
-            },
-            {
-                id: 5,
-                title: "Food & Wine Festival",
-                location: "Negombo",
-                date: "2025-01-15",
-                price: "LKR 2,000",
-                category: "Food",
-                image: "pictures/event-food.jpg"
-            },
-            {
-                id: 6,
-                title: "Art Gallery Exhibition",
-                location: "Colombo",
-                date: "2025-01-20",
-                price: "LKR 800",
-                category: "Arts",
-                image: "pictures/event-art.jpg"
-            }
-        ];
-
-        function loadFeaturedEvents() {
-            const container = document.getElementById('featuredEventsContainer');
-            if (!container) return;
-
-            const eventsToShow = featuredEvents.slice(0, 6); // Show first 6 events
+        // Handle search form submission
+        function handleSearch(event) {
+            event.preventDefault();
             
-            container.innerHTML = eventsToShow.map(event => `
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="event-card" onclick="viewEventDetails(${event.id})">
-                        <div class="event-image">
-                            <div class="event-date">
-                                <i class="bi bi-calendar3 me-1"></i>
-                                ${formatDate(event.date)}
-                            </div>
-                            <div class="event-price">${event.price}</div>
-                        </div>
-                        <div class="event-card-body">
-                            <h5 class="event-title">${event.title}</h5>
-                            <div class="event-location">
-                                <i class="bi bi-geo-alt me-1"></i>
-                                ${event.location}
-                            </div>
-                            <span class="event-category">${event.category}</span>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function formatDate(dateString) {
-            const options = { 
-                year: 'numeric', 
-                month: 'short', 
-                day: 'numeric' 
-            };
-            return new Date(dateString).toLocaleDateString('en-US', options);
-        }
-
-        function animateCounters() {
-            const counters = document.querySelectorAll('.stat-number');
+            const category = document.getElementById('searchCategory').value;
+            const date = document.getElementById('searchDate').value;
+            const location = document.getElementById('searchLocation').value;
             
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const target = parseInt(entry.target.dataset.count);
-                        const increment = target / 100;
-                        let current = 0;
-                        
-                        const timer = setInterval(() => {
-                            current += increment;
-                            if (current >= target) {
-                                entry.target.textContent = target.toLocaleString();
-                                clearInterval(timer);
-                            } else {
-                                entry.target.textContent = Math.floor(current).toLocaleString();
-                            }
-                        }, 20);
-                        
-                        observer.unobserve(entry.target);
-                    }
-                });
-            });
-
-            counters.forEach(counter => observer.observe(counter));
-        }
-
-        function performSearch() {
-            const searchTerm = document.getElementById('heroSearchInput').value;
-            const category = document.getElementById('categoryFilter').value;
-            const date = document.getElementById('dateFilter').value;
-            const location = document.getElementById('locationFilter').value;
-
-            if (!searchTerm && !category && !date && !location) {
-                Swal.fire({
-                    icon: 'info',
-                    title: 'Search Events',
-                    text: 'Please enter search criteria to find events.',
-                    confirmButtonColor: '#6366f1'
-                });
-                return;
-            }
-
-            // Build query parameters
-            const params = new URLSearchParams();
-            if (searchTerm) params.append('search', searchTerm);
-            if (category) params.append('category', category);
-            if (date) params.append('date', date);
-            if (location) params.append('location', location);
-
+            // Build search parameters
+            const searchParams = new URLSearchParams();
+            if (category) searchParams.append('category', category);
+            if (date) searchParams.append('date', date);
+            if (location) searchParams.append('location', location);
+            
             // Show loading state
-            const searchBtn = document.querySelector('.btn-search');
-            const originalText = searchBtn.textContent;
-            searchBtn.textContent = 'Searching...';
+            const searchBtn = event.target.querySelector('.btn-search');
+            const originalText = searchBtn.innerHTML;
+            searchBtn.innerHTML = '<i class="bi bi-hourglass-split me-2"></i>Searching...';
             searchBtn.disabled = true;
-
+            
+            // Simulate search delay
             setTimeout(() => {
-                // Redirect to events page with search parameters
-                window.location.href = `events.html?${params.toString()}`;
+                // Reset button
+                searchBtn.innerHTML = originalText;
+                searchBtn.disabled = false;
+                
+                // Redirect to event listing with search parameters
+                const url = `event-listing.html${searchParams.toString() ? '?' + searchParams.toString() : ''}`;
+                window.location.href = url;
             }, 1000);
         }
 
-        function browseCategory(category) {
-            window.location.href = `events.html?category=${category}`;
-        }
-
-        function viewEventDetails(eventId) {
-            window.location.href = `event-details.html?id=${eventId}`;
-        }
-
-        // Handle Enter key in search input
+        // Role card click handlers
         document.addEventListener('DOMContentLoaded', function() {
-            const searchInput = document.getElementById('heroSearchInput');
-            if (searchInput) {
-                searchInput.addEventListener('keypress', function(e) {
-                    if (e.key === 'Enter') {
-                        performSearch();
+            // Handle role-based registration
+            const roleCards = document.querySelectorAll('.role-card');
+            roleCards.forEach(card => {
+                card.addEventListener('click', function(e) {
+                    if (!e.target.closest('.btn-role')) {
+                        const btn = this.querySelector('.btn-role');
+                        if (btn) btn.click();
                     }
                 });
-            }
-        });
-
-        // Add smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
             });
-        });
 
-        // Newsletter subscription (if needed later)
-        function subscribeNewsletter() {
-            Swal.fire({
-                title: 'Subscribe to Newsletter',
-                input: 'email',
-                inputLabel: 'Your email address',
-                inputPlaceholder: 'Enter your email',
-                confirmButtonText: 'Subscribe',
-                confirmButtonColor: '#6366f1',
-                showCancelButton: true,
-                inputValidator: (value) => {
-                    if (!value) {
-                        return 'You need to enter an email address!';
+            // Handle registration links with role parameter
+            const registerLinks = document.querySelectorAll('a[href*="register.html"]');
+            registerLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    const url = new URL(this.href, window.location);
+                    const role = url.searchParams.get('role');
+                    
+                    if (role) {
+                        // Store role preference
+                        sessionStorage.setItem('selectedRole', role);
+                        
+                        Swal.fire({
+                            title: `Join as ${role.charAt(0).toUpperCase() + role.slice(1)}`,
+                            text: `You're about to create a ${role} account. Ready to get started?`,
+                            icon: 'question',
+                            showCancelButton: true,
+                            confirmButtonColor: '#6366f1',
+                            cancelButtonColor: '#64748b',
+                            confirmButtonText: 'Yes, continue!',
+                            cancelButtonText: 'Cancel'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = this.href;
+                            }
+                        });
+                        
+                        e.preventDefault();
                     }
-                    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
-                        return 'Please enter a valid email address!';
-                    }
-                }
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Subscribed!',
-                        text: 'Thank you for subscribing to our newsletter!',
-                        confirmButtonColor: '#6366f1'
-                    });
-                }
+                });
             });
-        }
 
-        // Show welcome message for first-time visitors
-        function showWelcomeMessage() {
-            if (!localStorage.getItem('welcomeShown')) {
-                setTimeout(() => {
-                    Swal.fire({
-                        icon: 'info',
-                        title: 'Welcome to EventHub!',
-                        text: 'Discover amazing events, book tickets easily, and enjoy seamless experiences.',
-                        confirmButtonText: 'Start Exploring',
-                        confirmButtonColor: '#6366f1',
-                        showCancelButton: true,
-                        cancelButtonText: 'Maybe Later'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            document.getElementById('heroSearchInput').focus();
-                        }
-                    });
-                    localStorage.setItem('welcomeShown', 'true');
-                }, 2000);
+            // Event card hover effects
+            const eventCards = document.querySelectorAll('.event-card');
+            eventCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-8px) scale(1.02)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+
+            // Smooth scroll for anchor links
+            const smoothScrollLinks = document.querySelectorAll('a[href^="#"]');
+            smoothScrollLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+
+            // Welcome message for returning users
+            const lastVisit = localStorage.getItem('lastVisit');
+            const userName = localStorage.getItem('userName');
+            
+            if (lastVisit && userName) {
+                const daysSince = Math.floor((Date.now() - parseInt(lastVisit)) / (1000 * 60 * 60 * 24));
+                
+                if (daysSince > 0) {
+                    setTimeout(() => {
+                        Swal.fire({
+                            title: `Welcome back, ${userName}!`,
+                            text: `It's been ${daysSince} day${daysSince > 1 ? 's' : ''} since your last visit. Check out what's new!`,
+                            icon: 'success',
+                            timer: 4000,
+                            timerProgressBar: true,
+                            showConfirmButton: false,
+                            position: 'top-end',
+                            toast: true
+                        });
+                    }, 2000);
+                }
             }
-        }
-
-        // Initialize welcome message
-        // showWelcomeMessage(); // Uncomment if needed
+            
+            // Update last visit
+            localStorage.setItem('lastVisit', Date.now().toString());
+        });
     </script>
 
 </body>
+
 </html>

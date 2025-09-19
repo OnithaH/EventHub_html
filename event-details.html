@@ -1,0 +1,2120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EventHub - Event Details</title>
+
+    <!-- Bootstrap 5.3 CSS (Latest) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <!-- Bootstrap Icons (Latest) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+    <!-- EventHub Header - From navbar.html -->
+    <nav class="navbar navbar-expand-lg eventhub-navbar">
+        <div class="container-fluid px-4">
+            <!-- Brand Logo -->
+            <a class="navbar-brand eventhub-brand d-flex align-items-center" href="index.html">
+                <div class="brand-icon me-2">
+                    <i class="bi bi-calendar-event me-1"></i>
+                </div>
+                <span class="brand-text">EventHub</span>
+            </a>
+
+            <!-- Mobile Toggle Button -->
+            <button class="navbar-toggler custom-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navigation Items -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <!-- Left Navigation -->
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link eventhub-nav-link" href="index.html">
+                            <i class="bi bi-house-fill me-1"></i>
+                            Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link eventhub-nav-link" href="event-listing.html">
+                            <i class="bi bi-calendar3 me-1"></i>Events
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link eventhub-nav-link dropdown-toggle" href="#" id="categoriesDropdown"
+                            role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-grid-3x3-gap me-1"></i>
+                            Categories
+                        </a>
+                        <ul class="dropdown-menu eventhub-dropdown" aria-labelledby="categoriesDropdown">
+                            <li><a class="dropdown-item" href="event-listing.html?category=music"><i
+                                        class="bi bi-music-note me-2"></i>Music</a></li>
+                            <li><a class="dropdown-item" href="event-listing.html?category=sports"><i
+                                        class="bi bi-trophy me-2"></i>Sports</a></li>
+                            <li><a class="dropdown-item" href="event-listing.html?category=arts"><i
+                                        class="bi bi-palette me-2"></i>Arts & Culture</a>
+                            </li>
+                            <li><a class="dropdown-item" href="event-listing.html?category=business"><i
+                                        class="bi bi-briefcase me-2"></i>Business</a></li>
+                            <li><a class="dropdown-item" href="event-listing.html?category=food"><i
+                                        class="bi bi-cup-hot me-2"></i>Food & Drink</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link eventhub-nav-link" href="about.html">
+                            <i class="bi bi-info-circle me-1"></i>About
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link eventhub-nav-link" href="contact.html">
+                            <i class="bi bi-envelope me-1"></i>Contact
+                        </a>
+                    </li>
+                </ul>
+
+                <!-- Right Navigation - Auth Buttons -->
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="btn eventhub-btn-login me-2" href="login.html">
+                            <i class="bi bi-box-arrow-in-right me-1"></i>
+                            LOGIN
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn eventhub-btn-signup" href="register.html">
+                            <i class="bi bi-person-plus me-1"></i>
+                            SIGN UP
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Event Hero Section -->
+    <section class="event-hero">
+        <div class="hero-image-container">
+            <img id="eventHeroImage" src="picture/event-concert.jpg" alt="Event Image" class="hero-image">
+            <div class="hero-overlay"></div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <!-- Breadcrumb -->
+                    <nav aria-label="breadcrumb" class="mb-4">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                            <li class="breadcrumb-item"><a href="event-listing.html">Events</a></li>
+                            <li class="breadcrumb-item active" aria-current="page" id="breadcrumbTitle">Event Details
+                            </li>
+                        </ol>
+                    </nav>
+
+                    <!-- Event Header -->
+                    <div class="event-header">
+                        <div class="row align-items-start">
+                            <div class="col-lg-8">
+                                <div class="event-category-badge" id="eventCategoryBadge">Music</div>
+                                <h1 class="event-title" id="eventTitle">Christmas Music Concert</h1>
+                                <p class="event-subtitle" id="eventSubtitle">A magical evening of Christmas melodies
+                                    featuring renowned artists</p>
+
+                                <!-- Event Quick Info -->
+                                <div class="event-quick-info">
+                                    <div class="info-item">
+                                        <i class="bi bi-calendar3"></i>
+                                        <div>
+                                            <strong id="eventDate">December 25, 2025</strong>
+                                            <small id="eventTime">7:00 PM</small>
+                                        </div>
+                                    </div>
+                                    <div class="info-item">
+                                        <i class="bi bi-geo-alt"></i>
+                                        <div>
+                                            <strong id="eventVenue">BMICH, Colombo</strong>
+                                            <small id="eventLocation">Colombo</small>
+                                        </div>
+                                    </div>
+                                    <div class="info-item">
+                                        <i class="bi bi-person"></i>
+                                        <div>
+                                            <strong id="eventOrganizer">Music Events Lanka</strong>
+                                            <small>Event Organizer</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <!-- Event Actions -->
+                                <div class="event-actions">
+                                    <button class="btn btn-favorite" id="favoriteBtn" onclick="toggleFavorite()">
+                                        <i class="bi bi-heart"></i>
+                                        <span>Add to Favorites</span>
+                                    </button>
+                                    <button class="btn btn-share" onclick="shareEvent()">
+                                        <i class="bi bi-share"></i>
+                                        <span>Share Event</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="event-content py-5">
+        <div class="container">
+            <div class="row">
+                <!-- Left Column - Event Details -->
+                <div class="col-lg-8">
+                    <!-- Event Description -->
+                    <div class="content-card mb-4">
+                        <h3 class="content-title">About This Event</h3>
+                        <div class="event-description" id="eventDescription">
+                            <p>Join us for a magical evening of Christmas melodies that will warm your heart and fill
+                                you with the spirit of the season. This special concert features a carefully curated
+                                selection of beloved Christmas classics and contemporary holiday favorites.</p>
+
+                            <p>Our lineup includes renowned local and international artists who will take you on a
+                                musical journey through the most cherished songs of Christmas. From traditional carols
+                                to modern holiday hits, this concert promises to be an unforgettable experience for the
+                                entire family.</p>
+
+                            <h5>Featured Performances:</h5>
+                            <ul>
+                                <li>Classical Christmas Carols by the Colombo Symphony Orchestra</li>
+                                <li>Contemporary Holiday Songs by popular local artists</li>
+                                <li>Special guest performance by internationally acclaimed vocalist</li>
+                                <li>Community choir featuring 100+ voices</li>
+                            </ul>
+
+                            <p>The venue will be beautifully decorated with Christmas lights and festive decorations,
+                                creating the perfect ambiance for this special evening. Light refreshments will be
+                                available during intermission.</p>
+                        </div>
+                    </div>
+
+                    <!-- Event Schedule -->
+                    <div class="content-card mb-4">
+                        <h3 class="content-title">Event Schedule</h3>
+                        <div class="schedule-timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-time">6:30 PM</div>
+                                <div class="timeline-content">
+                                    <h6>Doors Open & Registration</h6>
+                                    <p>Welcome drinks and networking</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">7:00 PM</div>
+                                <div class="timeline-content">
+                                    <h6>Opening Ceremony</h6>
+                                    <p>Welcome address and event introduction</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">7:15 PM</div>
+                                <div class="timeline-content">
+                                    <h6>First Performance Set</h6>
+                                    <p>Classical Christmas carols by the orchestra</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">8:15 PM</div>
+                                <div class="timeline-content">
+                                    <h6>Intermission</h6>
+                                    <p>15-minute break with refreshments</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">8:30 PM</div>
+                                <div class="timeline-content">
+                                    <h6>Second Performance Set</h6>
+                                    <p>Contemporary holiday songs and special guests</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">9:30 PM</div>
+                                <div class="timeline-content">
+                                    <h6>Grand Finale</h6>
+                                    <p>Community choir and audience sing-along</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Venue Information -->
+                    <div class="content-card mb-4">
+                        <h3 class="content-title">Venue Information</h3>
+                        <div class="venue-info">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="venue-details">
+                                        <h5 id="venueTitle">BMICH (Bandaranaike Memorial International Conference Hall)
+                                        </h5>
+                                        <p class="venue-address" id="venueAddress">
+                                            <i class="bi bi-geo-alt me-2"></i>
+                                            Bauddhaloka Mawatha, Colombo 07, Sri Lanka
+                                        </p>
+                                        <div class="venue-features">
+                                            <div class="feature-item">
+                                                <i class="bi bi-people"></i>
+                                                <span>Capacity: 1,500 seats</span>
+                                            </div>
+                                            <div class="feature-item">
+                                                <i class="bi bi-p-square"></i>
+                                                <span>Free parking available</span>
+                                            </div>
+                                            <div class="feature-item">
+                                                <i class="bi bi-wifi"></i>
+                                                <span>Free Wi-Fi</span>
+                                            </div>
+                                            <div class="feature-item">
+                                                <i class="bi bi-cup-hot"></i>
+                                                <span>Food & beverages available</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="venue-map">
+                                        <iframe
+                                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.798475112887!2d79.86125431477334!3d6.914712295010567!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae259684e2d4579%3A0x22f5c5d90de7feec!2sBandaranaike%20Memorial%20International%20Conference%20Hall!5e0!3m2!1sen!2slk!4v1645123456789!5m2!1sen!2slk"
+                                            width="100%" height="200" style="border:0; border-radius: 0.5rem;"
+                                            allowfullscreen="" loading="lazy"
+                                            referrerpolicy="no-referrer-when-downgrade">
+                                        </iframe>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Important Information -->
+                    <div class="content-card mb-4">
+                        <h3 class="content-title">Important Information</h3>
+                        <div class="important-info">
+                            <div class="alert alert-info">
+                                <i class="bi bi-info-circle me-2"></i>
+                                <strong>COVID-19 Safety:</strong> All attendees must follow current health guidelines.
+                                Masks recommended for indoor events.
+                            </div>
+
+                            <h6>What to Bring:</h6>
+                            <ul class="checklist">
+                                <li><i class="bi bi-check-circle text-success me-2"></i>Valid photo ID</li>
+                                <li><i class="bi bi-check-circle text-success me-2"></i>E-ticket (digital or printed)
+                                </li>
+                                <li><i class="bi bi-check-circle text-success me-2"></i>Comfortable clothing</li>
+                            </ul>
+
+                            <h6>Not Allowed:</h6>
+                            <ul class="checklist">
+                                <li><i class="bi bi-x-circle text-danger me-2"></i>Outside food and beverages</li>
+                                <li><i class="bi bi-x-circle text-danger me-2"></i>Professional cameras</li>
+                                <li><i class="bi bi-x-circle text-danger me-2"></i>Recording equipment</li>
+                            </ul>
+
+                            <div class="policies mt-3">
+                                <p><strong>Refund Policy:</strong> Tickets are refundable up to 48 hours before the
+                                    event. Processing fees may apply.</p>
+                                <p><strong>Age Restrictions:</strong> All ages welcome. Children under 5 enter free with
+                                    adult supervision.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column - Booking Panel -->
+                <div class="col-lg-4">
+                    <div class="booking-panel sticky-top">
+                        <!-- Ticket Booking Card -->
+                        <div class="booking-card">
+                            <div class="booking-header">
+                                <h4>Book Your Tickets</h4>
+                                <div class="price-display">
+                                    <span class="price-from">From</span>
+                                    <span class="price-amount" id="displayPrice">Rs. 2,500</span>
+                                    <span class="price-per">per ticket</span>
+                                </div>
+                            </div>
+
+                            <div class="booking-content">
+                                <!-- Ticket Types -->
+                                <div class="ticket-types mb-4">
+                                    <h6>Select Ticket Type</h6>
+                                    <div class="ticket-options" id="ticketOptions">
+                                        <div class="ticket-option active" data-type="regular" data-price="2500">
+                                            <div class="ticket-info">
+                                                <strong>Regular Seating</strong>
+                                                <span class="ticket-price">Rs. 2,500</span>
+                                            </div>
+                                            <small>Standard seating with great view</small>
+                                        </div>
+                                        <div class="ticket-option" data-type="premium" data-price="4000">
+                                            <div class="ticket-info">
+                                                <strong>Premium Seating</strong>
+                                                <span class="ticket-price">Rs. 4,000</span>
+                                            </div>
+                                            <small>Front section with complimentary refreshments</small>
+                                        </div>
+                                        <div class="ticket-option" data-type="vip" data-price="6500">
+                                            <div class="ticket-info">
+                                                <strong>VIP Experience</strong>
+                                                <span class="ticket-price">Rs. 6,500</span>
+                                            </div>
+                                            <small>Best seats + backstage meet & greet</small>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Quantity Selector -->
+                                <div class="quantity-selector mb-4">
+                                    <label class="form-label">Number of Tickets</label>
+                                    <div class="quantity-input">
+                                        <button type="button" class="quantity-btn" onclick="changeQuantity(-1)">
+                                            <i class="bi bi-dash"></i>
+                                        </button>
+                                        <input type="number" id="ticketQuantity" value="1" min="1" max="10" readonly>
+                                        <button type="button" class="quantity-btn" onclick="changeQuantity(1)">
+                                            <i class="bi bi-plus"></i>
+                                        </button>
+                                    </div>
+                                    <small class="text-muted">Maximum 10 tickets per booking</small>
+                                </div>
+
+                                <!-- Discount Code -->
+                                <div class="discount-section mb-4">
+                                    <div class="d-flex gap-2">
+                                        <input type="text" class="form-control" id="discountCode"
+                                            placeholder="Enter discount code">
+                                        <button type="button" class="btn btn-outline-primary"
+                                            onclick="applyDiscount()">Apply</button>
+                                    </div>
+                                    <div id="discountMessage" class="discount-message"></div>
+                                </div>
+
+                                <!-- Order Summary -->
+                                <div class="order-summary mb-4">
+                                    <h6>Order Summary</h6>
+                                    <div class="summary-row">
+                                        <span>Ticket Price</span>
+                                        <span id="subtotalPrice">Rs. 2,500</span>
+                                    </div>
+                                    <div class="summary-row">
+                                        <span>Quantity</span>
+                                        <span id="summaryQuantity">1</span>
+                                    </div>
+                                    <div class="summary-row" id="discountRow" style="display: none;">
+                                        <span class="text-success">Discount</span>
+                                        <span class="text-success" id="discountAmount">- Rs. 0</span>
+                                    </div>
+                                    <div class="summary-row">
+                                        <span>Service Fee</span>
+                                        <span id="serviceFee">Rs. 100</span>
+                                    </div>
+                                    <hr>
+                                    <div class="summary-row total">
+                                        <strong>Total Amount</strong>
+                                        <strong id="totalAmount">Rs. 2,600</strong>
+                                    </div>
+                                </div>
+
+                                <!-- Booking Actions -->
+                                <div class="booking-actions">
+                                    <button class="btn btn-book-now w-100 mb-3" onclick="proceedToBooking()">
+                                        <i class="bi bi-ticket me-2"></i>
+                                        Book Now
+                                    </button>
+                                    <button class="btn btn-add-cart w-100" onclick="addToCart()">
+                                        <i class="bi bi-cart-plus me-2"></i>
+                                        Add to Cart
+                                    </button>
+                                </div>
+
+                                <!-- Availability Info -->
+                                <div class="availability-info mt-3">
+                                    <div class="availability-item">
+                                        <i class="bi bi-clock text-warning"></i>
+                                        <span id="availabilityText">450 tickets remaining</span>
+                                    </div>
+                                    <div class="availability-item">
+                                        <i class="bi bi-shield-check text-success"></i>
+                                        <span>Secure booking guaranteed</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Event Stats -->
+                        <div class="stats-card mt-4">
+                            <h6>Event Statistics</h6>
+                            <div class="stat-item">
+                                <i class="bi bi-people"></i>
+                                <div>
+                                    <strong id="interestedCount">1,247</strong>
+                                    <small>People interested</small>
+                                </div>
+                            </div>
+                            <div class="stat-item">
+                                <i class="bi bi-ticket"></i>
+                                <div>
+                                    <strong id="soldTickets">50</strong>
+                                    <small>Tickets sold</small>
+                                </div>
+                            </div>
+                            <div class="stat-item">
+                                <i class="bi bi-star-fill"></i>
+                                <div>
+                                    <strong>4.8</strong>
+                                    <small>Organizer rating</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Similar Events -->
+                        <div class="similar-events mt-4">
+                            <h6>You Might Also Like</h6>
+                            <div id="similarEvents">
+                                <!-- Similar events will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <div class="footer-brand">
+                        <div class="brand d-flex align-items-center mb-3">
+                            <i class="bi bi-calendar-event me-2"></i>
+                            <span class="brand-text">EventHub</span>
+                        </div>
+                        <p class="footer-description">Sri Lanka's premier event ticketing platform. Discover, book, and
+                            enjoy amazing events across the country.</p>
+                        <div class="social-links">
+                            <a href="#" class="social-link"><i class="bi bi-facebook"></i></a>
+                            <a href="#" class="social-link"><i class="bi bi-twitter"></i></a>
+                            <a href="#" class="social-link"><i class="bi bi-instagram"></i></a>
+                            <a href="#" class="social-link"><i class="bi bi-linkedin"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <h5 class="footer-title">Quick Links</h5>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="event-listing.html">Events</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <h5 class="footer-title">Categories</h5>
+                    <ul class="footer-links">
+                        <li><a href="event-listing.html?category=music">Music</a></li>
+                        <li><a href="event-listing.html?category=sports">Sports</a></li>
+                        <li><a href="event-listing.html?category=arts">Arts & Culture</a></li>
+                        <li><a href="event-listing.html?category=business">Business</a></li>
+                        <li><a href="event-listing.html?category=food">Food & Drink</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <h5 class="footer-title">For Organizers</h5>
+                    <ul class="footer-links">
+                        <li><a href="register.html?role=organizer">Create Account</a></li>
+                        <li><a href="organizer-dashboard.html">Dashboard</a></li>
+                        <li><a href="create-event.html">Create Event</a></li>
+                        <li><a href="sales-reports.html">Sales Reports</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <h5 class="footer-title">Support</h5>
+                    <ul class="footer-links">
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="footer-divider">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <p class="footer-copyright">&copy; 2025 EventHub. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p class="footer-tagline">Made with ❤️ in Sri Lanka</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+
+    <style>
+        /* EventHub Custom Styles */
+        * {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f8fafc;
+            line-height: 1.6;
+        }
+
+        /* Navbar Styling - From navbar.html */
+        .eventhub-navbar {
+            background-color: #ffffff;
+            border-bottom: 1px solid #e9ecef;
+            padding: 0.75rem 0;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 1000;
+        }
+
+        .eventhub-brand {
+            text-decoration: none;
+            color: #6366f1 !important;
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .eventhub-brand:hover {
+            color: #5855eb !important;
+            text-decoration: none;
+        }
+
+        .brand-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .brand-text {
+            color: #6366f1;
+            font-weight: 700;
+        }
+
+        .eventhub-nav-link {
+            color: #64748b !important;
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 0.5rem 1rem !important;
+            margin: 0 0.25rem;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .eventhub-nav-link:hover {
+            color: #6366f1 !important;
+            background-color: rgba(99, 102, 241, 0.1);
+        }
+
+        .eventhub-nav-link.active {
+            color: #6366f1 !important;
+            background-color: rgba(99, 102, 241, 0.15);
+            font-weight: 600;
+        }
+
+        .eventhub-dropdown {
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            padding: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .eventhub-dropdown .dropdown-item {
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            color: #64748b;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .eventhub-dropdown .dropdown-item:hover {
+            background-color: rgba(99, 102, 241, 0.1);
+            color: #6366f1;
+        }
+
+        .eventhub-btn-login {
+            background: transparent;
+            border: 2px solid #6366f1;
+            color: #6366f1 !important;
+            font-weight: 600;
+            font-size: 0.85rem;
+            padding: 0.6rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            letter-spacing: 0.5px;
+        }
+
+        .eventhub-btn-login:hover {
+            background-color: #6366f1;
+            color: white !important;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+
+        .eventhub-btn-signup {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            border: none;
+            color: white !important;
+            font-weight: 600;
+            font-size: 0.85rem;
+            padding: 0.6rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            letter-spacing: 0.5px;
+        }
+
+        .eventhub-btn-signup:hover {
+            background: linear-gradient(135deg, #5855eb 0%, #7c3aed 100%);
+            color: white !important;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
+        }
+
+        .custom-toggler {
+            border: none;
+            padding: 0.25rem 0.5rem;
+        }
+
+        .custom-toggler:focus {
+            box-shadow: 0 0 0 0.2rem rgba(99, 102, 241, 0.25);
+        }
+
+        /* Event Hero Section */
+        .event-hero {
+            position: relative;
+            min-height: 60vh;
+            display: flex;
+            align-items: end;
+            padding: 2rem 0;
+            color: white;
+        }
+
+        .hero-image-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .hero-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.8) 0%, rgba(139, 92, 246, 0.8) 100%);
+        }
+
+        .event-hero .container {
+            position: relative;
+            z-index: 2;
+        }
+
+        .breadcrumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            padding: 0.75rem 1.5rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .breadcrumb-item a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+        }
+
+        .breadcrumb-item a:hover {
+            color: white;
+        }
+
+        .breadcrumb-item.active {
+            color: white;
+        }
+
+        .event-category-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .event-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .event-subtitle {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            line-height: 1.5;
+        }
+
+        .event-quick-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .info-item i {
+            font-size: 1.5rem;
+            opacity: 0.8;
+        }
+
+        .info-item strong {
+            display: block;
+            font-size: 1.1rem;
+        }
+
+        .info-item small {
+            display: block;
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+
+        .event-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-favorite,
+        .btn-share {
+            background: rgba(255, 255, 255, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-favorite:hover,
+        .btn-share:hover {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.5);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .btn-favorite.liked {
+            background: rgba(239, 68, 68, 0.9);
+            border-color: #ef4444;
+        }
+
+        /* Content Sections */
+        .event-content {
+            margin-top: -4rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .content-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid #f1f5f9;
+        }
+
+        .content-title {
+            color: #1e293b;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        .event-description {
+            color: #64748b;
+            line-height: 1.7;
+        }
+
+        .event-description h5 {
+            color: #374151;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .event-description ul {
+            margin-left: 1rem;
+        }
+
+        .event-description li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Schedule Timeline */
+        .schedule-timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .schedule-timeline::before {
+            content: '';
+            position: absolute;
+            left: 1rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, #6366f1, #8b5cf6);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 2rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2.5rem;
+            top: 0.5rem;
+            width: 12px;
+            height: 12px;
+            background: #6366f1;
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 0 0 3px #e0e7ff;
+        }
+
+        .timeline-time {
+            min-width: 100px;
+            font-weight: 600;
+            color: #6366f1;
+            font-size: 0.9rem;
+        }
+
+        .timeline-content h6 {
+            margin-bottom: 0.5rem;
+            color: #374151;
+        }
+
+        .timeline-content p {
+            color: #64748b;
+            margin: 0;
+            font-size: 0.9rem;
+        }
+
+        /* Venue Information */
+        .venue-details h5 {
+            color: #374151;
+            margin-bottom: 1rem;
+        }
+
+        .venue-address {
+            color: #64748b;
+            margin-bottom: 1.5rem;
+        }
+
+        .venue-features {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        .feature-item i {
+            color: #6366f1;
+            font-size: 1.1rem;
+        }
+
+        /* Important Information */
+        .checklist {
+            list-style: none;
+            padding: 0;
+        }
+
+        .checklist li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .policies {
+            background: #f8fafc;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            border-left: 4px solid #6366f1;
+        }
+
+        .policies p {
+            margin-bottom: 0.5rem;
+        }
+
+        .policies p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Booking Panel */
+        .booking-panel {
+            top: 2rem;
+        }
+
+        .booking-card {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            border: 1px solid #f1f5f9;
+            overflow: hidden;
+        }
+
+        .booking-header {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .booking-header h4 {
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .price-display {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .price-from {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .price-amount {
+            font-size: 2.5rem;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .price-per {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .booking-content {
+            padding: 2rem;
+        }
+
+        /* Ticket Options */
+        .ticket-options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .ticket-option {
+            border: 2px solid #e5e7eb;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .ticket-option:hover {
+            border-color: #6366f1;
+            background: rgba(99, 102, 241, 0.05);
+        }
+
+        .ticket-option.active {
+            border-color: #6366f1;
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .ticket-info {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 0.25rem;
+        }
+
+        .ticket-price {
+            font-weight: 600;
+            color: #059669;
+        }
+
+        .ticket-option small {
+            color: #64748b;
+            font-size: 0.85rem;
+        }
+
+        /* Quantity Selector */
+        .quantity-input {
+            display: flex;
+            align-items: center;
+            border: 2px solid #e5e7eb;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            width: fit-content;
+        }
+
+        .quantity-btn {
+            background: #f9fafb;
+            border: none;
+            padding: 0.75rem;
+            color: #6b7280;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .quantity-btn:hover {
+            background: #f3f4f6;
+            color: #374151;
+        }
+
+        .quantity-input input {
+            border: none;
+            padding: 0.75rem 1rem;
+            text-align: center;
+            width: 60px;
+            font-weight: 600;
+            background: white;
+        }
+
+        .quantity-input input:focus {
+            outline: none;
+        }
+
+        /* Discount Section */
+        .discount-message {
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        .discount-success {
+            color: #059669;
+        }
+
+        .discount-error {
+            color: #dc2626;
+        }
+
+        /* Order Summary */
+        .order-summary {
+            background: #f8fafc;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: between;
+            margin-bottom: 0.75rem;
+        }
+
+        .summary-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .summary-row.total {
+            border-top: 1px solid #e5e7eb;
+            padding-top: 0.75rem;
+            margin-top: 0.75rem;
+            font-size: 1.1rem;
+        }
+
+        /* Booking Actions */
+        .btn-book-now {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            border: none;
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
+            padding: 1rem 2rem;
+            border-radius: 0.75rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-book-now:hover {
+            background: linear-gradient(135deg, #5855eb 0%, #7c3aed 100%);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
+        }
+
+        .btn-add-cart {
+            background: transparent;
+            border: 2px solid #6366f1;
+            color: #6366f1;
+            font-weight: 600;
+            padding: 0.875rem 2rem;
+            border-radius: 0.75rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-add-cart:hover {
+            background: #6366f1;
+            color: white;
+        }
+
+        /* Availability Info */
+        .availability-info {
+            padding-top: 1rem;
+            border-top: 1px solid #f1f5f9;
+        }
+
+        .availability-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: #64748b;
+        }
+
+        .availability-item:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Stats Card */
+        .stats-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid #f1f5f9;
+        }
+
+        .stats-card h6 {
+            color: #374151;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .stat-item i {
+            color: #6366f1;
+            font-size: 1.25rem;
+        }
+
+        .stat-item strong {
+            display: block;
+            color: #374151;
+            font-size: 1.1rem;
+        }
+
+        .stat-item small {
+            display: block;
+            color: #64748b;
+            font-size: 0.85rem;
+        }
+
+        /* Similar Events */
+        .similar-events {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid #f1f5f9;
+        }
+
+        .similar-events h6 {
+            color: #374151;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .similar-event-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+            border: 1px solid #f1f5f9;
+            border-radius: 0.75rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .similar-event-item:hover {
+            border-color: #6366f1;
+            background: rgba(99, 102, 241, 0.05);
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .similar-event-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .similar-event-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .similar-event-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .similar-event-info h6 {
+            margin: 0 0 0.25rem 0;
+            font-size: 0.9rem;
+            color: #374151;
+            font-weight: 600;
+        }
+
+        .similar-event-info small {
+            color: #64748b;
+            font-size: 0.8rem;
+        }
+
+        .similar-event-price {
+            color: #059669;
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-top: 0.25rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: #1e293b;
+            color: white;
+            padding: 3rem 0 1rem;
+            margin-top: 4rem;
+        }
+
+        .footer-brand .brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #6366f1;
+        }
+
+        .footer-brand .brand i {
+            font-size: 1.5rem;
+        }
+
+        .footer-description {
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6366f1;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: #6366f1;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .footer-title {
+            color: white;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #6366f1;
+        }
+
+        .footer-divider {
+            border-color: #334155;
+            margin: 2rem 0 1rem;
+        }
+
+        .footer-copyright,
+        .footer-tagline {
+            color: #94a3b8;
+            margin: 0;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 991.98px) {
+            .navbar-collapse {
+                margin-top: 1rem;
+                padding: 1rem;
+                background-color: white;
+                border-radius: 12px;
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+                border: 1px solid #e2e8f0;
+            }
+
+            .eventhub-nav-link {
+                padding: 0.75rem 1rem !important;
+                margin: 0.25rem 0;
+            }
+
+            .eventhub-btn-login,
+            .eventhub-btn-signup {
+                width: 100%;
+                justify-content: center;
+                margin: 0.5rem 0;
+            }
+
+            .navbar-nav.ms-auto {
+                margin-top: 1rem;
+                border-top: 1px solid #e2e8f0;
+                padding-top: 1rem;
+            }
+
+            .event-title {
+                font-size: 2.5rem;
+            }
+
+            .event-quick-info {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .event-actions {
+                flex-direction: column;
+            }
+
+            .btn-favorite,
+            .btn-share {
+                justify-content: center;
+            }
+
+            .booking-panel {
+                position: static !important;
+                margin-top: 3rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .event-title {
+                font-size: 2rem;
+            }
+
+            .event-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .content-card {
+                padding: 1.5rem;
+            }
+
+            .booking-content {
+                padding: 1.5rem;
+            }
+
+            .schedule-timeline {
+                padding-left: 1.5rem;
+            }
+
+            .timeline-item {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .timeline-time {
+                min-width: auto;
+            }
+        }
+
+        /* Animation Classes */
+        .fade-in {
+            animation: fadeIn 0.6s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.7;
+            }
+        }
+    </style>
+
+    <script>
+        // Sample events data - same as event listing
+        const eventsData = [
+            {
+                id: 1,
+                title: "Christmas Music Concert",
+                description: "A magical evening of Christmas melodies featuring renowned local and international artists performing holiday classics.",
+                category: "music",
+                date: "2025-12-25",
+                time: "7:00 PM",
+                location: "Colombo",
+                venue: "BMICH, Colombo",
+                price: 2500,
+                image: "picture/event-concert.jpg",
+                organizer: "Music Events Lanka",
+                availableTickets: 450,
+                totalTickets: 500,
+                interestedCount: 1247,
+                rating: 4.8
+            },
+            {
+                id: 2,
+                title: "Tech Innovation Summit 2025",
+                description: "Join industry leaders and innovators for insights into the future of technology in Sri Lanka and beyond.",
+                category: "business",
+                date: "2025-01-15",
+                time: "9:00 AM",
+                location: "Kandy",
+                venue: "Kandy City Center",
+                price: 5000,
+                image: "picture/event-tech.jpg",
+                organizer: "Tech Lanka",
+                availableTickets: 280,
+                totalTickets: 300,
+                interestedCount: 892,
+                rating: 4.9
+            },
+            {
+                id: 3,
+                title: "Colombo Food Festival",
+                description: "Experience the best of Sri Lankan cuisine with over 50 restaurants and food vendors showcasing authentic flavors.",
+                category: "food",
+                date: "2025-02-10",
+                time: "11:00 AM",
+                location: "Colombo",
+                venue: "Galle Face Green",
+                price: 1500,
+                image: "picture/event-food.jpg",
+                organizer: "Food Festival Lanka",
+                availableTickets: 750,
+                totalTickets: 1000,
+                interestedCount: 2156,
+                rating: 4.7
+            }
+        ];
+
+        let currentEvent = null;
+        let selectedTicketType = 'regular';
+        let ticketQuantity = 1;
+        let appliedDiscount = null;
+
+        const ticketPrices = {
+            regular: 2500,
+            premium: 4000,
+            vip: 6500
+        };
+
+        document.addEventListener('DOMContentLoaded', function () {
+            loadEventData();
+            setupEventListeners();
+            loadSimilarEvents();
+        });
+
+        function loadEventData() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const eventId = parseInt(urlParams.get('id')) || 1;
+
+            currentEvent = eventsData.find(event => event.id === eventId) || eventsData[0];
+
+            // Update page content
+            document.getElementById('eventHeroImage').src = currentEvent.image;
+            document.getElementById('breadcrumbTitle').textContent = currentEvent.title;
+            document.getElementById('eventCategoryBadge').textContent = getCategoryDisplayName(currentEvent.category);
+            document.getElementById('eventTitle').textContent = currentEvent.title;
+            document.getElementById('eventSubtitle').textContent = currentEvent.description;
+
+            // Format date
+            const eventDate = new Date(currentEvent.date);
+            document.getElementById('eventDate').textContent = eventDate.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            document.getElementById('eventTime').textContent = currentEvent.time;
+            document.getElementById('eventVenue').textContent = currentEvent.venue;
+            document.getElementById('eventLocation').textContent = currentEvent.location;
+            document.getElementById('eventOrganizer').textContent = currentEvent.organizer;
+
+            // Update booking panel
+            document.getElementById('displayPrice').textContent = `Rs. ${currentEvent.price.toLocaleString()}`;
+            document.getElementById('availabilityText').textContent = `${currentEvent.availableTickets} tickets remaining`;
+            document.getElementById('interestedCount').textContent = currentEvent.interestedCount.toLocaleString();
+            document.getElementById('soldTickets').textContent = (currentEvent.totalTickets - currentEvent.availableTickets).toString();
+
+            // Update page title
+            document.title = `EventHub - ${currentEvent.title}`;
+
+            updateOrderSummary();
+
+            // Check if event is already favorited
+            const favorites = JSON.parse(localStorage.getItem('favoriteEvents') || '[]');
+            if (favorites.includes(currentEvent.id)) {
+                const favoriteBtn = document.getElementById('favoriteBtn');
+                favoriteBtn.classList.add('liked');
+                favoriteBtn.querySelector('i').classList.replace('bi-heart', 'bi-heart-fill');
+                favoriteBtn.querySelector('span').textContent = 'Remove from Favorites';
+            }
+        }
+
+        function setupEventListeners() {
+            // Mobile menu auto-close
+            const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+            const navbarCollapse = document.querySelector('.navbar-collapse');
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function () {
+                    if (window.innerWidth < 992) {
+                        const bsCollapse = bootstrap.Collapse.getInstance(navbarCollapse) ||
+                            new bootstrap.Collapse(navbarCollapse);
+                        bsCollapse.hide();
+                    }
+                });
+            });
+
+            // Ticket type selection
+            document.querySelectorAll('.ticket-option').forEach(option => {
+                option.addEventListener('click', function () {
+                    document.querySelectorAll('.ticket-option').forEach(opt => opt.classList.remove('active'));
+                    this.classList.add('active');
+                    selectedTicketType = this.getAttribute('data-type');
+                    updateOrderSummary();
+                });
+            });
+
+            // Quantity input changes
+            document.getElementById('ticketQuantity').addEventListener('change', function () {
+                ticketQuantity = parseInt(this.value) || 1;
+                updateOrderSummary();
+            });
+        }
+
+        function getCategoryDisplayName(category) {
+            const categories = {
+                'music': 'Music',
+                'sports': 'Sports',
+                'arts': 'Arts & Culture',
+                'business': 'Business',
+                'food': 'Food & Drink',
+                'technology': 'Technology',
+                'health': 'Health & Wellness',
+                'education': 'Education'
+            };
+            return categories[category] || category;
+        }
+
+        function changeQuantity(delta) {
+            const input = document.getElementById('ticketQuantity');
+            const newQuantity = Math.max(1, Math.min(10, parseInt(input.value) + delta));
+            input.value = newQuantity;
+            ticketQuantity = newQuantity;
+            updateOrderSummary();
+        }
+
+        function updateOrderSummary() {
+            const ticketPrice = ticketPrices[selectedTicketType];
+            const subtotal = ticketPrice * ticketQuantity;
+            const serviceFee = 100;
+            let discount = 0;
+
+            if (appliedDiscount) {
+                if (appliedDiscount.type === 'percentage') {
+                    discount = Math.round(subtotal * (appliedDiscount.value / 100));
+                } else if (appliedDiscount.type === 'fixed') {
+                    discount = appliedDiscount.value;
+                }
+            }
+
+            const total = subtotal + serviceFee - discount;
+
+            // Update display
+            document.getElementById('displayPrice').textContent = `Rs. ${ticketPrice.toLocaleString()}`;
+            document.getElementById('subtotalPrice').textContent = `Rs. ${subtotal.toLocaleString()}`;
+            document.getElementById('summaryQuantity').textContent = ticketQuantity;
+            document.getElementById('serviceFee').textContent = `Rs. ${serviceFee}`;
+            document.getElementById('totalAmount').textContent = `Rs. ${total.toLocaleString()}`;
+
+            // Show/hide discount row
+            const discountRow = document.getElementById('discountRow');
+            if (discount > 0) {
+                discountRow.style.display = 'flex';
+                document.getElementById('discountAmount').textContent = `- Rs. ${discount.toLocaleString()}`;
+            } else {
+                discountRow.style.display = 'none';
+            }
+        }
+
+        function applyDiscount() {
+            const code = document.getElementById('discountCode').value.trim().toUpperCase();
+            const messageEl = document.getElementById('discountMessage');
+
+            // Sample discount codes
+            const discountCodes = {
+                'SAVE10': { type: 'percentage', value: 10, description: '10% Off' },
+                'SAVE20': { type: 'percentage', value: 20, description: '20% Off' },
+                'FIRST500': { type: 'fixed', value: 500, description: 'Rs. 500 Off' },
+                'STUDENT': { type: 'percentage', value: 15, description: '15% Student Discount' },
+                'EARLYBIRD': { type: 'percentage', value: 25, description: '25% Early Bird Special' }
+            };
+
+            if (!code) {
+                messageEl.innerHTML = '<span class="discount-error">Please enter a discount code</span>';
+                return;
+            }
+
+            if (discountCodes[code]) {
+                appliedDiscount = discountCodes[code];
+                messageEl.innerHTML = `<span class="discount-success">✓ ${discountCodes[code].description} applied!</span>`;
+                updateOrderSummary();
+
+                Swal.fire({
+                    title: 'Discount Applied!',
+                    text: `${discountCodes[code].description} has been applied to your order`,
+                    icon: 'success',
+                    timer: 2000,
+                    timerProgressBar: true,
+                    showConfirmButton: false,
+                    position: 'top-end',
+                    toast: true
+                });
+            } else {
+                messageEl.innerHTML = '<span class="discount-error">Invalid discount code</span>';
+
+                Swal.fire({
+                    title: 'Invalid Code',
+                    text: 'The discount code you entered is not valid or has expired',
+                    icon: 'error',
+                    confirmButtonColor: '#6366f1'
+                });
+            }
+        }
+
+        function toggleFavorite() {
+            const favoriteBtn = document.getElementById('favoriteBtn');
+            const icon = favoriteBtn.querySelector('i');
+            const span = favoriteBtn.querySelector('span');
+            const isLiked = favoriteBtn.classList.contains('liked');
+
+            if (isLiked) {
+                favoriteBtn.classList.remove('liked');
+                icon.classList.replace('bi-heart-fill', 'bi-heart');
+                span.textContent = 'Add to Favorites';
+
+                // Remove from localStorage
+                let favorites = JSON.parse(localStorage.getItem('favoriteEvents') || '[]');
+                favorites = favorites.filter(id => id !== currentEvent.id);
+                localStorage.setItem('favoriteEvents', JSON.stringify(favorites));
+
+                Swal.fire({
+                    title: 'Removed from Favorites',
+                    text: 'Event removed from your favorites',
+                    icon: 'info',
+                    timer: 2000,
+                    timerProgressBar: true,
+                    showConfirmButton: false,
+                    position: 'top-end',
+                    toast: true
+                });
+            } else {
+                favoriteBtn.classList.add('liked');
+                icon.classList.replace('bi-heart', 'bi-heart-fill');
+                span.textContent = 'Remove from Favorites';
+
+                // Add to localStorage
+                let favorites = JSON.parse(localStorage.getItem('favoriteEvents') || '[]');
+                favorites.push(currentEvent.id);
+                localStorage.setItem('favoriteEvents', JSON.stringify(favorites));
+
+                Swal.fire({
+                    title: 'Added to Favorites',
+                    text: 'Event added to your favorites',
+                    icon: 'success',
+                    timer: 2000,
+                    timerProgressBar: true,
+                    showConfirmButton: false,
+                    position: 'top-end',
+                    toast: true
+                });
+            }
+        }
+
+        function shareEvent() {
+            const url = window.location.href;
+            const title = currentEvent.title;
+            const text = `Check out this amazing event: ${title}`;
+
+            if (navigator.share) {
+                navigator.share({
+                    title: title,
+                    text: text,
+                    url: url,
+                });
+            } else {
+                // Fallback: Copy to clipboard
+                navigator.clipboard.writeText(url).then(() => {
+                    Swal.fire({
+                        title: 'Link Copied!',
+                        text: 'Event link has been copied to your clipboard',
+                        icon: 'success',
+                        timer: 2000,
+                        timerProgressBar: true,
+                        showConfirmButton: false,
+                        position: 'top-end',
+                        toast: true
+                    });
+                }).catch(() => {
+                    // Manual share options
+                    Swal.fire({
+                        title: 'Share This Event',
+                        html: `
+                            <div class="d-flex justify-content-center gap-3 mt-3">
+                                <a href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}" target="_blank" class="btn btn-primary">
+                                    <i class="bi bi-facebook"></i> Facebook
+                                </a>
+                                <a href="https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}" target="_blank" class="btn btn-info">
+                                    <i class="bi bi-twitter"></i> Twitter
+                                </a>
+                                <a href="https://wa.me/?text=${encodeURIComponent(text + ' ' + url)}" target="_blank" class="btn btn-success">
+                                    <i class="bi bi-whatsapp"></i> WhatsApp
+                                </a>
+                            </div>
+                        `,
+                        showConfirmButton: false,
+                        showCloseButton: true
+                    });
+                });
+            }
+        }
+
+        function proceedToBooking() {
+            // Check if user is logged in (for demo purposes, we'll simulate this)
+            const isLoggedIn = localStorage.getItem('userLoggedIn') === 'true';
+
+            if (!isLoggedIn) {
+                Swal.fire({
+                    title: 'Login Required',
+                    text: 'Please login or create an account to book tickets',
+                    icon: 'info',
+                    showCancelButton: true,
+                    confirmButtonColor: '#6366f1',
+                    cancelButtonColor: '#6b7280',
+                    confirmButtonText: 'Go to Login',
+                    cancelButtonText: 'Cancel'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Store booking data for after login
+                        const bookingData = {
+                            eventId: currentEvent.id,
+                            ticketType: selectedTicketType,
+                            quantity: ticketQuantity,
+                            discount: appliedDiscount
+                        };
+                        sessionStorage.setItem('pendingBooking', JSON.stringify(bookingData));
+                        window.location.href = 'login.html?redirect=booking';
+                    }
+                });
+                return;
+            }
+
+            // If logged in, proceed to booking
+            const bookingData = {
+                eventId: currentEvent.id,
+                eventTitle: currentEvent.title,
+                ticketType: selectedTicketType,
+                ticketPrice: ticketPrices[selectedTicketType],
+                quantity: ticketQuantity,
+                discount: appliedDiscount,
+                totalAmount: calculateTotal()
+            };
+
+            // Store booking data and redirect
+            sessionStorage.setItem('currentBooking', JSON.stringify(bookingData));
+            window.location.href = 'booking.html';
+        }
+
+        function addToCart() {
+            const cartItem = {
+                eventId: currentEvent.id,
+                eventTitle: currentEvent.title,
+                eventDate: currentEvent.date,
+                eventTime: currentEvent.time,
+                eventVenue: currentEvent.venue,
+                ticketType: selectedTicketType,
+                ticketPrice: ticketPrices[selectedTicketType],
+                quantity: ticketQuantity,
+                discount: appliedDiscount,
+                addedAt: new Date().toISOString()
+            };
+
+            // Get existing cart
+            let cart = JSON.parse(localStorage.getItem('eventCart') || '[]');
+
+            // Check if item already exists
+            const existingIndex = cart.findIndex(item =>
+                item.eventId === cartItem.eventId && item.ticketType === cartItem.ticketType
+            );
+
+            if (existingIndex !== -1) {
+                // Update quantity
+                cart[existingIndex].quantity += cartItem.quantity;
+            } else {
+                // Add new item
+                cart.push(cartItem);
+            }
+
+            localStorage.setItem('eventCart', JSON.stringify(cart));
+
+            Swal.fire({
+                title: 'Added to Cart',
+                text: `${ticketQuantity} ticket(s) added to your cart`,
+                icon: 'success',
+                showCancelButton: true,
+                confirmButtonColor: '#6366f1',
+                cancelButtonColor: '#6b7280',
+                confirmButtonText: 'View Cart',
+                cancelButtonText: 'Continue Shopping'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = 'cart.html';
+                }
+            });
+        }
+
+        function calculateTotal() {
+            const ticketPrice = ticketPrices[selectedTicketType];
+            const subtotal = ticketPrice * ticketQuantity;
+            const serviceFee = 100;
+            let discount = 0;
+
+            if (appliedDiscount) {
+                if (appliedDiscount.type === 'percentage') {
+                    discount = Math.round(subtotal * (appliedDiscount.value / 100));
+                } else if (appliedDiscount.type === 'fixed') {
+                    discount = appliedDiscount.value;
+                }
+            }
+
+            return subtotal + serviceFee - discount;
+        }
+
+        function loadSimilarEvents() {
+            const similarEvents = eventsData
+                .filter(event => event.id !== currentEvent.id && event.category === currentEvent.category)
+                .slice(0, 3);
+
+            if (similarEvents.length === 0) {
+                // If no similar events in same category, show random events
+                similarEvents.push(...eventsData.filter(event => event.id !== currentEvent.id).slice(0, 3));
+            }
+
+            const container = document.getElementById('similarEvents');
+            container.innerHTML = similarEvents.map(event => `
+                <a href="event-details.html?id=${event.id}" class="similar-event-item">
+                    <div class="similar-event-image">
+                        <img src="${event.image}" alt="${event.title}">
+                    </div>
+                    <div class="similar-event-info">
+                        <h6>${event.title}</h6>
+                        <small><i class="bi bi-calendar3 me-1"></i>${new Date(event.date).toLocaleDateString()}</small>
+                        <div class="similar-event-price">From Rs. ${event.price.toLocaleString()}</div>
+                    </div>
+                </a>
+            `).join('');
+        }
+
+        // Auto-update availability (simulate real-time updates)
+        setInterval(() => {
+            if (currentEvent && currentEvent.availableTickets > 0) {
+                // Randomly decrease available tickets (simulation)
+                if (Math.random() < 0.1) { // 10% chance every 10 seconds
+                    currentEvent.availableTickets = Math.max(0, currentEvent.availableTickets - Math.floor(Math.random() * 3) - 1);
+                    document.getElementById('availabilityText').textContent = `${currentEvent.availableTickets} tickets remaining`;
+
+                    if (currentEvent.availableTickets <= 10) {
+                        document.getElementById('availabilityText').className = 'text-danger pulse';
+                    } else if (currentEvent.availableTickets <= 50) {
+                        document.getElementById('availabilityText').className = 'text-warning';
+                    }
+                }
+            }
+        }, 10000);
+
+        // Smooth scroll to booking panel on mobile
+        function scrollToBooking() {
+            if (window.innerWidth <= 991.98) {
+                document.querySelector('.booking-panel').scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Add click handlers for quick booking from mobile
+        document.addEventListener('DOMContentLoaded', function () {
+            // Add floating booking button on mobile
+            if (window.innerWidth <= 991.98) {
+                const floatingBtn = document.createElement('button');
+                floatingBtn.className = 'btn btn-book-now position-fixed';
+                floatingBtn.style.cssText = 'bottom: 20px; left: 20px; right: 20px; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.3);';
+                floatingBtn.innerHTML = '<i class="bi bi-ticket me-2"></i>Book Tickets';
+                floatingBtn.onclick = scrollToBooking;
+                document.body.appendChild(floatingBtn);
+
+                // Hide floating button when booking panel is visible
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        floatingBtn.style.display = entry.isIntersecting ? 'none' : 'block';
+                    });
+                });
+
+                observer.observe(document.querySelector('.booking-panel'));
+            }
+        });
+
+        // Handle discount code input on Enter key
+        document.getElementById('discountCode').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                applyDiscount();
+            }
+        });
+
+        // Add animation on page load
+        document.addEventListener('DOMContentLoaded', function () {
+            setTimeout(() => {
+                document.querySelectorAll('.content-card, .booking-card, .stats-card, .similar-events').forEach((el, index) => {
+                    setTimeout(() => {
+                        el.classList.add('fade-in');
+                    }, index * 100);
+                });
+            }, 500);
+        });
+    </script>
+
+</body>
+
+</html>
