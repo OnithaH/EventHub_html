@@ -1,0 +1,1579 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EventHub - Welcome Back</title>
+
+    <!-- Bootstrap 5.3 CSS (Latest) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <!-- Bootstrap Icons (Latest) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+    <!-- EventHub Header - From navbar.html -->
+    <nav class="navbar navbar-expand-lg eventhub-navbar">
+        <div class="container-fluid px-4">
+            <!-- Brand Logo -->
+            <a class="navbar-brand eventhub-brand d-flex align-items-center" href="index.html">
+                <div class="brand-icon me-2">
+                    <i class="bi bi-calendar-event me-1"></i>
+                </div>
+                <span class="brand-text">EventHub</span>
+            </a>
+
+            <!-- Mobile Toggle Button -->
+            <button class="navbar-toggler custom-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navigation Items -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <!-- Left Navigation -->
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link eventhub-nav-link" href="index.html">
+                            <i class="bi bi-house-fill me-1"></i>
+                            Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link eventhub-nav-link" href="event-listing.html">
+                            <i class="bi bi-calendar3 me-1"></i>Events
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link eventhub-nav-link dropdown-toggle" href="#" id="categoriesDropdown"
+                            role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-grid-3x3-gap me-1"></i>
+                            Categories
+                        </a>
+                        <ul class="dropdown-menu eventhub-dropdown" aria-labelledby="categoriesDropdown">
+                            <li><a class="dropdown-item" href="event-listing.html?category=music"><i
+                                        class="bi bi-music-note me-2"></i>Music</a></li>
+                            <li><a class="dropdown-item" href="event-listing.html?category=sports"><i
+                                        class="bi bi-trophy me-2"></i>Sports</a></li>
+                            <li><a class="dropdown-item" href="event-listing.html?category=arts"><i
+                                        class="bi bi-palette me-2"></i>Arts & Culture</a>
+                            </li>
+                            <li><a class="dropdown-item" href="event-listing.html?category=business"><i
+                                        class="bi bi-briefcase me-2"></i>Business</a></li>
+                            <li><a class="dropdown-item" href="event-listing.html?category=food"><i
+                                        class="bi bi-cup-hot me-2"></i>Food & Drink</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link eventhub-nav-link" href="about.html">
+                            <i class="bi bi-info-circle me-1"></i>About
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link eventhub-nav-link" href="contact.html">
+                            <i class="bi bi-envelope me-1"></i>Contact
+                        </a>
+                    </li>
+                </ul>
+
+                <!-- Right Navigation - Auth Buttons -->
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="btn eventhub-btn-login active" href="login.html">
+                            <i class="bi bi-box-arrow-in-right me-1"></i>
+                            LOGIN
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn eventhub-btn-signup me-2" href="register.html">
+                            <i class="bi bi-person-plus me-1"></i>
+                            SIGN UP
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Login Hero Section -->
+    <section class="login-hero">
+        <div class="container">
+            <div class="row align-items-center min-vh-80">
+                <div class="col-lg-6 order-lg-2">
+                    <div class="hero-content">
+                        <h1 class="hero-title">Welcome Back to <span class="gradient-text">EventHub</span></h1>
+                        <p class="hero-subtitle">Sign in to your account and continue discovering amazing events,
+                            managing your bookings, or organizing unforgettable experiences.</p>
+
+                        <!-- Quick Stats -->
+                        <div class="login-stats">
+                            <div class="stat-item">
+                                <div class="stat-icon">
+                                    <i class="bi bi-people"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <h6>15,000+</h6>
+                                    <p>Active Users</p>
+                                </div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-icon">
+                                    <i class="bi bi-calendar-event"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <h6>500+</h6>
+                                    <p>Events Monthly</p>
+                                </div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-icon">
+                                    <i class="bi bi-star-fill"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <h6>4.9★</h6>
+                                    <p>User Rating</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Social Proof -->
+                        <div class="social-proof">
+                            <p class="social-text">Trusted by event organizers and attendees across Sri Lanka</p>
+                            <div class="company-logos">
+                                <div class="logo-item">🎭</div>
+                                <div class="logo-item">🎵</div>
+                                <div class="logo-item">🏟️</div>
+                                <div class="logo-item">🎪</div>
+                                <div class="logo-item">🎨</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 order-lg-1">
+                    <div class="login-form-container">
+                        <!-- Login Form Card -->
+                        <div class="login-form-card">
+                            <!-- Success Message (for new registrations) -->
+                            <div id="registrationSuccess" class="alert alert-success" style="display: none;">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-check-circle-fill me-2"></i>
+                                    <div>
+                                        <strong>Registration Successful!</strong><br>
+                                        <small>Please sign in with your new account credentials.</small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-header">
+                                <h3 class="form-title">Sign In</h3>
+                                <p class="form-subtitle">Access your EventHub account</p>
+                            </div>
+
+                            <!-- Role Selection Tabs -->
+                            <div class="role-tabs">
+                                <div class="tab-buttons">
+                                    <button type="button" class="tab-button active" data-role="customer"
+                                        onclick="switchRole('customer')">
+                                        <i class="bi bi-person-heart me-2"></i>Event Goer
+                                    </button>
+                                    <button type="button" class="tab-button" data-role="organizer"
+                                        onclick="switchRole('organizer')">
+                                        <i class="bi bi-megaphone me-2"></i>Organizer
+                                    </button>
+                                    <button type="button" class="tab-button" data-role="admin"
+                                        onclick="switchRole('admin')">
+                                        <i class="bi bi-shield-check me-2"></i>Admin
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Login Form -->
+                            <form id="loginForm" onsubmit="handleLogin(event)">
+                                <div class="form-content">
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label">
+                                            <i class="bi bi-envelope me-2"></i>Email Address
+                                        </label>
+                                        <input type="email" class="form-control" id="email" required
+                                            placeholder="Enter your email address">
+                                        <div class="invalid-feedback"></div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="password" class="form-label d-flex justify-content-between">
+                                            <span><i class="bi bi-lock me-2"></i>Password</span>
+                                            <a href="#" class="forgot-password-link"
+                                                onclick="showForgotPassword()">Forgot Password?</a>
+                                        </label>
+                                        <div class="password-input-group">
+                                            <input type="password" class="form-control" id="password" required
+                                                placeholder="Enter your password">
+                                            <button type="button" class="password-toggle" onclick="togglePassword()">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                        </div>
+                                        <div class="invalid-feedback"></div>
+                                    </div>
+
+                                    <!-- Remember Me & Options -->
+                                    <div class="form-options mb-4">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="rememberMe">
+                                            <label class="form-check-label" for="rememberMe">
+                                                Keep me signed in
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <!-- Login Button -->
+                                    <button type="submit" class="btn btn-login w-100 mb-3">
+                                        <i class="bi bi-box-arrow-in-right me-2"></i>
+                                        Sign In
+                                    </button>
+
+                                    <!-- Divider -->
+                                    <div class="divider">
+                                        <span>Or continue with</span>
+                                    </div>
+
+                                    <!-- Social Login Options -->
+                                    <div class="social-login">
+                                        <button type="button" class="btn btn-social btn-google"
+                                            onclick="socialLogin('google')">
+                                            <i class="bi bi-google me-2"></i>
+                                            Google
+                                        </button>
+                                        <button type="button" class="btn btn-social btn-facebook"
+                                            onclick="socialLogin('facebook')">
+                                            <i class="bi bi-facebook me-2"></i>
+                                            Facebook
+                                        </button>
+                                    </div>
+
+                                    <!-- Demo Accounts -->
+                                    <div class="demo-accounts mt-4">
+                                        <h6 class="demo-title">
+                                            <i class="bi bi-play-circle me-2"></i>Try Demo Accounts
+                                        </h6>
+                                        <div class="demo-options">
+                                            <button type="button" class="btn btn-demo" onclick="fillDemo('customer')">
+                                                <i class="bi bi-person me-2"></i>Demo Customer
+                                            </button>
+                                            <button type="button" class="btn btn-demo" onclick="fillDemo('organizer')">
+                                                <i class="bi bi-megaphone me-2"></i>Demo Organizer
+                                            </button>
+                                            <button type="button" class="btn btn-demo" onclick="fillDemo('admin')">
+                                                <i class="bi bi-shield me-2"></i>Demo Admin
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+
+                            <!-- Sign Up Link -->
+                            <div class="signup-link">
+                                <p>Don't have an account? <a href="register.html">Create one here</a></p>
+                            </div>
+                        </div>
+
+                        <!-- Security Info -->
+                        <div class="security-info">
+                            <div class="security-item">
+                                <i class="bi bi-shield-check"></i>
+                                <span>256-bit SSL encryption</span>
+                            </div>
+                            <div class="security-item">
+                                <i class="bi bi-lock-fill"></i>
+                                <span>Your data is secure</span>
+                            </div>
+                            <div class="security-item">
+                                <i class="bi bi-eye-slash"></i>
+                                <span>Privacy protected</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+
+    <style>
+        /* EventHub Custom Styles */
+        * {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* Navbar Styling - From navbar.html */
+        .eventhub-navbar {
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 0.75rem 0;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .eventhub-brand {
+            text-decoration: none;
+            color: #6366f1 !important;
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .eventhub-brand:hover {
+            color: #5855eb !important;
+            text-decoration: none;
+        }
+
+        .brand-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .brand-text {
+            color: #6366f1;
+            font-weight: 700;
+        }
+
+        .eventhub-nav-link {
+            color: #64748b !important;
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 0.5rem 1rem !important;
+            margin: 0 0.25rem;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .eventhub-nav-link:hover {
+            color: #6366f1 !important;
+            background-color: rgba(99, 102, 241, 0.1);
+        }
+
+        .eventhub-nav-link.active {
+            color: #6366f1 !important;
+            background-color: rgba(99, 102, 241, 0.15);
+            font-weight: 600;
+        }
+
+        .eventhub-dropdown {
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            padding: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .eventhub-dropdown .dropdown-item {
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            color: #64748b;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .eventhub-dropdown .dropdown-item:hover {
+            background-color: rgba(99, 102, 241, 0.1);
+            color: #6366f1;
+        }
+
+        .eventhub-btn-login {
+            background: transparent;
+            border: 2px solid #6366f1;
+            color: #6366f1 !important;
+            font-weight: 600;
+            font-size: 0.85rem;
+            padding: 0.6rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            letter-spacing: 0.5px;
+        }
+
+        .eventhub-btn-login:hover {
+            background-color: #6366f1;
+            color: white !important;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+
+        .eventhub-btn-login.active {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            border-color: #fbbf24;
+            color: #1f2937 !important;
+        }
+
+        .eventhub-btn-signup {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            border: none;
+            color: white !important;
+            font-weight: 600;
+            font-size: 0.85rem;
+            padding: 0.6rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            letter-spacing: 0.5px;
+        }
+
+        .eventhub-btn-signup:hover {
+            background: linear-gradient(135deg, #5855eb 0%, #7c3aed 100%);
+            color: white !important;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
+        }
+
+        .custom-toggler {
+            border: none;
+            padding: 0.25rem 0.5rem;
+        }
+
+        .custom-toggler:focus {
+            box-shadow: 0 0 0 0.2rem rgba(99, 102, 241, 0.25);
+        }
+
+        /* Login Hero Section */
+        .login-hero {
+            padding: 2rem 0;
+            min-height: calc(100vh - 80px);
+            display: flex;
+            align-items: center;
+        }
+
+        .hero-content {
+            color: white;
+            padding-left: 2rem;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        .min-vh-80 {
+            min-height: 80vh;
+        }
+
+        /* Login Stats */
+        .login-stats {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #fbbf24;
+        }
+
+        .stat-content h6 {
+            color: white;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+            font-size: 1.2rem;
+        }
+
+        .stat-content p {
+            color: rgba(255, 255, 255, 0.8);
+            margin: 0;
+            font-size: 0.9rem;
+        }
+
+        /* Social Proof */
+        .social-proof {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .social-text {
+            color: white;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .company-logos {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .logo-item {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        /* Login Form */
+        .login-form-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .login-form-card {
+            background: white;
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            width: 100%;
+            max-width: 450px;
+            backdrop-filter: blur(10px);
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .form-title {
+            color: #374151;
+            font-weight: 700;
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-subtitle {
+            color: #64748b;
+            margin: 0;
+        }
+
+        /* Role Tabs */
+        .role-tabs {
+            margin-bottom: 2rem;
+        }
+
+        .tab-buttons {
+            display: flex;
+            background: #f1f5f9;
+            border-radius: 0.75rem;
+            padding: 0.25rem;
+        }
+
+        .tab-button {
+            flex: 1;
+            background: none;
+            border: none;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #64748b;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .tab-button:hover {
+            color: #374151;
+        }
+
+        .tab-button.active {
+            background: white;
+            color: #6366f1;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Form Controls */
+        .form-label {
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-control {
+            border: 2px solid #e5e7eb;
+            border-radius: 0.75rem;
+            padding: 0.875rem 1rem;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 0.2rem rgba(99, 102, 241, 0.15);
+        }
+
+        .form-control.is-invalid {
+            border-color: #ef4444;
+        }
+
+        .invalid-feedback {
+            color: #ef4444;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+
+        .forgot-password-link {
+            color: #6366f1;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .forgot-password-link:hover {
+            color: #5855eb;
+            text-decoration: underline;
+        }
+
+        /* Password Input */
+        .password-input-group {
+            position: relative;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #64748b;
+            cursor: pointer;
+            padding: 0.25rem;
+            border-radius: 0.25rem;
+            transition: color 0.3s ease;
+        }
+
+        .password-toggle:hover {
+            color: #6366f1;
+        }
+
+        .password-input-group .form-control {
+            padding-right: 3rem;
+        }
+
+        /* Form Options */
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .form-check-input:checked {
+            background-color: #6366f1;
+            border-color: #6366f1;
+        }
+
+        .form-check-input:focus {
+            box-shadow: 0 0 0 0.2rem rgba(99, 102, 241, 0.15);
+        }
+
+        .form-check-label {
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        /* Login Button */
+        .btn-login {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            border: none;
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
+            padding: 1rem 2rem;
+            border-radius: 0.75rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-login:hover {
+            background: linear-gradient(135deg, #5855eb 0%, #7c3aed 100%);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
+        }
+
+        /* Divider */
+        .divider {
+            position: relative;
+            text-align: center;
+            margin: 1.5rem 0;
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #e5e7eb;
+            z-index: 1;
+        }
+
+        .divider span {
+            background: white;
+            padding: 0 1rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Social Login */
+        .social-login {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .btn-social {
+            flex: 1;
+            padding: 0.875rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            border: 2px solid #e5e7eb;
+            background: white;
+            transition: all 0.3s ease;
+        }
+
+        .btn-social:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-google {
+            color: #ea4335;
+        }
+
+        .btn-google:hover {
+            border-color: #ea4335;
+            color: #ea4335;
+        }
+
+        .btn-facebook {
+            color: #1877f2;
+        }
+
+        .btn-facebook:hover {
+            border-color: #1877f2;
+            color: #1877f2;
+        }
+
+        /* Demo Accounts */
+        .demo-accounts {
+            border-top: 1px solid #f1f5f9;
+            padding-top: 1.5rem;
+        }
+
+        .demo-title {
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .demo-options {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-demo {
+            background: #f8fafc;
+            border: 1px solid #e5e7eb;
+            color: #64748b;
+            font-size: 0.8rem;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            flex: 1;
+            transition: all 0.3s ease;
+        }
+
+        .btn-demo:hover {
+            background: #f1f5f9;
+            color: #374151;
+            border-color: #d1d5db;
+        }
+
+        /* Sign Up Link */
+        .signup-link {
+            text-align: center;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .signup-link p {
+            color: #64748b;
+            margin: 0;
+        }
+
+        .signup-link a {
+            color: #6366f1;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .signup-link a:hover {
+            color: #5855eb;
+            text-decoration: underline;
+        }
+
+        /* Security Info */
+        .security-info {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .security-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+        }
+
+        .security-item i {
+            color: #fbbf24;
+        }
+
+        /* Success Alert */
+        .alert-success {
+            background: #d1fae5;
+            border: 1px solid #a7f3d0;
+            color: #065f46;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 991.98px) {
+            .navbar-collapse {
+                margin-top: 1rem;
+                padding: 1rem;
+                background-color: rgba(255, 255, 255, 0.95);
+                border-radius: 12px;
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                backdrop-filter: blur(10px);
+            }
+
+            .eventhub-nav-link {
+                padding: 0.75rem 1rem !important;
+                margin: 0.25rem 0;
+            }
+
+            .eventhub-btn-login,
+            .eventhub-btn-signup {
+                width: 100%;
+                justify-content: center;
+                margin: 0.5rem 0;
+            }
+
+            .navbar-nav.ms-auto {
+                margin-top: 1rem;
+                border-top: 1px solid rgba(255, 255, 255, 0.2);
+                padding-top: 1rem;
+            }
+
+            .hero-content {
+                padding-left: 0;
+                margin-bottom: 2rem;
+                text-align: center;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .login-stats {
+                justify-content: center;
+            }
+
+            .login-form-card {
+                margin-top: 2rem;
+                padding: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .login-stats {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+
+            .security-info {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+
+            .social-login {
+                flex-direction: column;
+            }
+
+            .demo-options {
+                flex-direction: column;
+            }
+
+            .tab-buttons {
+                flex-direction: column;
+                gap: 0.25rem;
+            }
+
+            .tab-button {
+                padding: 1rem;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .login-form-card {
+                padding: 1.5rem;
+                margin: 1rem;
+            }
+        }
+
+        /* Animations */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Loading States */
+        .loading {
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
+        .loading::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 20px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #6366f1;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+
+            100% {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+
+        /* Error shake animation */
+        .shake {
+            animation: shake 0.82s cubic-bezier(.36, .07, .19, .97) both;
+        }
+
+        @keyframes shake {
+
+            10%,
+            90% {
+                transform: translate3d(-1px, 0, 0);
+            }
+
+            20%,
+            80% {
+                transform: translate3d(2px, 0, 0);
+            }
+
+            30%,
+            50%,
+            70% {
+                transform: translate3d(-4px, 0, 0);
+            }
+
+            40%,
+            60% {
+                transform: translate3d(4px, 0, 0);
+            }
+        }
+    </style>
+
+    <script>
+        let selectedRole = 'customer';
+
+        // Demo user accounts
+        const demoAccounts = {
+            customer: {
+                email: 'customer@demo.com',
+                password: 'demo123',
+                name: 'Priya Fernando',
+                role: 'customer'
+            },
+            organizer: {
+                email: 'organizer@demo.com',
+                password: 'demo123',
+                name: 'Ranil Silva',
+                role: 'organizer'
+            },
+            admin: {
+                email: 'admin@eventhub.lk',
+                password: 'admin123',
+                name: 'System Admin',
+                role: 'admin'
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', function () {
+            initializeLogin();
+            checkRegistrationSuccess();
+            setupFormValidation();
+        });
+
+        function initializeLogin() {
+            // Mobile menu auto-close
+            const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+            const navbarCollapse = document.querySelector('.navbar-collapse');
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function () {
+                    if (window.innerWidth < 992) {
+                        const bsCollapse = bootstrap.Collapse.getInstance(navbarCollapse) ||
+                            new bootstrap.Collapse(navbarCollapse);
+                        bsCollapse.hide();
+                    }
+                });
+            });
+
+            // Check URL parameters for redirect
+            const urlParams = new URLSearchParams(window.location.search);
+            const redirect = urlParams.get('redirect');
+
+            if (redirect) {
+                sessionStorage.setItem('loginRedirect', redirect);
+            }
+        }
+
+        function checkRegistrationSuccess() {
+            const registrationData = sessionStorage.getItem('registrationSuccess');
+            if (registrationData) {
+                const data = JSON.parse(registrationData);
+                const successAlert = document.getElementById('registrationSuccess');
+
+                successAlert.style.display = 'block';
+                successAlert.classList.add('fade-in');
+
+                // Pre-fill email
+                document.getElementById('email').value = data.email;
+
+                // Switch to appropriate role tab
+                if (data.role) {
+                    switchRole(data.role);
+                }
+
+                // Clear the session storage
+                sessionStorage.removeItem('registrationSuccess');
+
+                // Auto-hide after 10 seconds
+                setTimeout(() => {
+                    successAlert.style.display = 'none';
+                }, 10000);
+            }
+        }
+
+        function setupFormValidation() {
+            const form = document.getElementById('loginForm');
+            const inputs = form.querySelectorAll('input');
+
+            inputs.forEach(input => {
+                input.addEventListener('blur', validateField);
+                input.addEventListener('input', clearFieldError);
+            });
+        }
+
+        function switchRole(role) {
+            selectedRole = role;
+
+            // Update tab buttons
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('active');
+            });
+            document.querySelector(`[data-role="${role}"]`).classList.add('active');
+
+            // Update form title based on role
+            const formTitle = document.querySelector('.form-title');
+            const roleTitles = {
+                customer: 'Sign In',
+                organizer: 'Organizer Sign In',
+                admin: 'Admin Access'
+            };
+            formTitle.textContent = roleTitles[role] || 'Sign In';
+        }
+
+        function validateField(event) {
+            const field = event.target;
+            const value = field.value.trim();
+
+            clearFieldError(event);
+
+            if (field.required && !value) {
+                showFieldError(field, 'This field is required');
+                return false;
+            }
+
+            if (field.type === 'email' && value) {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(value)) {
+                    showFieldError(field, 'Please enter a valid email address');
+                    return false;
+                }
+            }
+
+            if (field.type === 'password' && value) {
+                if (value.length < 6) {
+                    showFieldError(field, 'Password must be at least 6 characters');
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        function showFieldError(field, message) {
+            field.classList.add('is-invalid');
+            const feedback = field.parentNode.querySelector('.invalid-feedback') ||
+                field.parentNode.parentNode.querySelector('.invalid-feedback');
+            if (feedback) {
+                feedback.textContent = message;
+                feedback.style.display = 'block';
+            }
+        }
+
+        function clearFieldError(event) {
+            const field = event.target;
+            field.classList.remove('is-invalid');
+
+            const feedback = field.parentNode.querySelector('.invalid-feedback') ||
+                field.parentNode.parentNode.querySelector('.invalid-feedback');
+            if (feedback) {
+                feedback.style.display = 'none';
+            }
+        }
+
+        function togglePassword() {
+            const field = document.getElementById('password');
+            const toggle = document.querySelector('.password-toggle i');
+
+            if (field.type === 'password') {
+                field.type = 'text';
+                toggle.classList.remove('bi-eye');
+                toggle.classList.add('bi-eye-slash');
+            } else {
+                field.type = 'password';
+                toggle.classList.remove('bi-eye-slash');
+                toggle.classList.add('bi-eye');
+            }
+        }
+
+        function fillDemo(role) {
+            const account = demoAccounts[role];
+            if (account) {
+                document.getElementById('email').value = account.email;
+                document.getElementById('password').value = account.password;
+                switchRole(role);
+
+                Swal.fire({
+                    title: `Demo ${role.charAt(0).toUpperCase() + role.slice(1)} Account`,
+                    html: `
+                        <div class="text-start">
+                            <p>Demo credentials have been filled in:</p>
+                            <ul class="list-unstyled">
+                                <li><strong>Email:</strong> ${account.email}</li>
+                                <li><strong>Password:</strong> ${account.password}</li>
+                                <li><strong>Role:</strong> ${role.charAt(0).toUpperCase() + role.slice(1)}</li>
+                            </ul>
+                            <div class="alert alert-info mt-3">
+                                <small>Click "Sign In" to continue with the demo account.</small>
+                            </div>
+                        </div>
+                    `,
+                    icon: 'info',
+                    confirmButtonText: 'Got it!',
+                    confirmButtonColor: '#6366f1'
+                });
+            }
+        }
+
+        function handleLogin(event) {
+            event.preventDefault();
+
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const rememberMe = document.getElementById('rememberMe').checked;
+
+            // Validate form
+            if (!validateField({ target: document.getElementById('email') }) ||
+                !validateField({ target: document.getElementById('password') })) {
+                return;
+            }
+
+            const submitBtn = event.target.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+
+            // Show loading state
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="bi bi-hourglass-split me-2"></i>Signing In...';
+            submitBtn.classList.add('loading');
+
+            // Simulate login process
+            setTimeout(() => {
+                // Check demo accounts first
+                const demoAccount = Object.values(demoAccounts).find(account =>
+                    account.email === email && account.password === password
+                );
+
+                if (demoAccount) {
+                    handleSuccessfulLogin(demoAccount, rememberMe, submitBtn, originalText);
+                    return;
+                }
+
+                // Check registered users (from registration)
+                const registeredUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
+                const user = registeredUsers.find(u => u.email === email && u.password === password);
+
+                if (user) {
+                    handleSuccessfulLogin(user, rememberMe, submitBtn, originalText);
+                    return;
+                }
+
+                // Login failed
+                handleFailedLogin(submitBtn, originalText);
+
+            }, 2000);
+        }
+
+        function handleSuccessfulLogin(user, rememberMe, submitBtn, originalText) {
+            // Store login session
+            const loginData = {
+                id: user.id || Date.now(),
+                email: user.email,
+                name: user.firstName ? `${user.firstName} ${user.lastName}` : user.name,
+                role: user.role || selectedRole,
+                loginTime: new Date().toISOString(),
+                rememberMe: rememberMe
+            };
+
+            if (rememberMe) {
+                localStorage.setItem('userSession', JSON.stringify(loginData));
+            } else {
+                sessionStorage.setItem('userSession', JSON.stringify(loginData));
+            }
+
+            // Set login status
+            localStorage.setItem('userLoggedIn', 'true');
+            localStorage.setItem('userName', loginData.name);
+            localStorage.setItem('userRole', loginData.role);
+
+            // Reset button
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '<i class="bi bi-check-circle me-2"></i>Success!';
+            submitBtn.classList.remove('loading');
+            submitBtn.classList.add('btn-success');
+
+            // Success message
+            Swal.fire({
+                title: `Welcome back, ${loginData.name}!`,
+                html: `
+                    <div class="text-center">
+                        <div class="mb-3">
+                            <i class="bi bi-person-circle text-primary" style="font-size: 3rem;"></i>
+                        </div>
+                        <p>You have successfully signed in as <strong>${loginData.role}</strong></p>
+                        <div class="alert alert-success mt-3">
+                            <small>Redirecting you to your ${getDashboardName(loginData.role)}...</small>
+                        </div>
+                    </div>
+                `,
+                icon: 'success',
+                timer: 3000,
+                timerProgressBar: true,
+                showConfirmButton: false,
+                allowOutsideClick: false
+            }).then(() => {
+                // Redirect based on role and any pending redirect
+                const pendingRedirect = sessionStorage.getItem('loginRedirect');
+
+                if (pendingRedirect) {
+                    sessionStorage.removeItem('loginRedirect');
+                    window.location.href = pendingRedirect;
+                } else {
+                    const redirectUrls = {
+                        customer: 'customer-dashboard.html',
+                        organizer: 'organizer-dashboard.html',
+                        admin: 'admin-dashboard.html'
+                    };
+                    window.location.href = redirectUrls[loginData.role] || 'index.html';
+                }
+            });
+        }
+
+        function handleFailedLogin(submitBtn, originalText) {
+            // Reset button
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalText;
+            submitBtn.classList.remove('loading');
+
+            // Shake animation
+            const form = document.getElementById('loginForm');
+            form.classList.add('shake');
+            setTimeout(() => form.classList.remove('shake'), 820);
+
+            // Show error
+            Swal.fire({
+                title: 'Login Failed',
+                html: `
+                    <div class="text-center">
+                        <div class="mb-3">
+                            <i class="bi bi-x-circle text-danger" style="font-size: 3rem;"></i>
+                        </div>
+                        <p>Invalid email or password. Please try again.</p>
+                        <div class="mt-3">
+                            <button class="btn btn-outline-primary btn-sm" onclick="showForgotPassword()">
+                                Forgot Password?
+                            </button>
+                        </div>
+                    </div>
+                `,
+                icon: 'error',
+                confirmButtonColor: '#6366f1',
+                confirmButtonText: 'Try Again'
+            });
+        }
+
+        function getDashboardName(role) {
+            const names = {
+                customer: 'dashboard',
+                organizer: 'organizer dashboard',
+                admin: 'admin panel'
+            };
+            return names[role] || 'dashboard';
+        }
+
+        function socialLogin(provider) {
+            Swal.fire({
+                title: `Sign in with ${provider.charAt(0).toUpperCase() + provider.slice(1)}`,
+                html: `
+                    <div class="text-center">
+                        <div class="mb-3">
+                            <i class="bi bi-${provider} text-primary" style="font-size: 3rem;"></i>
+                        </div>
+                        <p>This feature would redirect to ${provider.charAt(0).toUpperCase() + provider.slice(1)} OAuth.</p>
+                        <div class="alert alert-info mt-3">
+                            <small>In a real application, this would integrate with ${provider.charAt(0).toUpperCase() + provider.slice(1)}'s authentication service.</small>
+                        </div>
+                    </div>
+                `,
+                showCancelButton: true,
+                confirmButtonText: `Continue with ${provider.charAt(0).toUpperCase() + provider.slice(1)}`,
+                confirmButtonColor: provider === 'google' ? '#ea4335' : '#1877f2',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Simulate successful social login
+                    const socialUser = {
+                        id: Date.now(),
+                        email: `user@${provider}.com`,
+                        name: `${provider.charAt(0).toUpperCase() + provider.slice(1)} User`,
+                        role: selectedRole,
+                        provider: provider
+                    };
+
+                    setTimeout(() => {
+                        handleSuccessfulLogin(socialUser, false,
+                            document.querySelector('.btn-login'),
+                            '<i class="bi bi-box-arrow-in-right me-2"></i>Sign In');
+                    }, 1500);
+                }
+            });
+        }
+
+        function showForgotPassword() {
+            Swal.fire({
+                title: 'Reset Your Password',
+                html: `
+                    <div class="mb-3">
+                        <label for="resetEmail" class="form-label text-start w-100">Enter your email address:</label>
+                        <input type="email" class="form-control" id="resetEmail" placeholder="your-email@example.com">
+                    </div>
+                    <div class="alert alert-info">
+                        <small>We'll send you a link to reset your password.</small>
+                    </div>
+                `,
+                showCancelButton: true,
+                confirmButtonText: 'Send Reset Link',
+                confirmButtonColor: '#6366f1',
+                preConfirm: () => {
+                    const email = document.getElementById('resetEmail').value.trim();
+                    if (!email) {
+                        Swal.showValidationMessage('Please enter your email address');
+                        return false;
+                    }
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (!emailRegex.test(email)) {
+                        Swal.showValidationMessage('Please enter a valid email address');
+                        return false;
+                    }
+                    return email;
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: 'Reset Link Sent!',
+                        html: `
+                            <div class="text-center">
+                                <div class="mb-3">
+                                    <i class="bi bi-envelope-check text-success" style="font-size: 3rem;"></i>
+                                </div>
+                                <p>We've sent a password reset link to:</p>
+                                <strong>${result.value}</strong>
+                                <div class="alert alert-info mt-3">
+                                    <small>Please check your email and follow the instructions to reset your password.</small>
+                                </div>
+                            </div>
+                        `,
+                        icon: 'success',
+                        confirmButtonColor: '#6366f1'
+                    });
+                }
+            });
+        }
+
+        // Check if user is already logged in
+        function checkExistingLogin() {
+            const sessionData = localStorage.getItem('userSession') || sessionStorage.getItem('userSession');
+            if (sessionData) {
+                const user = JSON.parse(sessionData);
+
+                Swal.fire({
+                    title: 'Already Logged In',
+                    text: `You are already signed in as ${user.name}. Would you like to continue to your dashboard?`,
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: 'Go to Dashboard',
+                    cancelButtonText: 'Sign in as Different User',
+                    confirmButtonColor: '#6366f1'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        const redirectUrls = {
+                            customer: 'customer-dashboard.html',
+                            organizer: 'organizer-dashboard.html',
+                            admin: 'admin-dashboard.html'
+                        };
+                        window.location.href = redirectUrls[user.role] || 'index.html';
+                    } else {
+                        // Clear existing session for new login
+                        localStorage.removeItem('userSession');
+                        sessionStorage.removeItem('userSession');
+                        localStorage.removeItem('userLoggedIn');
+                    }
+                });
+            }
+        }
+
+        // Check for existing login on page load
+        // checkExistingLogin();
+
+        // Auto-fill demo data if URL parameter is present
+        function fillDemoFromUrl() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const demo = urlParams.get('demo');
+            if (demo && demoAccounts[demo]) {
+                setTimeout(() => fillDemo(demo), 1000);
+            }
+        }
+
+        fillDemoFromUrl();
+    </script>
+
+</body>
+
+</html>
