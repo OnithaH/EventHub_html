@@ -1,0 +1,2172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EventHub - Admin Dashboard</title>
+
+    <!-- Bootstrap 5.3 CSS (Latest) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <!-- Bootstrap Icons (Latest) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        /* EventHub Admin Dashboard Styles */
+        * {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f8fafc;
+            line-height: 1.6;
+        }
+
+        /* Admin Navbar Styling */
+        .eventhub-navbar {
+            background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
+            border-bottom: 1px solid #374151;
+            padding: 0.75rem 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .eventhub-brand {
+            text-decoration: none;
+            color: #f59e0b !important;
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .eventhub-brand:hover {
+            color: #fbbf24 !important;
+            text-decoration: none;
+        }
+
+        .brand-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .brand-text {
+            color: #f59e0b;
+            font-weight: 700;
+        }
+
+        .admin-badge {
+            background: linear-gradient(135deg, #ef4444, #f97316);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-left: 0.5rem;
+        }
+
+        .eventhub-nav-link {
+            color: #d1d5db !important;
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 0.5rem 1rem !important;
+            margin: 0 0.25rem;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .eventhub-nav-link:hover {
+            color: #f59e0b !important;
+            background-color: rgba(245, 158, 11, 0.1);
+        }
+
+        .eventhub-nav-link.active {
+            color: #f59e0b !important;
+            background-color: rgba(245, 158, 11, 0.15);
+            font-weight: 600;
+        }
+
+        /* User Menu */
+        .user-menu {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            color: #e5e7eb !important;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .user-menu:hover {
+            background-color: rgba(245, 158, 11, 0.1);
+            color: #f59e0b !important;
+        }
+
+        .user-avatar {
+            font-size: 1.5rem;
+            margin-right: 0.5rem;
+            color: #f59e0b;
+        }
+
+        .user-name {
+            font-weight: 500;
+        }
+
+        .user-dropdown {
+            border: 1px solid #374151;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            padding: 0.5rem 0;
+            background: #1f2937;
+        }
+
+        .user-dropdown .dropdown-item {
+            padding: 0.75rem 1.5rem;
+            color: #e5e7eb;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+        }
+
+        .user-dropdown .dropdown-item:hover {
+            background-color: rgba(245, 158, 11, 0.1);
+            color: #f59e0b;
+        }
+
+        /* Admin Header */
+        .admin-header {
+            background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
+            padding: 3rem 0 2rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .admin-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="%23374151" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+            z-index: 1;
+        }
+
+        .admin-header-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .admin-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 2rem;
+        }
+
+        .admin-details {
+            flex: 1;
+        }
+
+        .admin-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: white;
+        }
+
+        .admin-subtitle {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+            color: #d1d5db;
+        }
+
+        .admin-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .meta-item i {
+            font-size: 1.25rem;
+            color: #f59e0b;
+        }
+
+        .admin-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stat-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: white;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-top: 0.25rem;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-header {
+            background: rgba(245, 158, 11, 0.2);
+            border: 2px solid rgba(245, 158, 11, 0.3);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-header:hover {
+            background: rgba(245, 158, 11, 0.3);
+            border-color: rgba(245, 158, 11, 0.5);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        /* System Overview Cards */
+        .system-overview {
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .overview-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .overview-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--card-color, #6366f1), var(--card-color-light, #8b5cf6));
+        }
+
+        .overview-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .overview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .overview-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .overview-icon.users {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+        }
+
+        .overview-icon.events {
+            background: linear-gradient(135deg, #10b981, #34d399);
+        }
+
+        .overview-icon.revenue {
+            background: linear-gradient(135deg, #f59e0b, #fbbf24);
+        }
+
+        .overview-icon.bookings {
+            background: linear-gradient(135deg, #ef4444, #f97316);
+        }
+
+        .overview-content h3 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin: 0;
+        }
+
+        .overview-content p {
+            color: #6b7280;
+            margin: 0;
+            font-size: 0.875rem;
+        }
+
+        .growth-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .growth-indicator.positive {
+            color: #10b981;
+        }
+
+        .growth-indicator.negative {
+            color: #ef4444;
+        }
+
+        .trend-chart {
+            width: 80px;
+            height: 30px;
+        }
+
+        /* Chart Cards */
+        .chart-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+
+        .chart-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .chart-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin: 0;
+        }
+
+        .chart-subtitle {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin: 0;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+        }
+
+        .chart-container.large {
+            height: 400px;
+        }
+
+        /* Activity Feed */
+        .activity-feed {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .activity-icon.user {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+        }
+
+        .activity-icon.event {
+            background: linear-gradient(135deg, #10b981, #34d399);
+        }
+
+        .activity-icon.booking {
+            background: linear-gradient(135deg, #f59e0b, #fbbf24);
+        }
+
+        .activity-icon.system {
+            background: linear-gradient(135deg, #ef4444, #f97316);
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-title {
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 0.25rem;
+        }
+
+        .activity-desc {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-bottom: 0.25rem;
+        }
+
+        .activity-time {
+            font-size: 0.75rem;
+            color: #9ca3af;
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .quick-action {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid #e2e8f0;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .quick-action:hover {
+            border-color: #6366f1;
+            background: rgba(99, 102, 241, 0.05);
+            transform: translateY(-2px);
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .quick-action-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            margin: 0 auto 1rem;
+        }
+
+        .quick-action h6 {
+            color: #374151;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .quick-action p {
+            color: #6b7280;
+            font-size: 0.875rem;
+            margin: 0;
+        }
+
+        /* System Health */
+        .health-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .health-status {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #10b981;
+            position: relative;
+        }
+
+        .health-status.warning {
+            background: #f59e0b;
+        }
+
+        .health-status.error {
+            background: #ef4444;
+        }
+
+        .health-status::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 50%;
+            background: inherit;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            100% {
+                opacity: 0;
+                transform: scale(2);
+            }
+        }
+
+        .health-label {
+            font-weight: 500;
+            color: #374151;
+        }
+
+        .health-metrics {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .metric-item {
+            text-align: center;
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 8px;
+        }
+
+        .metric-value {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #374151;
+            display: block;
+        }
+
+        .metric-label {
+            font-size: 0.75rem;
+            color: #6b7280;
+            text-transform: uppercase;
+            margin-top: 0.25rem;
+        }
+
+        /* Data Tables */
+        .data-table {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+        }
+
+        .table {
+            margin-bottom: 0;
+        }
+
+        .table th {
+            border-top: none;
+            border-bottom: 2px solid #e2e8f0;
+            color: #374151;
+            font-weight: 600;
+            padding: 1rem 0.75rem;
+        }
+
+        .table td {
+            border-color: #f3f4f6;
+            padding: 1rem 0.75rem;
+            vertical-align: middle;
+        }
+
+        .table tbody tr:hover {
+            background-color: #f8fafc;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-badge.active {
+            background: rgba(34, 197, 94, 0.1);
+            color: #16a34a;
+        }
+
+        .status-badge.pending {
+            background: rgba(245, 158, 11, 0.1);
+            color: #d97706;
+        }
+
+        .status-badge.suspended {
+            background: rgba(239, 68, 68, 0.1);
+            color: #dc2626;
+        }
+
+        /* Card Color Variables */
+        .overview-card.users {
+            --card-color: #6366f1;
+            --card-color-light: #8b5cf6;
+        }
+
+        .overview-card.events {
+            --card-color: #10b981;
+            --card-color-light: #34d399;
+        }
+
+        .overview-card.revenue {
+            --card-color: #f59e0b;
+            --card-color-light: #fbbf24;
+        }
+
+        .overview-card.bookings {
+            --card-color: #ef4444;
+            --card-color-light: #f97316;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .admin-info {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
+            .admin-title {
+                font-size: 2rem;
+            }
+
+            .admin-subtitle {
+                font-size: 1rem;
+            }
+
+            .admin-meta {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .header-actions {
+                justify-content: center;
+            }
+
+            .admin-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .chart-container {
+                height: 250px;
+            }
+
+            .chart-container.large {
+                height: 300px;
+            }
+
+            .quick-actions {
+                grid-template-columns: 1fr;
+            }
+
+            .health-metrics {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Custom Toggle */
+        .custom-toggler {
+            border: none;
+            padding: 0.25rem 0.5rem;
+        }
+
+        .custom-toggler:focus {
+            box-shadow: 0 0 0 0.2rem rgba(245, 158, 11, 0.25);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- EventHub Admin Header -->
+    <nav class="navbar navbar-expand-lg eventhub-navbar">
+        <div class="container-fluid px-4">
+            <!-- Brand Logo -->
+            <a class="navbar-brand eventhub-brand d-flex align-items-center" href="index.html">
+                <div class="brand-icon me-2">
+                    <i class="bi bi-calendar-event me-1"></i>
+                </div>
+                <span class="brand-text">EventHub</span>
+                <span class="admin-badge">Admin</span>
+            </a>
+
+            <!-- Mobile Toggle Button -->
+            <button class="navbar-toggler custom-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navigation Items -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <!-- Left Navigation -->
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link eventhub-nav-link active" href="admin-dashboard.html">
+                            <i class="bi bi-speedometer2 me-1"></i>Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link eventhub-nav-link" href="user-management.html">
+                            <i class="bi bi-people me-1"></i>Users
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link eventhub-nav-link" href="event-management.html">
+                            <i class="bi bi-calendar3 me-1"></i>Events
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link eventhub-nav-link" href="venue-management.html">
+                            <i class="bi bi-building me-1"></i>Venues
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link eventhub-nav-link" href="system-reports.html">
+                            <i class="bi bi-graph-up me-1"></i>Reports
+                        </a>
+                    </li>
+                </ul>
+
+                <!-- Right Navigation - User Menu -->
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle user-menu" href="#" id="userDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <div class="user-avatar">
+                                <i class="bi bi-person-circle"></i>
+                            </div>
+                            <span class="user-name" id="userName">Admin User</span>
+                        </a>
+                        <ul class="dropdown-menu user-dropdown" aria-labelledby="userDropdown">
+                            <li><a class="dropdown-item" href="admin-dashboard.html">
+                                    <i class="bi bi-speedometer2 me-2"></i>Dashboard</a></li>
+                            <li><a class="dropdown-item" href="admin-settings.html">
+                                    <i class="bi bi-gear me-2"></i>Settings</a></li>
+                            <li><a class="dropdown-item" href="user-profile.html">
+                                    <i class="bi bi-person me-2"></i>Profile</a></li>
+                            <li><a class="dropdown-item" href="financial-reports.html">
+                                    <i class="bi bi-cash-stack me-2"></i>Financial Reports</a></li>
+                            <li><a class="dropdown-item" href="discount-management.html">
+                                    <i class="bi bi-percent me-2"></i>Discounts</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#" onclick="logout()">
+                                    <i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Admin Header -->
+    <section class="admin-header">
+        <div class="container">
+            <div class="admin-header-content">
+                <div class="admin-info">
+                    <div class="admin-details">
+                        <h1 class="admin-title">System Overview</h1>
+                        <p class="admin-subtitle">Monitor and manage the entire EventHub platform</p>
+                        <div class="admin-meta">
+                            <div class="meta-item">
+                                <i class="bi bi-calendar3"></i>
+                                <span id="currentDate">September 20, 2025</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="bi bi-clock"></i>
+                                <span id="currentTime">2:30 PM</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="bi bi-shield-check"></i>
+                                <span>System Status: Operational</span>
+                            </div>
+                        </div>
+                        <div class="admin-stats">
+                            <div class="stat-item">
+                                <span class="stat-value" id="totalUsers">2,547</span>
+                                <span class="stat-label">Total Users</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value" id="totalEvents">125</span>
+                                <span class="stat-label">Total Events</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value" id="totalBookings">8,956</span>
+                                <span class="stat-label">Total Bookings</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value" id="platformRevenue">Rs. 2.5M</span>
+                                <span class="stat-label">Platform Revenue</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn btn-header" onclick="generateSystemReport()">
+                            <i class="bi bi-file-text me-2"></i>Generate Report
+                        </button>
+                        <button class="btn btn-header" onclick="systemMaintenance()">
+                            <i class="bi bi-tools me-2"></i>Maintenance
+                        </button>
+                        <button class="btn btn-header" onclick="systemBackup()">
+                            <i class="bi bi-cloud-download me-2"></i>Backup
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- System Overview Section -->
+    <section class="system-overview py-4">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-3 col-md-6">
+                    <div class="overview-card events">
+                        <div class="overview-header">
+                            <div class="overview-icon events">
+                                <i class="bi bi-calendar-event"></i>
+                            </div>
+                            <canvas class="trend-chart" id="eventsTrendChart"></canvas>
+                        </div>
+                        <div class="overview-content">
+                            <h3 id="eventsCount">125</h3>
+                            <p>Active Events</p>
+                            <div class="growth-indicator positive">
+                                <i class="bi bi-arrow-up"></i>
+                                <span>+8.7% this month</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="overview-card revenue">
+                        <div class="overview-header">
+                            <div class="overview-icon revenue">
+                                <i class="bi bi-currency-dollar"></i>
+                            </div>
+                            <canvas class="trend-chart" id="revenueTrendChart"></canvas>
+                        </div>
+                        <div class="overview-content">
+                            <h3 id="revenueCount">Rs. 2.5M</h3>
+                            <p>Platform Revenue</p>
+                            <div class="growth-indicator positive">
+                                <i class="bi bi-arrow-up"></i>
+                                <span>+23.5% this month</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="overview-card bookings">
+                        <div class="overview-header">
+                            <div class="overview-icon bookings">
+                                <i class="bi bi-ticket-perforated"></i>
+                            </div>
+                            <canvas class="trend-chart" id="bookingsTrendChart"></canvas>
+                        </div>
+                        <div class="overview-content">
+                            <h3 id="bookingsCount">8,956</h3>
+                            <p>Total Bookings</p>
+                            <div class="growth-indicator positive">
+                                <i class="bi bi-arrow-up"></i>
+                                <span>+15.2% this month</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="overview-card users">
+                        <div class="overview-header">
+                            <div class="overview-icon users">
+                                <i class="bi bi-people"></i>
+                            </div>
+                            <canvas class="trend-chart" id="usersTrendChart"></canvas>
+                        </div>
+                        <div class="overview-content">
+                            <h3 id="usersCount">2,547</h3>
+                            <p>Registered Users</p>
+                            <div class="growth-indicator positive">
+                                <i class="bi bi-arrow-up"></i>
+                                <span>+12.3% this month</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        </div>
+    </section>
+
+    <!-- Main Dashboard Content -->
+    <section class="dashboard-content py-5">
+        <div class="container">
+            <!-- Charts Row -->
+            <div class="row g-4 mb-5">
+                <!-- Revenue Analytics Chart -->
+                <div class="col-lg-8">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <div>
+                                <h3 class="chart-title">Revenue Analytics</h3>
+                                <p class="chart-subtitle">Monthly revenue and growth trends</p>
+                            </div>
+                            <select class="form-select" style="width: auto;" onchange="updateRevenueChart(this.value)">
+                                <option value="6months">Last 6 Months</option>
+                                <option value="1year">Last Year</option>
+                                <option value="2years">Last 2 Years</option>
+                            </select>
+                        </div>
+                        <div class="chart-container large">
+                            <canvas id="revenueAnalyticsChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- System Health -->
+                <div class="col-lg-4">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <div>
+                                <h3 class="chart-title">System Health</h3>
+                                <p class="chart-subtitle">Real-time system performance metrics</p>
+                            </div>
+                        </div>
+                        <div style="padding: 1rem 0;">
+                            <div class="health-indicator">
+                                <div class="health-status"></div>
+                                <span class="health-label">All Systems Operational</span>
+                            </div>
+                            <div class="health-indicator">
+                                <div class="health-status"></div>
+                                <span class="health-label">Database Performance: Excellent</span>
+                            </div>
+                            <div class="health-indicator">
+                                <div class="health-status warning"></div>
+                                <span class="health-label">Payment Gateway: Normal (High Load)</span>
+                            </div>
+                            <div class="health-indicator">
+                                <div class="health-status"></div>
+                                <span class="health-label">Email Services: Operational</span>
+                            </div>
+
+                            <div class="health-metrics">
+                                <div class="metric-item">
+                                    <span class="metric-value">99.9%</span>
+                                    <span class="metric-label">Uptime</span>
+                                </div>
+                                <div class="metric-item">
+                                    <span class="metric-value">245ms</span>
+                                    <span class="metric-label">Response Time</span>
+                                </div>
+                                <div class="metric-item">
+                                    <span class="metric-value">2,847</span>
+                                    <span class="metric-label">Active Sessions</span>
+                                </div>
+                                <div class="metric-item">
+                                    <span class="metric-value">15.2GB</span>
+                                    <span class="metric-label">Storage Used</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- User Analytics Row -->
+            <div class="row g-4 mb-5">
+                <!-- User Growth Chart -->
+                <div class="col-lg-6">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <div>
+                                <h3 class="chart-title">User Growth</h3>
+                                <p class="chart-subtitle">New user registrations over time</p>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="userGrowthChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- User Distribution Chart -->
+                <div class="col-lg-6">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <div>
+                                <h3 class="chart-title">User Distribution</h3>
+                                <p class="chart-subtitle">Users by role and status</p>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="userDistributionChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Event Analytics & Activity Feed -->
+            <div class="row g-4 mb-5">
+                <!-- Event Performance Chart -->
+                <div class="col-lg-8">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <div>
+                                <h3 class="chart-title">Event Performance</h3>
+                                <p class="chart-subtitle">Event creation and booking trends</p>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="eventPerformanceChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity Feed -->
+                <div class="col-lg-4">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <div>
+                                <h3 class="chart-title">Recent Activity</h3>
+                                <p class="chart-subtitle">Latest platform activities</p>
+                            </div>
+                        </div>
+                        <div class="activity-feed">
+                            <div class="activity-item">
+                                <div class="activity-icon user">
+                                    <i class="bi bi-person-plus"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <div class="activity-title">New User Registration</div>
+                                    <div class="activity-desc">Priya Fernando joined as Customer</div>
+                                    <div class="activity-time">2 minutes ago</div>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon event">
+                                    <i class="bi bi-calendar-plus"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <div class="activity-title">New Event Created</div>
+                                    <div class="activity-desc">Tech Summit 2025 by Rajesh Events</div>
+                                    <div class="activity-time">15 minutes ago</div>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon booking">
+                                    <i class="bi bi-ticket"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <div class="activity-title">Large Booking Made</div>
+                                    <div class="activity-desc">25 tickets purchased for Jazz Night</div>
+                                    <div class="activity-time">32 minutes ago</div>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon system">
+                                    <i class="bi bi-shield-check"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <div class="activity-title">Security Alert</div>
+                                    <div class="activity-desc">Suspicious login attempt blocked</div>
+                                    <div class="activity-time">1 hour ago</div>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon user">
+                                    <i class="bi bi-person-check"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <div class="activity-title">Organizer Verified</div>
+                                    <div class="activity-desc">Ceylon Events Ltd. verification completed</div>
+                                    <div class="activity-time">2 hours ago</div>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon event">
+                                    <i class="bi bi-calendar-x"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <div class="activity-title">Event Cancelled</div>
+                                    <div class="activity-desc">Outdoor Concert due to weather</div>
+                                    <div class="activity-time">3 hours ago</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="row mb-5">
+                <div class="col-12">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <div>
+                                <h3 class="chart-title">Quick Actions</h3>
+                                <p class="chart-subtitle">Common administrative tasks</p>
+                            </div>
+                        </div>
+                        <div class="quick-actions">
+                            <a href="user-management.html" class="quick-action">
+                                <div class="quick-action-icon"
+                                    style="background: linear-gradient(135deg, #6366f1, #8b5cf6);">
+                                    <i class="bi bi-people"></i>
+                                </div>
+                                <h6>Manage Users</h6>
+                                <p>View and manage all platform users</p>
+                            </a>
+                            <a href="event-management.html" class="quick-action">
+                                <div class="quick-action-icon"
+                                    style="background: linear-gradient(135deg, #10b981, #34d399);">
+                                    <i class="bi bi-calendar3"></i>
+                                </div>
+                                <h6>Manage Events</h6>
+                                <p>Approve, edit, or remove events</p>
+                            </a>
+                            <a href="venue-management.html" class="quick-action">
+                                <div class="quick-action-icon"
+                                    style="background: linear-gradient(135deg, #f59e0b, #fbbf24);">
+                                    <i class="bi bi-building"></i>
+                                </div>
+                                <h6>Manage Venues</h6>
+                                <p>Add and configure event venues</p>
+                            </a>
+                            <a href="system-reports.html" class="quick-action">
+                                <div class="quick-action-icon"
+                                    style="background: linear-gradient(135deg, #ef4444, #f97316);">
+                                    <i class="bi bi-graph-up"></i>
+                                </div>
+                                <h6>System Reports</h6>
+                                <p>Generate comprehensive system reports</p>
+                            </a>
+                            <a href="financial-reports.html" class="quick-action">
+                                <div class="quick-action-icon"
+                                    style="background: linear-gradient(135deg, #8b5cf6, #a78bfa);">
+                                    <i class="bi bi-cash-stack"></i>
+                                </div>
+                                <h6>Financial Reports</h6>
+                                <p>View financial analytics and reports</p>
+                            </a>
+                            <a href="admin-settings.html" class="quick-action">
+                                <div class="quick-action-icon"
+                                    style="background: linear-gradient(135deg, #6b7280, #9ca3af);">
+                                    <i class="bi bi-gear"></i>
+                                </div>
+                                <h6>System Settings</h6>
+                                <p>Configure platform settings</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Users & Events Tables -->
+            <div class="row g-4">
+                <!-- Recent Users -->
+                <div class="col-lg-6">
+                    <div class="data-table">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h3 class="chart-title">Recent Users</h3>
+                            <a href="user-management.html" class="btn btn-outline-primary btn-sm">View All</a>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>User</th>
+                                        <th>Role</th>
+                                        <th>Status</th>
+                                        <th>Joined</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <div>
+                                                <strong>Priya Fernando</strong>
+                                                <br><small class="text-muted">priya@example.com</small>
+                                            </div>
+                                        </td>
+                                        <td><span class="badge bg-primary">Customer</span></td>
+                                        <td><span class="status-badge active">Active</span></td>
+                                        <td>2 min ago</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div>
+                                                <strong>Amara Silva</strong>
+                                                <br><small class="text-muted">amara@events.lk</small>
+                                            </div>
+                                        </td>
+                                        <td><span class="badge bg-success">Organizer</span></td>
+                                        <td><span class="status-badge pending">Pending</span></td>
+                                        <td>1 hour ago</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div>
+                                                <strong>Dinesh Perera</strong>
+                                                <br><small class="text-muted">dinesh@example.com</small>
+                                            </div>
+                                        </td>
+                                        <td><span class="badge bg-primary">Customer</span></td>
+                                        <td><span class="status-badge active">Active</span></td>
+                                        <td>3 hours ago</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div>
+                                                <strong>Kasun Rajapaksa</strong>
+                                                <br><small class="text-muted">kasun@events.com</small>
+                                            </div>
+                                        </td>
+                                        <td><span class="badge bg-success">Organizer</span></td>
+                                        <td><span class="status-badge active">Active</span></td>
+                                        <td>5 hours ago</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Events -->
+                <div class="col-lg-6">
+                    <div class="data-table">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h3 class="chart-title">Recent Events</h3>
+                            <a href="event-management.html" class="btn btn-outline-primary btn-sm">View All</a>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Event</th>
+                                        <th>Organizer</th>
+                                        <th>Status</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <div>
+                                                <strong>Tech Summit 2025</strong>
+                                                <br><small class="text-muted">Colombo Convention Centre</small>
+                                            </div>
+                                        </td>
+                                        <td>Rajesh Events</td>
+                                        <td><span class="status-badge pending">Pending</span></td>
+                                        <td>Mar 15, 2025</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div>
+                                                <strong>New Year Gala 2025</strong>
+                                                <br><small class="text-muted">BMICH, Colombo</small>
+                                            </div>
+                                        </td>
+                                        <td>Rajesh Events</td>
+                                        <td><span class="status-badge active">Active</span></td>
+                                        <td>Dec 31, 2024</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div>
+                                                <strong>Jazz Night Under Stars</strong>
+                                                <br><small class="text-muted">Royal Botanical Gardens</small>
+                                            </div>
+                                        </td>
+                                        <td>Ceylon Events</td>
+                                        <td><span class="status-badge active">Active</span></td>
+                                        <td>Jan 30, 2025</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div>
+                                                <strong>Startup Pitch Night</strong>
+                                                <br><small class="text-muted">Shangri-La Hotel</small>
+                                            </div>
+                                        </td>
+                                        <td>Innovation Hub</td>
+                                        <td><span class="status-badge pending">Pending</span></td>
+                                        <td>Feb 28, 2025</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+
+    <script>
+        // Sample admin dashboard data - implementing Task 9 requirements
+        let adminData = {
+            totalUsers: 2547,
+            totalEvents: 125,
+            totalBookings: 8956,
+            platformRevenue: 2500000,
+
+            // Monthly data for revenue analytics (last 6 months)
+            revenueData: [
+                { month: 'Apr', revenue: 180000, events: 15, users: 245 },
+                { month: 'May', revenue: 220000, events: 18, users: 298 },
+                { month: 'Jun', revenue: 195000, events: 22, users: 356 },
+                { month: 'Jul', revenue: 275000, events: 28, users: 412 },
+                { month: 'Aug', revenue: 320000, events: 35, users: 498 },
+                { month: 'Sep', revenue: 385000, events: 42, users: 547 }
+            ],
+
+            // User distribution
+            userDistribution: {
+                customers: 2150,
+                organizers: 325,
+                admins: 72
+            },
+
+            // User growth (last 30 days)
+            userGrowth: Array.from({ length: 30 }, (_, i) => {
+                return {
+                    day: i + 1,
+                    newUsers: Math.floor(Math.random() * 25) + 5
+                };
+            }),
+
+            // Event performance data
+            eventPerformance: {
+                created: [8, 12, 15, 22, 18, 25, 28],
+                bookings: [45, 78, 92, 156, 134, 189, 215]
+            },
+
+            // System health metrics
+            systemHealth: {
+                uptime: 99.9,
+                responseTime: 245,
+                activeSessions: 2847,
+                storageUsed: 15.2
+            }
+        };
+
+        let revenueAnalyticsChart, userGrowthChart, userDistributionChart, eventPerformanceChart;
+        let usersTrendChart, eventsTrendChart, revenueTrendChart, bookingsTrendChart;
+
+        document.addEventListener('DOMContentLoaded', function () {
+            initializeAdminDashboard();
+            loadDashboardData();
+            initializeCharts();
+            updateDateTime();
+            setInterval(updateDateTime, 60000); // Update every minute
+        });
+
+        function initializeAdminDashboard() {
+            // Check if user is logged in as admin
+            const sessionData = localStorage.getItem('userSession') || sessionStorage.getItem('userSession');
+
+            if (!sessionData) {
+                window.location.href = 'login.html?redirect=admin-dashboard.html';
+                return;
+            }
+
+            const currentUser = JSON.parse(sessionData);
+
+            if (currentUser.role !== 'admin') {
+                Swal.fire({
+                    title: 'Access Denied',
+                    text: 'This page is only accessible to system administrators.',
+                    icon: 'error',
+                    confirmButtonColor: '#ef4444'
+                }).then(() => {
+                    window.location.href = 'index.html';
+                });
+                return;
+            }
+
+            document.getElementById('userName').textContent = currentUser.name || 'Admin User';
+        }
+
+        function loadDashboardData() {
+            // Update overview statistics
+            document.getElementById('totalUsers').textContent = adminData.totalUsers.toLocaleString();
+            document.getElementById('totalEvents').textContent = adminData.totalEvents.toLocaleString();
+            document.getElementById('totalBookings').textContent = adminData.totalBookings.toLocaleString();
+            document.getElementById('platformRevenue').textContent = `Rs. ${(adminData.platformRevenue / 1000000).toFixed(1)}M`;
+
+            // Update header stats
+            document.getElementById('usersCount').textContent = adminData.totalUsers.toLocaleString();
+            document.getElementById('eventsCount').textContent = adminData.totalEvents.toLocaleString();
+            document.getElementById('revenueCount').textContent = `Rs. ${(adminData.platformRevenue / 1000000).toFixed(1)}M`;
+            document.getElementById('bookingsCount').textContent = adminData.totalBookings.toLocaleString();
+        }
+
+        function updateDateTime() {
+            const now = new Date();
+            const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+            const timeOptions = { hour: '2-digit', minute: '2-digit', hour12: true };
+
+            document.getElementById('currentDate').textContent = now.toLocaleDateString('en-US', dateOptions);
+            document.getElementById('currentTime').textContent = now.toLocaleTimeString('en-US', timeOptions);
+        }
+
+        function initializeCharts() {
+            // Revenue Analytics Chart
+            const revenueCtx = document.getElementById('revenueAnalyticsChart').getContext('2d');
+            revenueAnalyticsChart = new Chart(revenueCtx, {
+                type: 'line',
+                data: {
+                    labels: adminData.revenueData.map(d => d.month),
+                    datasets: [{
+                        label: 'Revenue (Rs.)',
+                        data: adminData.revenueData.map(d => d.revenue),
+                        borderColor: '#f59e0b',
+                        backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: '#f59e0b',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 6
+                    }, {
+                        label: 'Events Created',
+                        data: adminData.revenueData.map(d => d.events * 5000), // Scale for visibility
+                        borderColor: '#10b981',
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                        borderWidth: 2,
+                        fill: false,
+                        tension: 0.4,
+                        yAxisID: 'y1'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function (value) {
+                                    return 'Rs. ' + (value / 1000) + 'K';
+                                }
+                            },
+                            grid: {
+                                color: '#f3f4f6'
+                            }
+                        },
+                        y1: {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            beginAtZero: true,
+                            grid: {
+                                drawOnChartArea: false
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: '#f3f4f6'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // User Growth Chart
+            const userGrowthCtx = document.getElementById('userGrowthChart').getContext('2d');
+            userGrowthChart = new Chart(userGrowthCtx, {
+                type: 'bar',
+                data: {
+                    labels: adminData.userGrowth.slice(-14).map(d => `Day ${d.day}`),
+                    datasets: [{
+                        label: 'New Users',
+                        data: adminData.userGrowth.slice(-14).map(d => d.newUsers),
+                        backgroundColor: 'rgba(99, 102, 241, 0.8)',
+                        borderColor: '#6366f1',
+                        borderWidth: 1,
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: '#f3f4f6'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: '#f3f4f6'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // User Distribution Chart
+            const userDistCtx = document.getElementById('userDistributionChart').getContext('2d');
+            userDistributionChart = new Chart(userDistCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Customers', 'Organizers', 'Admins'],
+                    datasets: [{
+                        data: [
+                            adminData.userDistribution.customers,
+                            adminData.userDistribution.organizers,
+                            adminData.userDistribution.admins
+                        ],
+                        backgroundColor: [
+                            '#6366f1',
+                            '#10b981',
+                            '#f59e0b'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                usePointStyle: true,
+                                padding: 20
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Event Performance Chart
+            const eventPerfCtx = document.getElementById('eventPerformanceChart').getContext('2d');
+            eventPerformanceChart = new Chart(eventPerfCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    datasets: [{
+                        label: 'Events Created',
+                        data: adminData.eventPerformance.created,
+                        borderColor: '#10b981',
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.4
+                    }, {
+                        label: 'Bookings Made',
+                        data: adminData.eventPerformance.bookings,
+                        borderColor: '#ef4444',
+                        backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: '#f3f4f6'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: '#f3f4f6'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Initialize trend charts (mini charts)
+            initializeTrendCharts();
+        }
+
+        function initializeTrendCharts() {
+            // Users Trend Chart
+            const usersTrendCtx = document.getElementById('usersTrendChart').getContext('2d');
+            usersTrendChart = new Chart(usersTrendCtx, {
+                type: 'line',
+                data: {
+                    labels: ['', '', '', '', '', ''],
+                    datasets: [{
+                        data: [10, 15, 12, 18, 22, 25],
+                        borderColor: '#6366f1',
+                        borderWidth: 2,
+                        fill: false,
+                        tension: 0.4,
+                        pointRadius: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        x: { display: false },
+                        y: { display: false }
+                    }
+                }
+            });
+
+            // Events Trend Chart
+            const eventsTrendCtx = document.getElementById('eventsTrendChart').getContext('2d');
+            eventsTrendChart = new Chart(eventsTrendCtx, {
+                type: 'line',
+                data: {
+                    labels: ['', '', '', '', '', ''],
+                    datasets: [{
+                        data: [5, 8, 6, 12, 10, 15],
+                        borderColor: '#10b981',
+                        borderWidth: 2,
+                        fill: false,
+                        tension: 0.4,
+                        pointRadius: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        x: { display: false },
+                        y: { display: false }
+                    }
+                }
+            });
+
+            // Revenue Trend Chart
+            const revenueTrendCtx = document.getElementById('revenueTrendChart').getContext('2d');
+            revenueTrendChart = new Chart(revenueTrendCtx, {
+                type: 'line',
+                data: {
+                    labels: ['', '', '', '', '', ''],
+                    datasets: [{
+                        data: [180, 220, 195, 275, 320, 385],
+                        borderColor: '#f59e0b',
+                        borderWidth: 2,
+                        fill: false,
+                        tension: 0.4,
+                        pointRadius: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        x: { display: false },
+                        y: { display: false }
+                    }
+                }
+            });
+
+            // Bookings Trend Chart
+            const bookingsTrendCtx = document.getElementById('bookingsTrendChart').getContext('2d');
+            bookingsTrendChart = new Chart(bookingsTrendCtx, {
+                type: 'line',
+                data: {
+                    labels: ['', '', '', '', '', ''],
+                    datasets: [{
+                        data: [450, 780, 920, 1156, 1340, 1890],
+                        borderColor: '#ef4444',
+                        borderWidth: 2,
+                        fill: false,
+                        tension: 0.4,
+                        pointRadius: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        x: { display: false },
+                        y: { display: false }
+                    }
+                }
+            });
+        }
+
+        function updateRevenueChart(period) {
+            // Simulate different time period data
+            let newData;
+
+            switch (period) {
+                case '1year':
+                    newData = [
+                        { month: 'Jan', revenue: 150000 },
+                        { month: 'Feb', revenue: 180000 },
+                        { month: 'Mar', revenue: 165000 },
+                        { month: 'Apr', revenue: 220000 },
+                        { month: 'May', revenue: 195000 },
+                        { month: 'Jun', revenue: 275000 },
+                        { month: 'Jul', revenue: 320000 },
+                        { month: 'Aug', revenue: 385000 },
+                        { month: 'Sep', revenue: 410000 },
+                        { month: 'Oct', revenue: 390000 },
+                        { month: 'Nov', revenue: 445000 },
+                        { month: 'Dec', revenue: 520000 }
+                    ];
+                    break;
+                case '2years':
+                    newData = [
+                        { month: '2023 Q1', revenue: 450000 },
+                        { month: '2023 Q2', revenue: 680000 },
+                        { month: '2023 Q3', revenue: 920000 },
+                        { month: '2023 Q4', revenue: 1200000 },
+                        { month: '2024 Q1', revenue: 1350000 },
+                        { month: '2024 Q2', revenue: 1680000 },
+                        { month: '2024 Q3', revenue: 2100000 },
+                        { month: '2024 Q4', revenue: 2500000 }
+                    ];
+                    break;
+                default:
+                    newData = adminData.revenueData;
+            }
+
+            revenueAnalyticsChart.data.labels = newData.map(d => d.month);
+            revenueAnalyticsChart.data.datasets[0].data = newData.map(d => d.revenue);
+            revenueAnalyticsChart.update();
+        }
+
+        // Admin Action Functions - Task 9 Implementation
+        function generateSystemReport() {
+            Swal.fire({
+                title: 'Generate System Report',
+                html: `
+                    <div class="text-start">
+                        <div class="mb-3">
+                            <label class="form-label">Report Type</label>
+                            <select class="form-select" id="reportType">
+                                <option value="comprehensive">Comprehensive System Report</option>
+                                <option value="users">User Analytics Report</option>
+                                <option value="events">Event Performance Report</option>
+                                <option value="financial">Financial Summary Report</option>
+                                <option value="security">Security & Audit Report</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Date Range</label>
+                            <select class="form-select" id="dateRange">
+                                <option value="30days">Last 30 Days</option>
+                                <option value="90days">Last 90 Days</option>
+                                <option value="6months">Last 6 Months</option>
+                                <option value="1year">Last Year</option>
+                                <option value="custom">Custom Range</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Format</label>
+                            <select class="form-select" id="reportFormat">
+                                <option value="pdf">PDF Document</option>
+                                <option value="excel">Excel Spreadsheet</option>
+                                <option value="dashboard">Interactive Dashboard</option>
+                            </select>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="includeCharts" checked>
+                            <label class="form-check-label" for="includeCharts">
+                                Include Charts and Visualizations
+                            </label>
+                        </div>
+                    </div>
+                `,
+                showCancelButton: true,
+                confirmButtonText: 'Generate Report',
+                cancelButtonText: 'Cancel',
+                confirmButtonColor: '#f59e0b',
+                preConfirm: () => {
+                    const reportType = document.getElementById('reportType').value;
+                    const dateRange = document.getElementById('dateRange').value;
+                    const format = document.getElementById('reportFormat').value;
+                    const includeCharts = document.getElementById('includeCharts').checked;
+
+                    return { reportType, dateRange, format, includeCharts };
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    processSystemReport(result.value);
+                }
+            });
+        }
+
+        function processSystemReport(options) {
+            Swal.fire({
+                title: 'Generating System Report',
+                html: `
+                    <div class="text-center">
+                        <div class="spinner-border text-warning mb-3" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p>Processing ${options.reportType} report...</p>
+                        <p><small class="text-muted">This may take a few moments</small></p>
+                    </div>
+                `,
+                showConfirmButton: false,
+                allowOutsideClick: false,
+                timer: 4000
+            }).then(() => {
+                Swal.fire({
+                    title: 'Report Generated Successfully!',
+                    text: `Your ${options.reportType} report has been generated and downloaded.`,
+                    icon: 'success',
+                    confirmButtonColor: '#f59e0b'
+                });
+            });
+        }
+
+        function systemMaintenance() {
+            Swal.fire({
+                title: 'System Maintenance',
+                html: `
+                    <div class="text-start">
+                        <div class="mb-3">
+                            <label class="form-label">Maintenance Type</label>
+                            <select class="form-select" id="maintenanceType">
+                                <option value="scheduled">Scheduled Maintenance</option>
+                                <option value="database">Database Optimization</option>
+                                <option value="cache">Clear System Cache</option>
+                                <option value="security">Security Updates</option>
+                                <option value="emergency">Emergency Maintenance</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Scheduled Time</label>
+                            <input type="datetime-local" class="form-control" id="maintenanceTime">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Estimated Duration</label>
+                            <select class="form-select" id="duration">
+                                <option value="15min">15 minutes</option>
+                                <option value="30min">30 minutes</option>
+                                <option value="1hour">1 hour</option>
+                                <option value="2hours">2 hours</option>
+                                <option value="custom">Custom Duration</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Maintenance Description</label>
+                            <textarea class="form-control" id="maintenanceDesc" rows="3" placeholder="Describe the maintenance activities..."></textarea>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="notifyUsers" checked>
+                            <label class="form-check-label" for="notifyUsers">
+                                Notify all users about maintenance
+                            </label>
+                        </div>
+                    </div>
+                `,
+                showCancelButton: true,
+                confirmButtonText: 'Schedule Maintenance',
+                cancelButtonText: 'Cancel',
+                confirmButtonColor: '#f59e0b',
+                preConfirm: () => {
+                    const maintenanceType = document.getElementById('maintenanceType').value;
+                    const maintenanceTime = document.getElementById('maintenanceTime').value;
+                    const duration = document.getElementById('duration').value;
+                    const description = document.getElementById('maintenanceDesc').value;
+                    const notifyUsers = document.getElementById('notifyUsers').checked;
+
+                    if (!maintenanceTime) {
+                        Swal.showValidationMessage('Please select a maintenance time');
+                        return false;
+                    }
+
+                    return { maintenanceType, maintenanceTime, duration, description, notifyUsers };
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: 'Maintenance Scheduled!',
+                        text: `${result.value.maintenanceType} has been scheduled successfully.`,
+                        icon: 'success',
+                        confirmButtonColor: '#f59e0b'
+                    });
+                }
+            });
+        }
+
+        function systemBackup() {
+            Swal.fire({
+                title: 'System Backup',
+                html: `
+                    <div class="text-start">
+                        <div class="mb-3">
+                            <label class="form-label">Backup Type</label>
+                            <select class="form-select" id="backupType">
+                                <option value="full">Full System Backup</option>
+                                <option value="database">Database Only</option>
+                                <option value="files">Files & Media Only</option>
+                                <option value="configs">Configurations Only</option>
+                                <option value="incremental">Incremental Backup</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Backup Location</label>
+                            <select class="form-select" id="backupLocation">
+                                <option value="cloud">Cloud Storage (AWS S3)</option>
+                                <option value="local">Local Server</option>
+                                <option value="external">External Drive</option>
+                                <option value="multiple">Multiple Locations</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Compression Level</label>
+                            <select class="form-select" id="compression">
+                                <option value="none">No Compression</option>
+                                <option value="standard">Standard Compression</option>
+                                <option value="high">High Compression</option>
+                                <option value="maximum">Maximum Compression</option>
+                            </select>
+                        </div>
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" id="encryption" checked>
+                            <label class="form-check-label" for="encryption">
+                                Encrypt backup data
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="verify">
+                            <label class="form-check-label" for="verify">
+                                Verify backup integrity after completion
+                            </label>
+                        </div>
+                    </div>
+                `,
+                showCancelButton: true,
+                confirmButtonText: 'Start Backup',
+                cancelButtonText: 'Cancel',
+                confirmButtonColor: '#f59e0b',
+                preConfirm: () => {
+                    const backupType = document.getElementById('backupType').value;
+                    const location = document.getElementById('backupLocation').value;
+                    const compression = document.getElementById('compression').value;
+                    const encryption = document.getElementById('encryption').checked;
+                    const verify = document.getElementById('verify').checked;
+
+                    return { backupType, location, compression, encryption, verify };
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    startBackupProcess(result.value);
+                }
+            });
+        }
+
+        function startBackupProcess(options) {
+            let progress = 0;
+            const progressInterval = setInterval(() => {
+                progress += Math.random() * 15;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(progressInterval);
+
+                    Swal.fire({
+                        title: 'Backup Completed!',
+                        text: `${options.backupType} backup has been completed successfully.`,
+                        icon: 'success',
+                        confirmButtonColor: '#f59e0b'
+                    });
+                } else {
+                    Swal.update({
+                        html: `
+                            <div class="text-center">
+                                <div class="progress mb-3" style="height: 20px;">
+                                    <div class="progress-bar bg-warning" style="width: ${progress}%">
+                                        ${Math.round(progress)}%
+                                    </div>
+                                </div>
+                                <p>Backing up system data...</p>
+                                <p><small class="text-muted">Processing ${options.backupType}</small></p>
+                            </div>
+                        `
+                    });
+                }
+            }, 500);
+
+            Swal.fire({
+                title: 'Backup In Progress',
+                html: `
+                    <div class="text-center">
+                        <div class="progress mb-3" style="height: 20px;">
+                            <div class="progress-bar bg-warning" style="width: 0%">0%</div>
+                        </div>
+                        <p>Initializing backup process...</p>
+                    </div>
+                `,
+                showConfirmButton: false,
+                allowOutsideClick: false
+            });
+        }
+
+        function logout() {
+            Swal.fire({
+                title: 'Admin Logout',
+                text: 'Are you sure you want to logout from the admin panel?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, Logout',
+                cancelButtonText: 'Cancel',
+                confirmButtonColor: '#ef4444'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    localStorage.removeItem('userSession');
+                    sessionStorage.removeItem('userSession');
+                    localStorage.removeItem('userLoggedIn');
+
+                    Swal.fire({
+                        title: 'Logged Out',
+                        text: 'You have been successfully logged out from the admin panel.',
+                        icon: 'success',
+                        confirmButtonColor: '#f59e0b',
+                        timer: 1500,
+                        showConfirmButton: false
+                    }).then(() => {
+                        window.location.href = 'index.html';
+                    });
+                }
+            });
+        }
+
+        // Real-time data simulation
+        function simulateRealTimeUpdates() {
+            setInterval(() => {
+                // Simulate small changes in metrics
+                adminData.totalUsers += Math.floor(Math.random() * 3);
+                adminData.totalBookings += Math.floor(Math.random() * 5);
+
+                // Update display
+                document.getElementById('totalUsers').textContent = adminData.totalUsers.toLocaleString();
+                document.getElementById('usersCount').textContent = adminData.totalUsers.toLocaleString();
+                document.getElementById('totalBookings').textContent = adminData.totalBookings.toLocaleString();
+                document.getElementById('bookingsCount').textContent = adminData.totalBookings.toLocaleString();
+
+            }, 30000); // Update every 30 seconds
+        }
+
+        // Start real-time updates
+        simulateRealTimeUpdates();
+    </script>
+
+</body>
+
+</html>-md-6">

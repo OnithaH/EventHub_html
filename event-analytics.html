@@ -1,0 +1,1652 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EventHub - Event Analytics</title>
+
+    <!-- Bootstrap 5.3 CSS (Latest) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <!-- Bootstrap Icons (Latest) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        /* EventHub Custom Styles - Matching existing design */
+        * {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f8fafc;
+            line-height: 1.6;
+        }
+
+        /* Navbar Styling - From navbar.html */
+        .eventhub-navbar {
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+            padding: 0.75rem 0;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .eventhub-brand {
+            text-decoration: none;
+            color: #6366f1 !important;
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .eventhub-brand:hover {
+            color: #5855eb !important;
+            text-decoration: none;
+        }
+
+        .brand-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .brand-text {
+            color: #6366f1;
+            font-weight: 700;
+        }
+
+        .eventhub-nav-link {
+            color: #64748b !important;
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 0.5rem 1rem !important;
+            margin: 0 0.25rem;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .eventhub-nav-link:hover {
+            color: #6366f1 !important;
+            background-color: rgba(99, 102, 241, 0.1);
+        }
+
+        .eventhub-nav-link.active {
+            color: #6366f1 !important;
+            background-color: rgba(99, 102, 241, 0.15);
+            font-weight: 600;
+        }
+
+        /* User Menu */
+        .user-menu {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            color: #374151 !important;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .user-menu:hover {
+            background-color: rgba(99, 102, 241, 0.1);
+            color: #6366f1 !important;
+        }
+
+        .user-avatar {
+            font-size: 1.5rem;
+            margin-right: 0.5rem;
+            color: #6366f1;
+        }
+
+        .user-name {
+            font-weight: 500;
+        }
+
+        .user-dropdown {
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            padding: 0.5rem 0;
+        }
+
+        .user-dropdown .dropdown-item {
+            padding: 0.75rem 1.5rem;
+            color: #374151;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+        }
+
+        .user-dropdown .dropdown-item:hover {
+            background-color: rgba(99, 102, 241, 0.1);
+            color: #6366f1;
+        }
+
+        /* Event Header */
+        .event-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 3rem 0;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .event-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('picture/event-concert.jpg') center/cover;
+            opacity: 0.2;
+            z-index: 1;
+        }
+
+        .event-header-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .event-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 2rem;
+        }
+
+        .event-details {
+            flex: 1;
+        }
+
+        .event-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .event-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .meta-item i {
+            font-size: 1.25rem;
+        }
+
+        .event-status {
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.875rem;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .event-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: white;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-top: 0.25rem;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-header {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-header:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Analytics Overview */
+        .analytics-overview {
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .overview-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+
+        .overview-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .overview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .overview-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            color: white;
+        }
+
+        .overview-icon.revenue {
+            background: linear-gradient(135deg, #10b981, #34d399);
+        }
+
+        .overview-icon.tickets {
+            background: linear-gradient(135deg, #3b82f6, #60a5fa);
+        }
+
+        .overview-icon.customers {
+            background: linear-gradient(135deg, #8b5cf6, #a78bfa);
+        }
+
+        .overview-icon.rating {
+            background: linear-gradient(135deg, #f59e0b, #fbbf24);
+        }
+
+        .overview-content h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin: 0;
+        }
+
+        .overview-content p {
+            color: #6b7280;
+            margin: 0;
+            font-size: 0.875rem;
+        }
+
+        .progress-ring {
+            width: 60px;
+            height: 60px;
+            position: relative;
+        }
+
+        .progress-ring svg {
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
+        }
+
+        .progress-ring circle {
+            fill: none;
+            stroke-width: 6;
+            r: 24;
+            cx: 30;
+            cy: 30;
+        }
+
+        .progress-ring .bg {
+            stroke: #e2e8f0;
+        }
+
+        .progress-ring .progress {
+            stroke: #6366f1;
+            stroke-linecap: round;
+            stroke-dasharray: 150.8;
+            stroke-dashoffset: 150.8;
+            transition: stroke-dashoffset 0.3s ease;
+        }
+
+        .progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #6366f1;
+        }
+
+        /* Chart Cards */
+        .chart-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+
+        .chart-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .chart-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin: 0;
+        }
+
+        .chart-subtitle {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin: 0;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+        }
+
+        .chart-container.large {
+            height: 400px;
+        }
+
+        /* Customer Demographics */
+        .demographics-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .demographics-item:last-child {
+            border-bottom: none;
+        }
+
+        .demographics-label {
+            font-weight: 500;
+            color: #374151;
+        }
+
+        .demographics-value {
+            font-weight: 600;
+            color: #6366f1;
+        }
+
+        .demographics-bar {
+            width: 100px;
+            height: 6px;
+            background: #e2e8f0;
+            border-radius: 3px;
+            margin-left: 1rem;
+            overflow: hidden;
+        }
+
+        .demographics-bar .fill {
+            height: 100%;
+            background: #6366f1;
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+
+        /* Booking Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 1rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #e2e8f0;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -1.75rem;
+            top: 0.25rem;
+            width: 12px;
+            height: 12px;
+            background: #6366f1;
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 0 0 3px #e2e8f0;
+        }
+
+        .timeline-content {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .timeline-date {
+            font-size: 0.75rem;
+            color: #6b7280;
+            font-weight: 500;
+        }
+
+        .timeline-title {
+            font-weight: 600;
+            color: #374151;
+            margin: 0.25rem 0;
+        }
+
+        .timeline-desc {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin: 0;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .event-info {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
+            .event-title {
+                font-size: 2rem;
+            }
+
+            .event-meta {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .header-actions {
+                justify-content: center;
+            }
+
+            .event-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .chart-container {
+                height: 250px;
+            }
+
+            .chart-container.large {
+                height: 300px;
+            }
+        }
+
+        /* Custom Toggle */
+        .custom-toggler {
+            border: none;
+            padding: 0.25rem 0.5rem;
+        }
+
+        .custom-toggler:focus {
+            box-shadow: 0 0 0 0.2rem rgba(99, 102, 241, 0.25);
+        }
+
+        /* Insights Panel */
+        .insights-panel {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 16px;
+            padding: 1.5rem;
+            color: white;
+        }
+
+        .insight-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .insight-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .insight-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .insight-text {
+            flex: 1;
+        }
+
+        .insight-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .insight-desc {
+            font-size: 0.875rem;
+            opacity: 0.9;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- EventHub Header - Organizer -->
+    <nav class="navbar navbar-expand-lg eventhub-navbar">
+        <div class="container-fluid px-4">
+            <!-- Brand Logo -->
+            <a class="navbar-brand eventhub-brand d-flex align-items-center" href="index.html">
+                <div class="brand-icon me-2">
+                    <i class="bi bi-calendar-event me-1"></i>
+                </div>
+                <span class="brand-text">EventHub</span>
+            </a>
+
+            <!-- Mobile Toggle Button -->
+            <button class="navbar-toggler custom-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navigation Items -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <!-- Left Navigation -->
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link eventhub-nav-link" href="index.html">
+                            <i class="bi bi-house me-1"></i>Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link eventhub-nav-link" href="event-listing.html">
+                            <i class="bi bi-calendar-event me-1"></i>Browse Events
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link eventhub-nav-link" href="my-events.html">
+                            <i class="bi bi-calendar3 me-1"></i>My Events
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link eventhub-nav-link" href="create-event.html">
+                            <i class="bi bi-plus-circle me-1"></i>Create Event
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link eventhub-nav-link" href="sales-reports.html">
+                            <i class="bi bi-bar-chart me-1"></i>Sales Reports
+                        </a>
+                    </li>
+                </ul>
+
+                <!-- Right Navigation - User Menu -->
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle user-menu" href="#" id="userDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <div class="user-avatar">
+                                <i class="bi bi-person-circle"></i>
+                            </div>
+                            <span class="user-name" id="userName">Rajesh Events</span>
+                        </a>
+                        <ul class="dropdown-menu user-dropdown" aria-labelledby="userDropdown">
+                            <li><a class="dropdown-item" href="organizer-dashboard.html">
+                                <i class="bi bi-speedometer2 me-2"></i>Dashboard</a></li>
+                            <li><a class="dropdown-item" href="user-profile.html">
+                                <i class="bi bi-person me-2"></i>My Profile</a></li>
+                            <li><a class="dropdown-item" href="my-events.html">
+                                <i class="bi bi-calendar3 me-2"></i>My Events</a></li>
+                            <li><a class="dropdown-item" href="create-event.html">
+                                <i class="bi bi-plus-circle me-2"></i>Create Event</a></li>
+                            <li><a class="dropdown-item" href="sales-reports.html">
+                                <i class="bi bi-bar-chart me-2"></i>Sales Reports</a></li>
+                            <li><a class="dropdown-item" href="qr-scanner.html">
+                                <i class="bi bi-qr-code-scan me-2"></i>QR Scanner</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#" onclick="logout()">
+                                <i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Event Header -->
+    <section class="event-header">
+        <div class="container">
+            <div class="event-header-content">
+                <div class="event-info">
+                    <div class="event-details">
+                        <h1 class="event-title" id="eventTitle">New Year Gala 2025</h1>
+                        <div class="event-meta">
+                            <div class="meta-item">
+                                <i class="bi bi-calendar3"></i>
+                                <span id="eventDate">December 31, 2024 • 8:00 PM</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="bi bi-geo-alt"></i>
+                                <span id="eventVenue">BMICH, Colombo</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="bi bi-tag"></i>
+                                <span class="event-status" id="eventStatus">Active</span>
+                            </div>
+                        </div>
+                        <div class="event-stats">
+                            <div class="stat-item">
+                                <span class="stat-value" id="ticketsSold">340</span>
+                                <span class="stat-label">Tickets Sold</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value" id="totalCapacity">350</span>
+                                <span class="stat-label">Total Capacity</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value" id="totalRevenue">Rs. 85K</span>
+                                <span class="stat-label">Revenue</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value" id="attendanceRate">97%</span>
+                                <span class="stat-label">Sold Out</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn btn-header" onclick="exportEventReport()">
+                            <i class="bi bi-download me-2"></i>Export Report
+                        </button>
+                        <button class="btn btn-header" onclick="shareAnalytics()">
+                            <i class="bi bi-share me-2"></i>Share Analytics
+                        </button>
+                        <button class="btn btn-header" onclick="editEvent()">
+                            <i class="bi bi-pencil me-2"></i>Edit Event
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Analytics Overview Section -->
+    <section class="analytics-overview py-4">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-3 col-md-6">
+                    <div class="overview-card">
+                        <div class="overview-header">
+                            <div class="overview-icon revenue">
+                                <i class="bi bi-currency-dollar"></i>
+                            </div>
+                            <div class="progress-ring">
+                                <svg>
+                                    <circle class="bg" />
+                                    <circle class="progress" style="stroke-dashoffset: 37.7;" />
+                                </svg>
+                                <div class="progress-text">97%</div>
+                            </div>
+                        </div>
+                        <div class="overview-content">
+                            <h3>Rs. 85,000</h3>
+                            <p>Total Revenue</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="overview-card">
+                        <div class="overview-header">
+                            <div class="overview-icon tickets">
+                                <i class="bi bi-ticket-perforated"></i>
+                            </div>
+                            <div class="progress-ring">
+                                <svg>
+                                    <circle class="bg" />
+                                    <circle class="progress" style="stroke-dashoffset: 37.7;" />
+                                </svg>
+                                <div class="progress-text">97%</div>
+                            </div>
+                        </div>
+                        <div class="overview-content">
+                            <h3>340 / 350</h3>
+                            <p>Tickets Sold</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="overview-card">
+                        <div class="overview-header">
+                            <div class="overview-icon customers">
+                                <i class="bi bi-people"></i>
+                            </div>
+                            <div class="progress-ring">
+                                <svg>
+                                    <circle class="bg" />
+                                    <circle class="progress" style="stroke-dashoffset: 67.8;" />
+                                </svg>
+                                <div class="progress-text">78%</div>
+                            </div>
+                        </div>
+                        <div class="overview-content">
+                            <h3>265</h3>
+                            <p>Unique Customers</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="overview-card">
+                        <div class="overview-header">
+                            <div class="overview-icon rating">
+                                <i class="bi bi-star-fill"></i>
+                            </div>
+                            <div class="progress-ring">
+                                <svg>
+                                    <circle class="bg" />
+                                    <circle class="progress" style="stroke-dashoffset: 30.2;" />
+                                </svg>
+                                <div class="progress-text">4.8</div>
+                            </div>
+                        </div>
+                        <div class="overview-content">
+                            <h3>4.8 / 5.0</h3>
+                            <p>Customer Rating</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Detailed Analytics Section -->
+    <section class="detailed-analytics py-5">
+        <div class="container">
+            <!-- Sales Trends -->
+            <div class="row g-4 mb-5">
+                <div class="col-lg-8">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <div>
+                                <h3 class="chart-title">Ticket Sales Timeline</h3>
+                                <p class="chart-subtitle">Daily ticket sales from launch to present</p>
+                            </div>
+                        </div>
+                        <div class="chart-container large">
+                            <canvas id="salesTimelineChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <div>
+                                <h3 class="chart-title">AI Insights</h3>
+                                <p class="chart-subtitle">Smart recommendations for your event</p>
+                            </div>
+                        </div>
+                        <div class="insights-panel">
+                            <div class="insight-item">
+                                <div class="insight-icon">
+                                    <i class="bi bi-graph-up-arrow"></i>
+                                </div>
+                                <div class="insight-text">
+                                    <div class="insight-title">Peak Sales Period</div>
+                                    <p class="insight-desc">Most tickets sold between 6 PM - 9 PM</p>
+                                </div>
+                            </div>
+                            <div class="insight-item">
+                                <div class="insight-icon">
+                                    <i class="bi bi-people"></i>
+                                </div>
+                                <div class="insight-text">
+                                    <div class="insight-title">Target Audience</div>
+                                    <p class="insight-desc">62% of attendees are aged 25-35</p>
+                                </div>
+                            </div>
+                            <div class="insight-item">
+                                <div class="insight-icon">
+                                    <i class="bi bi-geo-alt"></i>
+                                </div>
+                                <div class="insight-text">
+                                    <div class="insight-title">Geographic Reach</div>
+                                    <p class="insight-desc">78% of attendees from Colombo area</p>
+                                </div>
+                            </div>
+                            <div class="insight-item">
+                                <div class="insight-icon">
+                                    <i class="bi bi-lightbulb"></i>
+                                </div>
+                                <div class="insight-text">
+                                    <div class="insight-title">Recommendation</div>
+                                    <p class="insight-desc">Consider premium seating for next event</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Demographics & Performance -->
+            <div class="row g-4 mb-5">
+                <div class="col-lg-6">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <div>
+                                <h3 class="chart-title">Customer Demographics</h3>
+                                <p class="chart-subtitle">Age and gender distribution of attendees</p>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="demographicsChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <div>
+                                <h3 class="chart-title">Revenue Breakdown</h3>
+                                <p class="chart-subtitle">Revenue by ticket type and pricing tier</p>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="revenueBreakdownChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Geographic & Booking Analysis -->
+            <div class="row g-4 mb-5">
+                <div class="col-lg-8">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <div>
+                                <h3 class="chart-title">Booking Patterns</h3>
+                                <p class="chart-subtitle">When customers are most likely to purchase tickets</p>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="bookingPatternsChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <div>
+                                <h3 class="chart-title">Geographic Distribution</h3>
+                                <p class="chart-subtitle">Where your attendees are coming from</p>
+                            </div>
+                        </div>
+                        <div style="padding: 1rem 0;">
+                            <div class="demographics-item">
+                                <span class="demographics-label">Colombo</span>
+                                <div style="display: flex; align-items: center;">
+                                    <span class="demographics-value">45%</span>
+                                    <div class="demographics-bar">
+                                        <div class="fill" style="width: 78%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="demographics-item">
+                                <span class="demographics-label">Gampaha</span>
+                                <div style="display: flex; align-items: center;">
+                                    <span class="demographics-value">22%</span>
+                                    <div class="demographics-bar">
+                                        <div class="fill" style="width: 56%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="demographics-item">
+                                <span class="demographics-label">Kalutara</span>
+                                <div style="display: flex; align-items: center;">
+                                    <span class="demographics-value">18%</span>
+                                    <div class="demographics-bar">
+                                        <div class="fill" style="width: 45%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="demographics-item">
+                                <span class="demographics-label">Kandy</span>
+                                <div style="display: flex; align-items: center;">
+                                    <span class="demographics-value">10%</span>
+                                    <div class="demographics-bar">
+                                        <div class="fill" style="width: 25%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="demographics-item">
+                                <span class="demographics-label">Other Areas</span>
+                                <div style="display: flex; align-items: center;">
+                                    <span class="demographics-value">5%</span>
+                                    <div class="demographics-bar">
+                                        <div class="fill" style="width: 12%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Marketing Performance & Timeline -->
+            <div class="row g-4">
+                <div class="col-lg-6">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <div>
+                                <h3 class="chart-title">Marketing Channel Performance</h3>
+                                <p class="chart-subtitle">Which channels drove the most ticket sales</p>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="marketingChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <div>
+                                <h3 class="chart-title">Event Timeline</h3>
+                                <p class="chart-subtitle">Key milestones and booking activities</p>
+                            </div>
+                        </div>
+                        <div class="timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-content">
+                                    <div class="timeline-date">Dec 1, 2024</div>
+                                    <div class="timeline-title">Event Announced</div>
+                                    <div class="timeline-desc">Event launched with early bird pricing</div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-content">
+                                    <div class="timeline-date">Dec 8, 2024</div>
+                                    <div class="timeline-title">50% Capacity Reached</div>
+                                    <div class="timeline-desc">175 tickets sold in first week</div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-content">
+                                    <div class="timeline-date">Dec 15, 2024</div>
+                                    <div class="timeline-title">Marketing Campaign Launch</div>
+                                    <div class="timeline-desc">Social media and email campaigns started</div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-content">
+                                    <div class="timeline-date">Dec 22, 2024</div>
+                                    <div class="timeline-title">90% Capacity Reached</div>
+                                    <div class="timeline-desc">Only 35 tickets remaining</div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-content">
+                                    <div class="timeline-date">Dec 28, 2024</div>
+                                    <div class="timeline-title">Nearly Sold Out</div>
+                                    <div class="timeline-desc">97% capacity - 10 tickets left</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+
+    <script>
+        // Sample event analytics data - implementing Task 8 requirements
+        let eventData = {
+            eventId: 'EVT001',
+            title: 'New Year Gala 2025',
+            date: 'December 31, 2024',
+            time: '8:00 PM',
+            venue: 'BMICH, Colombo',
+            status: 'Active',
+            ticketsSold: 340,
+            capacity: 350,
+            revenue: 85000,
+            rating: 4.8,
+            uniqueCustomers: 265,
+            
+            // Daily sales timeline (30 days)
+            salesTimeline: [
+                { day: 1, tickets: 25, revenue: 6250 },
+                { day: 2, tickets: 18, revenue: 4500 },
+                { day: 3, tickets: 22, revenue: 5500 },
+                { day: 4, tickets: 15, revenue: 3750 },
+                { day: 5, tickets: 30, revenue: 7500 },
+                { day: 6, tickets: 28, revenue: 7000 },
+                { day: 7, tickets: 35, revenue: 8750 },
+                { day: 8, tickets: 20, revenue: 5000 },
+                { day: 9, tickets: 25, revenue: 6250 },
+                { day: 10, tickets: 32, revenue: 8000 },
+                { day: 11, tickets: 18, revenue: 4500 },
+                { day: 12, tickets: 22, revenue: 5500 },
+                { day: 13, tickets: 27, revenue: 6750 },
+                { day: 14, tickets: 30, revenue: 7500 },
+                { day: 15, tickets: 15, revenue: 3750 },
+                { day: 16, tickets: 12, revenue: 3000 },
+                { day: 17, tickets: 8, revenue: 2000 },
+                { day: 18, tickets: 5, revenue: 1250 },
+                { day: 19, tickets: 3, revenue: 750 },
+                { day: 20, tickets: 2, revenue: 500 }
+            ],
+            
+            // Demographics data
+            demographics: {
+                age: {
+                    '18-24': 15,
+                    '25-34': 35,
+                    '35-44': 28,
+                    '45-54': 15,
+                    '55+': 7
+                },
+                gender: {
+                    'Male': 45,
+                    'Female': 52,
+                    'Other': 3
+                }
+            },
+            
+            // Revenue breakdown by ticket type
+            revenueBreakdown: {
+                'VIP': { tickets: 50, revenue: 25000, price: 500 },
+                'Premium': { tickets: 120, revenue: 36000, price: 300 },
+                'Standard': { tickets: 170, revenue: 24000, price: 200 }
+            },
+            
+            // Booking patterns by hour
+            bookingPatterns: {
+                hours: ['6 AM', '9 AM', '12 PM', '3 PM', '6 PM', '9 PM', '12 AM'],
+                bookings: [5, 15, 25, 35, 45, 40, 20]
+            },
+            
+            // Marketing channel performance
+            marketingChannels: {
+                'Social Media': 45,
+                'Email Marketing': 25,
+                'Website': 15,
+                'Word of Mouth': 10,
+                'Print Media': 5
+            }
+        };
+
+        let salesTimelineChart, demographicsChart, revenueBreakdownChart, bookingPatternsChart, marketingChart;
+
+        document.addEventListener('DOMContentLoaded', function () {
+            initializeEventAnalytics();
+            loadEventData();
+            initializeCharts();
+        });
+
+        function initializeEventAnalytics() {
+            // Check if user is logged in as organizer
+            const sessionData = localStorage.getItem('userSession') || sessionStorage.getItem('userSession');
+            
+            if (!sessionData) {
+                window.location.href = 'login.html?redirect=event-analytics.html';
+                return;
+            }
+
+            const currentUser = JSON.parse(sessionData);
+            
+            if (currentUser.role !== 'organizer') {
+                Swal.fire({
+                    title: 'Access Denied',
+                    text: 'This page is only accessible to event organizers.',
+                    icon: 'error',
+                    confirmButtonColor: '#6366f1'
+                }).then(() => {
+                    window.location.href = 'index.html';
+                });
+                return;
+            }
+
+            document.getElementById('userName').textContent = currentUser.name || 'Rajesh Events';
+            
+            // Get event ID from URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const eventId = urlParams.get('id');
+            
+            if (eventId) {
+                // Load specific event data
+                loadEventById(eventId);
+            }
+        }
+
+        function loadEventById(eventId) {
+            // Simulate loading specific event data
+            // In a real application, this would fetch data from the server
+            const events = {
+                'EVT001': {
+                    title: 'New Year Gala 2025',
+                    date: 'December 31, 2024 • 8:00 PM',
+                    venue: 'BMICH, Colombo',
+                    status: 'Active',
+                    image: 'picture/event-concert.jpg'
+                },
+                'EVT002': {
+                    title: 'Jazz Night Under Stars',
+                    date: 'January 30, 2025 • 7:30 PM',
+                    venue: 'Royal Botanical Gardens',
+                    status: 'Active',
+                    image: 'picture/event-jazz.jpg'
+                },
+                'EVT003': {
+                    title: 'Tech Conference 2025',
+                    date: 'February 15, 2025 • 9:00 AM',
+                    venue: 'Colombo Convention Centre',
+                    status: 'Active',
+                    image: 'picture/event-tech.jpg'
+                }
+            };
+
+            const event = events[eventId] || events['EVT001'];
+            
+            document.getElementById('eventTitle').textContent = event.title;
+            document.getElementById('eventDate').textContent = event.date;
+            document.getElementById('eventVenue').textContent = event.venue;
+            document.getElementById('eventStatus').textContent = event.status;
+            
+            // Update background image
+            const eventHeader = document.querySelector('.event-header');
+            if (event.image) {
+                eventHeader.style.setProperty('--bg-image', `url('${event.image}')`);
+            }
+        }
+
+        function loadEventData() {
+            // Load data into the page
+            document.getElementById('ticketsSold').textContent = eventData.ticketsSold;
+            document.getElementById('totalCapacity').textContent = eventData.capacity;
+            document.getElementById('totalRevenue').textContent = `Rs. ${(eventData.revenue / 1000).toFixed(0)}K`;
+            document.getElementById('attendanceRate').textContent = `${Math.round((eventData.ticketsSold / eventData.capacity) * 100)}%`;
+        }
+
+        function initializeCharts() {
+            // Sales Timeline Chart
+            const salesTimelineCtx = document.getElementById('salesTimelineChart').getContext('2d');
+            salesTimelineChart = new Chart(salesTimelineCtx, {
+                type: 'line',
+                data: {
+                    labels: eventData.salesTimeline.map(d => `Day ${d.day}`),
+                    datasets: [{
+                        label: 'Tickets Sold',
+                        data: eventData.salesTimeline.map(d => d.tickets),
+                        borderColor: '#6366f1',
+                        backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: '#6366f1',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 5
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: '#f3f4f6'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: '#f3f4f6'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Demographics Chart
+            const demographicsCtx = document.getElementById('demographicsChart').getContext('2d');
+            demographicsChart = new Chart(demographicsCtx, {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(eventData.demographics.age),
+                    datasets: [{
+                        label: 'Age Distribution (%)',
+                        data: Object.values(eventData.demographics.age),
+                        backgroundColor: [
+                            '#6366f1',
+                            '#8b5cf6',
+                            '#10b981',
+                            '#f59e0b',
+                            '#ef4444'
+                        ],
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return value + '%';
+                                }
+                            },
+                            grid: {
+                                color: '#f3f4f6'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: '#f3f4f6'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Revenue Breakdown Chart
+            const revenueBreakdownCtx = document.getElementById('revenueBreakdownChart').getContext('2d');
+            revenueBreakdownChart = new Chart(revenueBreakdownCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: Object.keys(eventData.revenueBreakdown),
+                    datasets: [{
+                        data: Object.values(eventData.revenueBreakdown).map(item => item.revenue),
+                        backgroundColor: [
+                            '#6366f1',
+                            '#10b981',
+                            '#f59e0b'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                usePointStyle: true,
+                                padding: 20,
+                                generateLabels: function(chart) {
+                                    const data = chart.data;
+                                    return data.labels.map((label, i) => {
+                                        const value = data.datasets[0].data[i];
+                                        return {
+                                            text: `${label} - Rs. ${(value / 1000).toFixed(0)}K`,
+                                            fillStyle: data.datasets[0].backgroundColor[i],
+                                            pointStyle: 'circle'
+                                        };
+                                    });
+                                }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.label}: Rs. ${(context.parsed / 1000).toFixed(0)}K`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Booking Patterns Chart
+            const bookingPatternsCtx = document.getElementById('bookingPatternsChart').getContext('2d');
+            bookingPatternsChart = new Chart(bookingPatternsCtx, {
+                type: 'bar',
+                data: {
+                    labels: eventData.bookingPatterns.hours,
+                    datasets: [{
+                        label: 'Bookings by Hour',
+                        data: eventData.bookingPatterns.bookings,
+                        backgroundColor: 'rgba(16, 185, 129, 0.8)',
+                        borderColor: '#10b981',
+                        borderWidth: 1,
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: '#f3f4f6'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: '#f3f4f6'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Marketing Channels Chart
+            const marketingCtx = document.getElementById('marketingChart').getContext('2d');
+            marketingChart = new Chart(marketingCtx, {
+                type: 'pie',
+                data: {
+                    labels: Object.keys(eventData.marketingChannels),
+                    datasets: [{
+                        data: Object.values(eventData.marketingChannels),
+                        backgroundColor: [
+                            '#6366f1',
+                            '#10b981',
+                            '#f59e0b',
+                            '#ef4444',
+                            '#8b5cf6'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                usePointStyle: true,
+                                padding: 20,
+                                generateLabels: function(chart) {
+                                    const data = chart.data;
+                                    return data.labels.map((label, i) => {
+                                        const value = data.datasets[0].data[i];
+                                        return {
+                                            text: `${label} (${value}%)`,
+                                            fillStyle: data.datasets[0].backgroundColor[i],
+                                            pointStyle: 'circle'
+                                        };
+                                    });
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Action Functions - Task 8 Implementation
+        function exportEventReport() {
+            Swal.fire({
+                title: 'Export Event Analytics',
+                html: `
+                    <div class="text-start">
+                        <div class="mb-3">
+                            <label class="form-label">Report Format</label>
+                            <select class="form-select" id="reportFormat">
+                                <option value="pdf">Comprehensive PDF Report</option>
+                                <option value="excel">Excel Data Export</option>
+                                <option value="presentation">PowerPoint Presentation</option>
+                                <option value="csv">Raw CSV Data</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Include Sections</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="includeSales" checked>
+                                <label class="form-check-label" for="includeSales">Sales Analytics</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="includeDemographics" checked>
+                                <label class="form-check-label" for="includeDemographics">Demographics</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="includeMarketing" checked>
+                                <label class="form-check-label" for="includeMarketing">Marketing Performance</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="includeInsights" checked>
+                                <label class="form-check-label" for="includeInsights">AI Insights</label>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                showCancelButton: true,
+                confirmButtonText: 'Generate Report',
+                cancelButtonText: 'Cancel',
+                confirmButtonColor: '#6366f1',
+                preConfirm: () => {
+                    const format = document.getElementById('reportFormat').value;
+                    const sections = {
+                        sales: document.getElementById('includeSales').checked,
+                        demographics: document.getElementById('includeDemographics').checked,
+                        marketing: document.getElementById('includeMarketing').checked,
+                        insights: document.getElementById('includeInsights').checked
+                    };
+                    return { format, sections };
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    generateReport(result.value.format, result.value.sections);
+                }
+            });
+        }
+
+        function generateReport(format, sections) {
+            Swal.fire({
+                title: 'Generating Report',
+                html: `Creating your ${format.toUpperCase()} analytics report...`,
+                icon: 'info',
+                timer: 3000,
+                showConfirmButton: false,
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            }).then(() => {
+                Swal.fire({
+                    title: 'Report Generated!',
+                    text: `Your ${format.toUpperCase()} analytics report has been downloaded successfully.`,
+                    icon: 'success',
+                    confirmButtonColor: '#6366f1'
+                });
+            });
+        }
+
+        function shareAnalytics() {
+            Swal.fire({
+                title: 'Share Event Analytics',
+                html: `
+                    <div class="text-start">
+                        <div class="mb-3">
+                            <label class="form-label">Share With</label>
+                            <input type="email" class="form-control" id="shareEmail" placeholder="Enter email addresses (comma separated)">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Access Level</label>
+                            <select class="form-select" id="accessLevel">
+                                <option value="view">View Only</option>
+                                <option value="comment">View & Comment</option>
+                                <option value="edit">Full Access</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Message (Optional)</label>
+                            <textarea class="form-control" id="shareMessage" rows="3" placeholder="Add a personal message..."></textarea>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="includeLink">
+                            <label class="form-check-label" for="includeLink">
+                                Also generate shareable link
+                            </label>
+                        </div>
+                    </div>
+                `,
+                showCancelButton: true,
+                confirmButtonText: 'Share Analytics',
+                cancelButtonText: 'Cancel',
+                confirmButtonColor: '#6366f1',
+                preConfirm: () => {
+                    const email = document.getElementById('shareEmail').value;
+                    const accessLevel = document.getElementById('accessLevel').value;
+                    const message = document.getElementById('shareMessage').value;
+                    const includeLink = document.getElementById('includeLink').checked;
+                    
+                    if (!email) {
+                        Swal.showValidationMessage('Please enter at least one email address');
+                        return false;
+                    }
+                    
+                    return { email, accessLevel, message, includeLink };
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: 'Analytics Shared!',
+                        text: `Event analytics have been shared with ${result.value.email}`,
+                        icon: 'success',
+                        confirmButtonColor: '#6366f1'
+                    });
+                }
+            });
+        }
+
+        function editEvent() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const eventId = urlParams.get('id') || 'EVT001';
+            window.location.href = `edit-event.html?id=${eventId}`;
+        }
+
+        function logout() {
+            Swal.fire({
+                title: 'Logout',
+                text: 'Are you sure you want to logout?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, Logout',
+                cancelButtonText: 'Cancel',
+                confirmButtonColor: '#ef4444'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    localStorage.removeItem('userSession');
+                    sessionStorage.removeItem('userSession');
+                    localStorage.removeItem('userLoggedIn');
+                    
+                    Swal.fire({
+                        title: 'Logged Out',
+                        text: 'You have been successfully logged out.',
+                        icon: 'success',
+                        confirmButtonColor: '#6366f1',
+                        timer: 1500,
+                        showConfirmButton: false
+                    }).then(() => {
+                        window.location.href = 'index.html';
+                    });
+                }
+            });
+        }
+    </script>
+
+</body>
+
+</html>
