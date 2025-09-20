@@ -1,0 +1,1511 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EventHub - QR Scanner</title>
+
+    <!-- Bootstrap 5.3 CSS (Latest) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <!-- Bootstrap Icons (Latest) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- QR Code Scanner Library -->
+    <script src="https://cdn.jsdelivr.net/npm/html5-qrcode@2.3.8/minified/html5-qrcode.min.js"></script>
+
+    <style>
+        /* EventHub Custom Styles - Mobile-First QR Scanner */
+        * {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #1a1a1a;
+            line-height: 1.6;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        /* Navbar Styling - Dark Theme for Scanner */
+        .eventhub-navbar {
+            background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
+            border-bottom: 1px solid #374151;
+            padding: 0.75rem 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .eventhub-brand {
+            text-decoration: none;
+            color: #10b981 !important;
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .eventhub-brand:hover {
+            color: #34d399 !important;
+            text-decoration: none;
+        }
+
+        .brand-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .brand-text {
+            color: #10b981;
+            font-weight: 700;
+        }
+
+        .scanner-badge {
+            background: linear-gradient(135deg, #10b981, #34d399);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-left: 0.5rem;
+        }
+
+        .eventhub-nav-link {
+            color: #d1d5db !important;
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 0.5rem 1rem !important;
+            margin: 0 0.25rem;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .eventhub-nav-link:hover {
+            color: #10b981 !important;
+            background-color: rgba(16, 185, 129, 0.1);
+        }
+
+        .eventhub-nav-link.active {
+            color: #10b981 !important;
+            background-color: rgba(16, 185, 129, 0.15);
+            font-weight: 600;
+        }
+
+        /* User Menu */
+        .user-menu {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            color: #e5e7eb !important;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .user-menu:hover {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: #10b981 !important;
+        }
+
+        .user-avatar {
+            font-size: 1.5rem;
+            margin-right: 0.5rem;
+            color: #10b981;
+        }
+
+        .user-name {
+            font-weight: 500;
+        }
+
+        .user-dropdown {
+            border: 1px solid #374151;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            padding: 0.5rem 0;
+            background: #1f2937;
+        }
+
+        .user-dropdown .dropdown-item {
+            padding: 0.75rem 1.5rem;
+            color: #e5e7eb;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+        }
+
+        .user-dropdown .dropdown-item:hover {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+        }
+
+        /* Scanner Header */
+        .scanner-header {
+            background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+            padding: 2rem 0 1rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .scanner-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="qr-pattern" width="10" height="10" patternUnits="userSpaceOnUse"><rect width="5" height="5" fill="%2310b981" opacity="0.1"/><rect x="5" y="5" width="5" height="5" fill="%2310b981" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23qr-pattern)"/></svg>');
+            opacity: 0.1;
+            z-index: 1;
+        }
+
+        .scanner-header-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .scanner-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: white;
+        }
+
+        .scanner-subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+            color: #d1d5db;
+        }
+
+        .scanner-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(16, 185, 129, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-weight: 600;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .status-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #10b981;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        /* Scanner Container */
+        .scanner-container {
+            background: white;
+            min-height: calc(100vh - 200px);
+            color: #1f2937;
+        }
+
+        .scanner-main {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        .camera-container {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            background: #f8fafc;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        #qr-reader {
+            width: 100%;
+            border-radius: 20px;
+        }
+
+        .camera-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .scan-line {
+            position: absolute;
+            left: 10%;
+            right: 10%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #10b981, transparent);
+            animation: scan-line 2s ease-in-out infinite;
+        }
+
+        @keyframes scan-line {
+            0% {
+                top: 20%;
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                top: 80%;
+                opacity: 0;
+            }
+        }
+
+        .scan-corners {
+            position: absolute;
+            top: 20%;
+            left: 20%;
+            right: 20%;
+            bottom: 20%;
+            border: 2px solid #10b981;
+            border-radius: 12px;
+        }
+
+        .scan-corners::before,
+        .scan-corners::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #10b981;
+        }
+
+        .scan-corners::before {
+            top: -3px;
+            left: -3px;
+            border-right: none;
+            border-bottom: none;
+            border-radius: 12px 0 0 0;
+        }
+
+        .scan-corners::after {
+            bottom: -3px;
+            right: -3px;
+            border-left: none;
+            border-top: none;
+            border-radius: 0 0 12px 0;
+        }
+
+        /* Scanner Controls */
+        .scanner-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .control-group {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .btn-scanner {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-start {
+            background: linear-gradient(135deg, #10b981, #34d399);
+            border: none;
+            color: white;
+        }
+
+        .btn-start:hover {
+            background: linear-gradient(135deg, #059669, #10b981);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-stop {
+            background: linear-gradient(135deg, #ef4444, #f87171);
+            border: none;
+            color: white;
+        }
+
+        .btn-stop:hover {
+            background: linear-gradient(135deg, #dc2626, #ef4444);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(239, 68, 68, 0.3);
+        }
+
+        .btn-switch {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            border: none;
+            color: white;
+        }
+
+        .btn-switch:hover {
+            background: linear-gradient(135deg, #4f46e5, #6366f1);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.3);
+        }
+
+        /* Manual Input */
+        .manual-input {
+            background: #f8fafc;
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border: 2px solid #e2e8f0;
+        }
+
+        .manual-input h6 {
+            color: #374151;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .manual-input .form-control {
+            border-radius: 12px;
+            border: 2px solid #e2e8f0;
+            padding: 1rem;
+            font-size: 1rem;
+        }
+
+        .manual-input .form-control:focus {
+            border-color: #10b981;
+            box-shadow: 0 0 0 0.2rem rgba(16, 185, 129, 0.1);
+        }
+
+        /* Scan Results */
+        .scan-results {
+            margin-top: 2rem;
+        }
+
+        .result-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid #10b981;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .result-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .result-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+        }
+
+        .result-status.valid {
+            color: #10b981;
+        }
+
+        .result-status.invalid {
+            color: #ef4444;
+        }
+
+        .result-status.used {
+            color: #f59e0b;
+        }
+
+        .result-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .detail-label {
+            font-size: 0.75rem;
+            color: #6b7280;
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .detail-value {
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .result-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .btn-action {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        /* Statistics */
+        .scan-stats {
+            background: #f8fafc;
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            background: white;
+            padding: 1rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #10b981;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: #6b7280;
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-top: 0.25rem;
+        }
+
+        /* Mobile Optimizations */
+        @media (max-width: 768px) {
+            .scanner-title {
+                font-size: 1.5rem;
+            }
+
+            .scanner-main {
+                padding: 1rem 0.5rem;
+            }
+
+            .control-group {
+                flex-direction: column;
+            }
+
+            .btn-scanner {
+                width: 100%;
+            }
+
+            .result-details {
+                grid-template-columns: 1fr;
+            }
+
+            .result-actions {
+                flex-direction: column;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Camera permissions */
+        .permissions-card {
+            background: #fef3cd;
+            border: 1px solid #fbbf24;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .permissions-card h6 {
+            color: #92400e;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .permissions-card p {
+            color: #b45309;
+            margin: 0;
+        }
+
+        /* Loading states */
+        .loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            z-index: 10;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #e2e8f0;
+            border-top: 4px solid #10b981;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Custom Toggle */
+        .custom-toggler {
+            border: none;
+            padding: 0.25rem 0.5rem;
+        }
+
+        .custom-toggler:focus {
+            box-shadow: 0 0 0 0.2rem rgba(16, 185, 129, 0.25);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- EventHub Header - Scanner -->
+    <nav class="navbar navbar-expand-lg eventhub-navbar">
+        <div class="container-fluid px-4">
+            <!-- Brand Logo -->
+            <a class="navbar-brand eventhub-brand d-flex align-items-center" href="index.html">
+                <div class="brand-icon me-2">
+                    <i class="bi bi-calendar-event me-1"></i>
+                </div>
+                <span class="brand-text">EventHub</span>
+                <span class="scanner-badge">Scanner</span>
+            </a>
+
+            <!-- Mobile Toggle Button -->
+            <button class="navbar-toggler custom-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navigation Items -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <!-- Left Navigation -->
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link eventhub-nav-link" href="index.html">
+                            <i class="bi bi-house me-1"></i>Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link eventhub-nav-link" href="organizer-dashboard.html">
+                            <i class="bi bi-speedometer2 me-1"></i>Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link eventhub-nav-link" href="my-events.html">
+                            <i class="bi bi-calendar3 me-1"></i>My Events
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link eventhub-nav-link active" href="qr-scanner.html">
+                            <i class="bi bi-qr-code-scan me-1"></i>QR Scanner
+                        </a>
+                    </li>
+                </ul>
+
+                <!-- Right Navigation - User Menu -->
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle user-menu" href="#" id="userDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <div class="user-avatar">
+                                <i class="bi bi-person-circle"></i>
+                            </div>
+                            <span class="user-name" id="userName">Rajesh Events</span>
+                        </a>
+                        <ul class="dropdown-menu user-dropdown" aria-labelledby="userDropdown">
+                            <li><a class="dropdown-item" href="organizer-dashboard.html">
+                                <i class="bi bi-speedometer2 me-2"></i>Dashboard</a></li>
+                            <li><a class="dropdown-item" href="user-profile.html">
+                                <i class="bi bi-person me-2"></i>My Profile</a></li>
+                            <li><a class="dropdown-item" href="my-events.html">
+                                <i class="bi bi-calendar3 me-2"></i>My Events</a></li>
+                            <li><a class="dropdown-item" href="create-event.html">
+                                <i class="bi bi-plus-circle me-2"></i>Create Event</a></li>
+                            <li><a class="dropdown-item" href="sales-reports.html">
+                                <i class="bi bi-bar-chart me-2"></i>Sales Reports</a></li>
+                            <li><a class="dropdown-item" href="qr-scanner.html">
+                                <i class="bi bi-qr-code-scan me-2"></i>QR Scanner</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#" onclick="logout()">
+                                <i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Scanner Header -->
+    <section class="scanner-header">
+        <div class="container">
+            <div class="scanner-header-content">
+                <h1 class="scanner-title">QR Ticket Scanner</h1>
+                <p class="scanner-subtitle">Verify event tickets with QR code scanning</p>
+                <div class="scanner-status">
+                    <div class="status-indicator"></div>
+                    <span id="scannerStatus">Scanner Ready</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scanner Container -->
+    <section class="scanner-container">
+        <div class="container">
+            <div class="scanner-main">
+                <!-- Camera Container -->
+                <div class="camera-container" id="cameraContainer">
+                    <div id="qr-reader"></div>
+                    <div class="camera-overlay">
+                        <div class="scan-line"></div>
+                        <div class="scan-corners"></div>
+                    </div>
+                    <div class="loading-overlay" id="loadingOverlay" style="display: none;">
+                        <div class="loading-spinner"></div>
+                        <p>Initializing camera...</p>
+                    </div>
+                </div>
+
+                <!-- Camera Permissions Card -->
+                <div class="permissions-card" id="permissionsCard" style="display: none;">
+                    <h6><i class="bi bi-camera-video me-2"></i>Camera Access Required</h6>
+                    <p>Please allow camera access to scan QR codes. Click "Start Scanner" and allow camera permissions when prompted.</p>
+                </div>
+
+                <!-- Scanner Controls -->
+                <div class="scanner-controls">
+                    <div class="control-group">
+                        <button class="btn btn-scanner btn-start" id="startButton" onclick="startScanner()">
+                            <i class="bi bi-play-circle"></i>
+                            Start Scanner
+                        </button>
+                        <button class="btn btn-scanner btn-stop" id="stopButton" onclick="stopScanner()" style="display: none;">
+                            <i class="bi bi-stop-circle"></i>
+                            Stop Scanner
+                        </button>
+                    </div>
+                    <div class="control-group">
+                        <button class="btn btn-scanner btn-switch" id="switchButton" onclick="switchCamera()" style="display: none;">
+                            <i class="bi bi-camera-reels"></i>
+                            Switch Camera
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Manual Input -->
+                <div class="manual-input">
+                    <h6>
+                        <i class="bi bi-keyboard"></i>
+                        Manual Ticket Code Entry
+                    </h6>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="manualCode" 
+                               placeholder="Enter ticket code manually...">
+                        <button class="btn btn-outline-success" onclick="verifyManualCode()">
+                            <i class="bi bi-check-circle"></i>
+                            Verify
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Scan Results -->
+                <div class="scan-results" id="scanResults"></div>
+
+                <!-- Statistics -->
+                <div class="scan-stats">
+                    <h6 class="text-center mb-3">
+                        <i class="bi bi-graph-up me-2"></i>
+                        Scanning Session Statistics
+                    </h6>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <span class="stat-value" id="totalScans">0</span>
+                            <span class="stat-label">Total Scans</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value" id="validTickets">0</span>
+                            <span class="stat-label">Valid Tickets</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value" id="invalidTickets">0</span>
+                            <span class="stat-label">Invalid Tickets</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value" id="usedTickets">0</span>
+                            <span class="stat-label">Already Used</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+
+    <script>
+        // QR Scanner Implementation - Task 6 Requirements
+        let html5QrcodeScanner;
+        let isScanning = false;
+        let currentCamera = 0;
+        let availableCameras = [];
+        
+        // Statistics tracking
+        let scanStats = {
+            totalScans: 0,
+            validTickets: 0,
+            invalidTickets: 0,
+            usedTickets: 0
+        };
+
+        // Sample ticket database for demonstration
+        const ticketDatabase = {
+            'TKT002-EVT002-2024': {
+                ticketId: 'TKT002-EVT002-2024',
+                eventTitle: 'Jazz Night Under Stars',
+                customerName: 'Amara Silva',
+                customerEmail: 'amara@example.com',
+                eventDate: 'January 30, 2025',
+                venue: 'Royal Botanical Gardens',
+                ticketType: 'Standard',
+                price: 'Rs. 2,500',
+                purchaseDate: '2024-12-20',
+                status: 'valid',
+                used: false
+            },
+            'TKT003-EVT001-2024': {
+                ticketId: 'TKT003-EVT001-2024',
+                eventTitle: 'New Year Gala 2025',
+                customerName: 'Dinesh Perera',
+                customerEmail: 'dinesh@example.com',
+                eventDate: 'December 31, 2024',
+                venue: 'BMICH, Colombo',
+                ticketType: 'Premium',
+                price :  'Rs. 5,000',
+                purchaseDate: '2024-12-15',
+                status: 'valid',
+                used: false
+            },
+            'TKT001-EVT001-2024': {
+                ticketId: 'TKT001-EVT001-2024',
+                eventTitle: 'New Year Gala 2025',
+                customerName: 'Priya Fernando',
+                customerEmail: 'priya@example.com',
+                eventDate: 'December 31, 2024',
+                venue: 'BMICH, Colombo',
+                ticketType: 'VIP',
+                price: 'Rs. 3,500',
+                purchaseDate: '2024-12-18',
+                status: 'valid',
+                used: true
+            },
+            'TKT004-EVT003-2024': {
+                ticketId: 'TKT004-EVT003-2024',
+                eventTitle: 'Tech Conference 2025',
+                customerName: 'Kasun Rajapaksa',
+                customerEmail: 'kasun@example.com',
+                eventDate: 'February 15, 2025',
+                venue: 'Colombo Convention Centre',
+                ticketType: 'Standard',
+                price: 'Rs. 1,500',
+                purchaseDate: '2024-12-22',
+                status: 'expired',
+                used: false
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', function () {
+            initializeQRScanner();
+            checkCameraPermissions();
+            updateStatistics();
+        });
+
+        function initializeQRScanner() {
+            // Check if user is logged in as organizer
+            const sessionData = localStorage.getItem('userSession') || sessionStorage.getItem('userSession');
+            
+            if (!sessionData) {
+                window.location.href = 'login.html?redirect=qr-scanner.html';
+                return;
+            }
+
+            const currentUser = JSON.parse(sessionData);
+            
+            if (currentUser.role !== 'organizer' && currentUser.role !== 'admin') {
+                Swal.fire({
+                    title: 'Access Denied',
+                    text: 'This page is only accessible to event organizers and administrators.',
+                    icon: 'error',
+                    confirmButtonColor: '#ef4444'
+                }).then(() => {
+                    window.location.href = 'index.html';
+                });
+                return;
+            }
+
+            document.getElementById('userName').textContent = currentUser.name || 'Event Organizer';
+            
+            // Get available cameras
+            getCameraDevices();
+        }
+
+        async function getCameraDevices() {
+            try {
+                const devices = await Html5Qrcode.getCameras();
+                availableCameras = devices;
+                
+                if (devices && devices.length > 0) {
+                    console.log(`Found ${devices.length} camera(s)`);
+                    if (devices.length > 1) {
+                        document.getElementById('switchButton').style.display = 'block';
+                    }
+                } else {
+                    showError('No cameras found on this device.');
+                }
+            } catch (err) {
+                console.error('Error getting cameras:', err);
+                showError('Unable to access camera devices.');
+            }
+        }
+
+        async function checkCameraPermissions() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                stream.getTracks().forEach(track => track.stop());
+                document.getElementById('permissionsCard').style.display = 'none';
+            } catch (err) {
+                document.getElementById('permissionsCard').style.display = 'block';
+            }
+        }
+
+        function startScanner() {
+            if (availableCameras.length === 0) {
+                showError('No cameras available. Please check your device.');
+                return;
+            }
+
+            document.getElementById('loadingOverlay').style.display = 'flex';
+            document.getElementById('scannerStatus').textContent = 'Initializing Scanner...';
+
+            const cameraId = availableCameras[currentCamera].id;
+            
+            html5QrcodeScanner = new Html5Qrcode("qr-reader");
+            
+            const config = {
+                fps: 10,
+                qrbox: { width: 250, height: 250 },
+                aspectRatio: 1.0
+            };
+
+            html5QrcodeScanner.start(
+                cameraId,
+                config,
+                onScanSuccess,
+                onScanFailure
+            ).then(() => {
+                isScanning = true;
+                document.getElementById('loadingOverlay').style.display = 'none';
+                document.getElementById('startButton').style.display = 'none';
+                document.getElementById('stopButton').style.display = 'block';
+                document.getElementById('scannerStatus').textContent = 'Scanner Active - Ready to Scan';
+                document.getElementById('permissionsCard').style.display = 'none';
+                
+                // Show scan line animation
+                document.querySelector('.scan-line').style.display = 'block';
+                
+                // Play start sound
+                playSound('start');
+                
+            }).catch(err => {
+                console.error('Error starting scanner:', err);
+                document.getElementById('loadingOverlay').style.display = 'none';
+                showError('Failed to start camera. Please check permissions and try again.');
+            });
+        }
+
+        function stopScanner() {
+            if (html5QrcodeScanner && isScanning) {
+                html5QrcodeScanner.stop().then(() => {
+                    isScanning = false;
+                    document.getElementById('startButton').style.display = 'block';
+                    document.getElementById('stopButton').style.display = 'none';
+                    document.getElementById('scannerStatus').textContent = 'Scanner Stopped';
+                    
+                    // Hide scan line animation
+                    document.querySelector('.scan-line').style.display = 'none';
+                    
+                    // Play stop sound
+                    playSound('stop');
+                    
+                }).catch(err => {
+                    console.error('Error stopping scanner:', err);
+                });
+            }
+        }
+
+        function switchCamera() {
+            if (availableCameras.length > 1) {
+                stopScanner();
+                setTimeout(() => {
+                    currentCamera = (currentCamera + 1) % availableCameras.length;
+                    startScanner();
+                }, 1000);
+            }
+        }
+
+        function onScanSuccess(decodedText, decodedResult) {
+            // Process the scanned QR code
+            processTicketCode(decodedText);
+            
+            // Play scan sound
+            playSound('scan');
+            
+            // Vibrate if supported
+            if (navigator.vibrate) {
+                navigator.vibrate(200);
+            }
+        }
+
+        function onScanFailure(error) {
+            // Handle scan failure silently - this happens frequently during scanning
+            // console.log('Scan failed:', error);
+        }
+
+        function verifyManualCode() {
+            const code = document.getElementById('manualCode').value.trim();
+            if (code) {
+                processTicketCode(code);
+                document.getElementById('manualCode').value = '';
+            } else {
+                Swal.fire({
+                    title: 'Invalid Input',
+                    text: 'Please enter a ticket code.',
+                    icon: 'warning',
+                    confirmButtonColor: '#f59e0b'
+                });
+            }
+        }
+
+        function processTicketCode(ticketCode) {
+            // Update statistics
+            scanStats.totalScans++;
+            
+            // Look up ticket in database
+            const ticket = ticketDatabase[ticketCode];
+            
+            if (!ticket) {
+                // Invalid ticket
+                scanStats.invalidTickets++;
+                showTicketResult(ticketCode, null, 'invalid');
+            } else if (ticket.used) {
+                // Already used ticket
+                scanStats.usedTickets++;
+                showTicketResult(ticketCode, ticket, 'used');
+            } else if (ticket.status === 'expired') {
+                // Expired ticket
+                scanStats.invalidTickets++;
+                showTicketResult(ticketCode, ticket, 'expired');
+            } else {
+                // Valid ticket - mark as used
+                ticket.used = true;
+                ticket.verificationTime = new Date().toISOString();
+                scanStats.validTickets++;
+                showTicketResult(ticketCode, ticket, 'valid');
+            }
+            
+            updateStatistics();
+            logTicketVerification(ticketCode, ticket);
+        }
+
+        function showTicketResult(ticketCode, ticket, status) {
+            const resultsContainer = document.getElementById('scanResults');
+            
+            let statusIcon, statusText, statusClass, borderColor;
+            
+            switch (status) {
+                case 'valid':
+                    statusIcon = 'bi-check-circle-fill';
+                    statusText = 'VALID TICKET';
+                    statusClass = 'valid';
+                    borderColor = '#10b981';
+                    break;
+                case 'used':
+                    statusIcon = 'bi-exclamation-triangle-fill';
+                    statusText = 'ALREADY USED';
+                    statusClass = 'used';
+                    borderColor = '#f59e0b';
+                    break;
+                case 'expired':
+                    statusIcon = 'bi-x-circle-fill';
+                    statusText = 'EXPIRED TICKET';
+                    statusClass = 'invalid';
+                    borderColor = '#ef4444';
+                    break;
+                default:
+                    statusIcon = 'bi-x-circle-fill';
+                    statusText = 'INVALID TICKET';
+                    statusClass = 'invalid';
+                    borderColor = '#ef4444';
+            }
+
+            const resultCard = document.createElement('div');
+            resultCard.className = 'result-card';
+            resultCard.style.borderLeftColor = borderColor;
+            
+            if (ticket) {
+                resultCard.innerHTML = `
+                    <div class="result-header">
+                        <div class="result-status ${statusClass}">
+                            <i class="${statusIcon}"></i>
+                            ${statusText}
+                        </div>
+                        <small class="text-muted">${new Date().toLocaleTimeString()}</small>
+                    </div>
+                    <div class="result-details">
+                        <div class="detail-item">
+                            <span class="detail-label">Event</span>
+                            <span class="detail-value">${ticket.eventTitle}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Customer</span>
+                            <span class="detail-value">${ticket.customerName}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Ticket Type</span>
+                            <span class="detail-value">${ticket.ticketType}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Price</span>
+                            <span class="detail-value">${ticket.price}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Venue</span>
+                            <span class="detail-value">${ticket.venue}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Event Date</span>
+                            <span class="detail-value">${ticket.eventDate}</span>
+                        </div>
+                    </div>
+                    ${status === 'valid' ? `
+                        <div class="result-actions">
+                            <button class="btn btn-success btn-action" onclick="admitCustomer('${ticketCode}')">
+                                <i class="bi bi-check-lg me-1"></i>Admit Entry
+                            </button>
+                            <button class="btn btn-outline-info btn-action" onclick="viewTicketDetails('${ticketCode}')">
+                                <i class="bi bi-info-circle me-1"></i>Details
+                            </button>
+                        </div>
+                    ` : status === 'used' ? `
+                        <div class="result-actions">
+                            <button class="btn btn-outline-warning btn-action" onclick="viewTicketDetails('${ticketCode}')">
+                                <i class="bi bi-clock-history me-1"></i>View Usage
+                            </button>
+                        </div>
+                    ` : `
+                        <div class="result-actions">
+                            <button class="btn btn-outline-danger btn-action" onclick="reportIssue('${ticketCode}')">
+                                <i class="bi bi-flag me-1"></i>Report Issue
+                            </button>
+                        </div>
+                    `}
+                `;
+            } else {
+                resultCard.innerHTML = `
+                    <div class="result-header">
+                        <div class="result-status ${statusClass}">
+                            <i class="${statusIcon}"></i>
+                            ${statusText}
+                        </div>
+                        <small class="text-muted">${new Date().toLocaleTimeString()}</small>
+                    </div>
+                    <div class="result-details">
+                        <div class="detail-item">
+                            <span class="detail-label">Scanned Code</span>
+                            <span class="detail-value">${ticketCode}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Status</span>
+                            <span class="detail-value">Ticket not found in system</span>
+                        </div>
+                    </div>
+                    <div class="result-actions">
+                        <button class="btn btn-outline-danger btn-action" onclick="reportIssue('${ticketCode}')">
+                            <i class="bi bi-flag me-1"></i>Report Issue
+                        </button>
+                    </div>
+                `;
+            }
+
+            // Insert at the top of results
+            resultsContainer.insertBefore(resultCard, resultsContainer.firstChild);
+            
+            // Keep only last 10 results
+            const cards = resultsContainer.querySelectorAll('.result-card');
+            if (cards.length > 10) {
+                cards[cards.length - 1].remove();
+            }
+
+            // Play appropriate sound
+            playSound(status);
+        }
+
+        function updateStatistics() {
+            document.getElementById('totalScans').textContent = scanStats.totalScans;
+            document.getElementById('validTickets').textContent = scanStats.validTickets;
+            document.getElementById('invalidTickets').textContent = scanStats.invalidTickets;
+            document.getElementById('usedTickets').textContent = scanStats.usedTickets;
+        }
+
+        function playSound(type) {
+            // Create audio context for sound feedback
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                let frequency, duration;
+                
+                switch (type) {
+                    case 'valid':
+                        frequency = 800; // High pleasant tone
+                        duration = 200;
+                        break;
+                    case 'invalid':
+                    case 'expired':
+                        frequency = 300; // Low warning tone
+                        duration = 500;
+                        break;
+                    case 'used':
+                        frequency = 500; // Medium tone
+                        duration = 300;
+                        break;
+                    case 'scan':
+                        frequency = 600; // Scan beep
+                        duration = 100;
+                        break;
+                    case 'start':
+                        frequency = 700; // Start tone
+                        duration = 150;
+                        break;
+                    case 'stop':
+                        frequency = 400; // Stop tone
+                        duration = 150;
+                        break;
+                    default:
+                        return;
+                }
+                
+                oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
+                gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+                
+                oscillator.start();
+                oscillator.stop(audioContext.currentTime + duration / 1000);
+                
+            } catch (err) {
+                console.log('Audio not supported');
+            }
+        }
+
+        function logTicketVerification(ticketCode, ticket) {
+            // Log verification for audit trail
+            const logEntry = {
+                timestamp: new Date().toISOString(),
+                ticketCode: ticketCode,
+                verifierName: document.getElementById('userName').textContent,
+                status: ticket ? (ticket.used ? 'used' : ticket.status) : 'invalid',
+                customerName: ticket ? ticket.customerName : null,
+                eventTitle: ticket ? ticket.eventTitle : null
+            };
+            
+            // In a real application, this would be sent to the server
+            console.log('Ticket verification logged:', logEntry);
+        }
+
+        // Action Functions - Task 6 Implementation
+        function admitCustomer(ticketCode) {
+            const ticket = ticketDatabase[ticketCode];
+            
+            Swal.fire({
+                title: 'Admit Customer',
+                html: `
+                    <div class="text-center">
+                        <i class="bi bi-person-check" style="font-size: 3rem; color: #10b981; margin-bottom: 1rem;"></i>
+                        <h5>${ticket.customerName}</h5>
+                        <p class="text-muted">${ticket.eventTitle}</p>
+                        <p><strong>Ticket Type:</strong> ${ticket.ticketType}</p>
+                        <p><strong>Entry Time:</strong> ${new Date().toLocaleString()}</p>
+                    </div>
+                `,
+                icon: 'success',
+                confirmButtonText: 'Confirm Entry',
+                confirmButtonColor: '#10b981',
+                timer: 3000
+            }).then(() => {
+                // Mark as admitted
+                ticket.admittedAt = new Date().toISOString();
+                playSound('valid');
+            });
+        }
+
+        function viewTicketDetails(ticketCode) {
+            const ticket = ticketDatabase[ticketCode];
+            
+            Swal.fire({
+                title: 'Ticket Details',
+                html: `
+                    <div class="text-start">
+                        <div class="row g-3">
+                            <div class="col-6">
+                                <strong>Ticket ID:</strong><br>
+                                <small class="text-muted">${ticket.ticketId}</small>
+                            </div>
+                            <div class="col-6">
+                                <strong>Purchase Date:</strong><br>
+                                <small class="text-muted">${ticket.purchaseDate}</small>
+                            </div>
+                            <div class="col-12">
+                                <strong>Customer Email:</strong><br>
+                                <small class="text-muted">${ticket.customerEmail}</small>
+                            </div>
+                            <div class="col-6">
+                                <strong>Price Paid:</strong><br>
+                                <small class="text-muted">${ticket.price}</small>
+                            </div>
+                            <div class="col-6">
+                                <strong>Status:</strong><br>
+                                <small class="text-muted">${ticket.status}</small>
+                            </div>
+                            ${ticket.verificationTime ? `
+                                <div class="col-12">
+                                    <strong>Verified At:</strong><br>
+                                    <small class="text-muted">${new Date(ticket.verificationTime).toLocaleString()}</small>
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                `,
+                confirmButtonText: 'Close',
+                confirmButtonColor: '#6366f1'
+            });
+        }
+
+        function reportIssue(ticketCode) {
+            Swal.fire({
+                title: 'Report Ticket Issue',
+                html: `
+                    <div class="text-start">
+                        <div class="mb-3">
+                            <label class="form-label">Issue Type</label>
+                            <select class="form-select" id="issueType">
+                                <option value="invalid">Invalid Ticket Code</option>
+                                <option value="duplicate">Suspected Duplicate</option>
+                                <option value="expired">Expired Ticket</option>
+                                <option value="fraud">Suspected Fraud</option>
+                                <option value="other">Other Issue</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Description</label>
+                            <textarea class="form-control" id="issueDescription" rows="3" placeholder="Describe the issue..."></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Ticket Code</label>
+                            <input type="text" class="form-control" value="${ticketCode}" readonly>
+                        </div>
+                    </div>
+                `,
+                showCancelButton: true,
+                confirmButtonText: 'Submit Report',
+                cancelButtonText: 'Cancel',
+                confirmButtonColor: '#ef4444',
+                preConfirm: () => {
+                    const issueType = document.getElementById('issueType').value;
+                    const description = document.getElementById('issueDescription').value;
+                    
+                    if (!description.trim()) {
+                        Swal.showValidationMessage('Please provide a description of the issue');
+                        return false;
+                    }
+                    
+                    return { issueType, description };
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Submit issue report
+                    const report = {
+                        ticketCode: ticketCode,
+                        issueType: result.value.issueType,
+                        description: result.value.description,
+                        reportedBy: document.getElementById('userName').textContent,
+                        reportedAt: new Date().toISOString()
+                    };
+                    
+                    console.log('Issue reported:', report);
+                    
+                    Swal.fire({
+                        title: 'Report Submitted',
+                        text: 'The issue has been reported and will be investigated.',
+                        icon: 'success',
+                        confirmButtonColor: '#10b981'
+                    });
+                }
+            });
+        }
+
+        function showError(message) {
+            Swal.fire({
+                title: 'Scanner Error',
+                text: message,
+                icon: 'error',
+                confirmButtonColor: '#ef4444'
+            });
+        }
+
+        function logout() {
+            Swal.fire({
+                title: 'Logout',
+                text: 'Are you sure you want to logout?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, Logout',
+                cancelButtonText: 'Cancel',
+                confirmButtonColor: '#ef4444'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Stop scanner if running
+                    if (isScanning) {
+                        stopScanner();
+                    }
+                    
+                    localStorage.removeItem('userSession');
+                    sessionStorage.removeItem('userSession');
+                    localStorage.removeItem('userLoggedIn');
+                    
+                    Swal.fire({
+                        title: 'Logged Out',
+                        text: 'You have been successfully logged out.',
+                        icon: 'success',
+                        confirmButtonColor: '#10b981',
+                        timer: 1500,
+                        showConfirmButton: false
+                    }).then(() => {
+                        window.location.href = 'index.html';
+                    });
+                }
+            });
+        }
+
+        // Handle manual code input on Enter key
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('manualCode').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    verifyManualCode();
+                }
+            });
+        });
+
+        // Cleanup on page unload
+        window.addEventListener('beforeunload', function() {
+            if (isScanning) {
+                stopScanner();
+            }
+        });
+
+        // Handle visibility change (tab switching)
+        document.addEventListener('visibilitychange', function() {
+            if (document.hidden && isScanning) {
+                // Pause scanner when tab is hidden
+                console.log('Tab hidden, scanner paused');
+            } else if (!document.hidden && !isScanning) {
+                // Resume scanner when tab is visible
+                console.log('Tab visible, scanner ready');
+            }
+        });
+    </script>
+
+</body>
+
+</html>
