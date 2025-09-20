@@ -1,0 +1,1845 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EventHub - Create New Event</title>
+
+    <!-- Bootstrap 5.3 CSS (Latest) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <!-- Bootstrap Icons (Latest) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+    <!-- EventHub Header - From navbar.html -->
+    <nav class="navbar navbar-expand-lg eventhub-navbar">
+        <div class="container-fluid px-4">
+            <!-- Brand Logo -->
+            <a class="navbar-brand eventhub-brand d-flex align-items-center" href="index.html">
+                <div class="brand-icon me-2">
+                    <i class="bi bi-calendar-event me-1"></i>
+                </div>
+                <span class="brand-text">EventHub</span>
+            </a>
+
+            <!-- Mobile Toggle Button -->
+            <button class="navbar-toggler custom-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navigation Items -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <!-- Left Navigation -->
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link eventhub-nav-link" href="index.html">
+                            <i class="bi bi-house me-1"></i>Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link eventhub-nav-link" href="events.html">
+                            <i class="bi bi-calendar-event me-1"></i>Browse Events
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link eventhub-nav-link" href="my-events.html">
+                            <i class="bi bi-calendar3 me-1"></i>My Events
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link eventhub-nav-link active" href="create-event.html">
+                            <i class="bi bi-plus-circle me-1"></i>Create Event
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link eventhub-nav-link" href="sales-reports.html">
+                            <i class="bi bi-bar-chart me-1"></i>Sales Reports
+                        </a>
+                    </li>
+                </ul>
+
+                <!-- Right Navigation - User Menu -->
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle user-menu" href="#" id="userDropdown" role="button" 
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            <div class="user-avatar">
+                                <i class="bi bi-person-circle"></i>
+                            </div>
+                            <span class="user-name" id="userName">Rajesh Events Ltd.</span>
+                        </a>
+                        <ul class="dropdown-menu user-dropdown" aria-labelledby="userDropdown">
+                            <li><a class="dropdown-item" href="organizer-dashboard.html">
+                                <i class="bi bi-speedometer2 me-2"></i>Dashboard</a></li>
+                            <li><a class="dropdown-item" href="user-profile.html">
+                                <i class="bi bi-person me-2"></i>Edit Profile</a></li>
+                            <li><a class="dropdown-item" href="my-events.html">
+                                <i class="bi bi-calendar3 me-2"></i>My Events</a></li>
+                            <li><a class="dropdown-item active" href="create-event.html">
+                                <i class="bi bi-plus-circle me-2"></i>Create Event</a></li>
+                            <li><a class="dropdown-item" href="sales-reports.html">
+                                <i class="bi bi-bar-chart me-2"></i>Sales Reports</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#" onclick="logout()">
+                                <i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="header-content">
+                        <div class="header-info">
+                            <h1 class="page-title">Create New Event</h1>
+                            <p class="page-subtitle">Fill in the details below to create and publish your event</p>
+                        </div>
+                        <div class="header-actions">
+                            <button class="btn btn-outline-light me-2" onclick="saveDraft()">
+                                <i class="bi bi-save me-2"></i>Save as Draft
+                            </button>
+                            <button class="btn btn-light" onclick="previewEvent()">
+                                <i class="bi bi-eye me-2"></i>Preview
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Create Event Form -->
+    <section class="create-event-section py-5">
+        <div class="container-fluid">
+            <form id="createEventForm" novalidate>
+                <div class="row g-4">
+                    <!-- Left Column - Event Details -->
+                    <div class="col-lg-8">
+                        <!-- Basic Information -->
+                        <div class="form-section">
+                            <div class="section-header">
+                                <h5 class="section-title">
+                                    <i class="bi bi-info-circle me-2"></i>Basic Information
+                                </h5>
+                                <p class="section-subtitle">Essential details about your event</p>
+                            </div>
+                            <div class="section-content">
+                                <div class="row g-3">
+                                    <div class="col-12">
+                                        <label for="eventTitle" class="form-label required">Event Title</label>
+                                        <input type="text" class="form-control" id="eventTitle" name="eventTitle" 
+                                               placeholder="Enter a compelling event title" maxlength="100" required>
+                                        <div class="invalid-feedback"></div>
+                                        <small class="text-muted">Make it catchy and descriptive (max 100 characters)</small>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label for="eventCategory" class="form-label required">Category</label>
+                                        <select class="form-select" id="eventCategory" name="eventCategory" required>
+                                            <option value="">Select category</option>
+                                            <option value="music">Music & Concerts</option>
+                                            <option value="technology">Technology & Innovation</option>
+                                            <option value="business">Business & Networking</option>
+                                            <option value="arts">Arts & Culture</option>
+                                            <option value="sports">Sports & Fitness</option>
+                                            <option value="food">Food & Drink</option>
+                                            <option value="education">Education & Learning</option>
+                                            <option value="entertainment">Entertainment</option>
+                                            <option value="health">Health & Wellness</option>
+                                            <option value="family">Family & Kids</option>
+                                        </select>
+                                        <div class="invalid-feedback"></div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label for="eventType" class="form-label required">Event Type</label>
+                                        <select class="form-select" id="eventType" name="eventType" required>
+                                            <option value="">Select type</option>
+                                            <option value="conference">Conference</option>
+                                            <option value="concert">Concert</option>
+                                            <option value="workshop">Workshop</option>
+                                            <option value="seminar">Seminar</option>
+                                            <option value="exhibition">Exhibition</option>
+                                            <option value="festival">Festival</option>
+                                            <option value="competition">Competition</option>
+                                            <option value="networking">Networking Event</option>
+                                            <option value="performance">Performance</option>
+                                            <option value="other">Other</option>
+                                        </select>
+                                        <div class="invalid-feedback"></div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <label for="eventDescription" class="form-label required">Event Description</label>
+                                        <textarea class="form-control" id="eventDescription" name="eventDescription" 
+                                                  rows="5" placeholder="Describe your event in detail..." maxlength="2000" required></textarea>
+                                        <div class="invalid-feedback"></div>
+                                        <small class="text-muted">
+                                            <span id="descriptionCount">0</span>/2000 characters. 
+                                            Include what attendees can expect, special features, and why they should attend.
+                                        </small>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <label for="eventImage" class="form-label">Event Image</label>
+                                        <div class="image-upload-area" id="imageUploadArea">
+                                            <input type="file" class="form-control d-none" id="eventImage" name="eventImage" 
+                                                   accept="image/*" onchange="handleImageUpload(event)">
+                                            <div class="upload-placeholder" id="uploadPlaceholder">
+                                                <i class="bi bi-cloud-upload"></i>
+                                                <h6>Upload Event Image</h6>
+                                                <p>Drop your image here or click to browse</p>
+                                                <small>Recommended: 1200x630px, Max size: 5MB</small>
+                                            </div>
+                                            <div class="uploaded-image d-none" id="uploadedImage">
+                                                <img id="imagePreview" src="" alt="Event Image Preview">
+                                                <div class="image-actions">
+                                                    <button type="button" class="btn btn-sm btn-outline-light" onclick="changeImage()">
+                                                        <i class="bi bi-pencil"></i> Change
+                                                    </button>
+                                                    <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeImage()">
+                                                        <i class="bi bi-trash"></i> Remove
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Date & Time -->
+                        <div class="form-section">
+                            <div class="section-header">
+                                <h5 class="section-title">
+                                    <i class="bi bi-calendar3 me-2"></i>Date & Time
+                                </h5>
+                                <p class="section-subtitle">When will your event take place?</p>
+                            </div>
+                            <div class="section-content">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label for="eventDate" class="form-label required">Event Date</label>
+                                        <input type="date" class="form-control" id="eventDate" name="eventDate" required>
+                                        <div class="invalid-feedback"></div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label for="eventTime" class="form-label required">Start Time</label>
+                                        <input type="time" class="form-control" id="eventTime" name="eventTime" required>
+                                        <div class="invalid-feedback"></div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label for="eventDuration" class="form-label">Duration (hours)</label>
+                                        <select class="form-select" id="eventDuration" name="eventDuration">
+                                            <option value="">Select duration</option>
+                                            <option value="1">1 hour</option>
+                                            <option value="1.5">1.5 hours</option>
+                                            <option value="2">2 hours</option>
+                                            <option value="2.5">2.5 hours</option>
+                                            <option value="3">3 hours</option>
+                                            <option value="4">4 hours</option>
+                                            <option value="6">6 hours</option>
+                                            <option value="8">8 hours (full day)</option>
+                                            <option value="multiple">Multiple days</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label for="registrationDeadline" class="form-label">Registration Deadline</label>
+                                        <input type="date" class="form-control" id="registrationDeadline" name="registrationDeadline">
+                                        <small class="text-muted">Last date for ticket purchases</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Venue Information -->
+                        <div class="form-section">
+                            <div class="section-header">
+                                <h5 class="section-title">
+                                    <i class="bi bi-geo-alt me-2"></i>Venue Information
+                                </h5>
+                                <p class="section-subtitle">Where will your event be held?</p>
+                            </div>
+                            <div class="section-content">
+                                <div class="row g-3">
+                                    <div class="col-12">
+                                        <div class="venue-type-selector mb-3">
+                                            <label class="form-label">Venue Type</label>
+                                            <div class="btn-group w-100" role="group">
+                                                <input type="radio" class="btn-check" name="venueType" id="physical" value="physical" checked>
+                                                <label class="btn btn-outline-primary" for="physical">
+                                                    <i class="bi bi-building me-2"></i>Physical Venue
+                                                </label>
+
+                                                <input type="radio" class="btn-check" name="venueType" id="online" value="online">
+                                                <label class="btn btn-outline-primary" for="online">
+                                                    <i class="bi bi-camera-video me-2"></i>Online Event
+                                                </label>
+
+                                                <input type="radio" class="btn-check" name="venueType" id="hybrid" value="hybrid">
+                                                <label class="btn btn-outline-primary" for="hybrid">
+                                                    <i class="bi bi-globe me-2"></i>Hybrid
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div id="physicalVenueFields">
+                                        <div class="row g-3">
+                                            <div class="col-12">
+                                                <label for="venueName" class="form-label required">Venue Name</label>
+                                                <select class="form-select" id="venueName" name="venueName">
+                                                    <option value="">Select a venue</option>
+                                                    <option value="bmich">Bandaranaike Memorial International Conference Hall (BMICH)</option>
+                                                    <option value="nelum-pokuna">Nelum Pokuna Theatre</option>
+                                                    <option value="colombo-convention">Colombo Convention Centre</option>
+                                                    <option value="galadari-hotel">Galadari Hotel Colombo</option>
+                                                    <option value="cinnamon-grand">Cinnamon Grand Colombo</option>
+                                                    <option value="waters-edge">Waters Edge Battaramulla</option>
+                                                    <option value="shangri-la">Shangri-La Hotel Colombo</option>
+                                                    <option value="kings-pavilion">Kings Pavilion</option>
+                                                    <option value="liberty-plaza">Liberty Plaza</option>
+                                                    <option value="race-course">Royal Colombo Golf Club</option>
+                                                    <option value="other">Other (specify below)</option>
+                                                </select>
+                                                <div class="invalid-feedback"></div>
+                                            </div>
+
+                                            <div class="col-12 d-none" id="customVenueField">
+                                                <label for="customVenueName" class="form-label">Custom Venue Name</label>
+                                                <input type="text" class="form-control" id="customVenueName" name="customVenueName" 
+                                                       placeholder="Enter venue name">
+                                            </div>
+
+                                            <div class="col-12">
+                                                <label for="venueAddress" class="form-label required">Address</label>
+                                                <textarea class="form-control" id="venueAddress" name="venueAddress" 
+                                                          rows="3" placeholder="Full venue address"></textarea>
+                                                <div class="invalid-feedback"></div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="venueCity" class="form-label required">City</label>
+                                                <select class="form-select" id="venueCity" name="venueCity">
+                                                    <option value="">Select city</option>
+                                                    <option value="colombo">Colombo</option>
+                                                    <option value="kandy">Kandy</option>
+                                                    <option value="galle">Galle</option>
+                                                    <option value="jaffna">Jaffna</option>
+                                                    <option value="negombo">Negombo</option>
+                                                    <option value="batticaloa">Batticaloa</option>
+                                                    <option value="trincomalee">Trincomalee</option>
+                                                    <option value="anuradhapura">Anuradhapura</option>
+                                                    <option value="polonnaruwa">Polonnaruwa</option>
+                                                    <option value="ratnapura">Ratnapura</option>
+                                                    <option value="matara">Matara</option>
+                                                    <option value="kurunegala">Kurunegala</option>
+                                                    <option value="other">Other</option>
+                                                </select>
+                                                <div class="invalid-feedback"></div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="venueCapacity" class="form-label required">Venue Capacity</label>
+                                                <input type="number" class="form-control" id="venueCapacity" name="venueCapacity" 
+                                                       placeholder="Maximum attendees" min="1" max="50000">
+                                                <div class="invalid-feedback"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div id="onlineVenueFields" class="d-none">
+                                        <div class="row g-3">
+                                            <div class="col-12">
+                                                <label for="platformType" class="form-label">Platform</label>
+                                                <select class="form-select" id="platformType" name="platformType">
+                                                    <option value="">Select platform</option>
+                                                    <option value="zoom">Zoom</option>
+                                                    <option value="teams">Microsoft Teams</option>
+                                                    <option value="meet">Google Meet</option>
+                                                    <option value="webex">Cisco Webex</option>
+                                                    <option value="youtube">YouTube Live</option>
+                                                    <option value="facebook">Facebook Live</option>
+                                                    <option value="other">Other</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="col-12">
+                                                <label for="onlineCapacity" class="form-label required">Maximum Participants</label>
+                                                <input type="number" class="form-control" id="onlineCapacity" name="onlineCapacity" 
+                                                       placeholder="Maximum online attendees" min="1" max="10000">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Ticket Pricing -->
+                        <div class="form-section">
+                            <div class="section-header">
+                                <h5 class="section-title">
+                                    <i class="bi bi-ticket-perforated me-2"></i>Ticket Pricing
+                                </h5>
+                                <p class="section-subtitle">Set up your ticket types and pricing</p>
+                            </div>
+                            <div class="section-content">
+                                <div class="ticket-types" id="ticketTypes">
+                                    <!-- Default ticket type -->
+                                    <div class="ticket-type-card" data-index="0">
+                                        <div class="ticket-type-header">
+                                            <h6>Ticket Type 1</h6>
+                                            <button type="button" class="btn btn-sm btn-outline-danger d-none" onclick="removeTicketType(0)">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </div>
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <label class="form-label required">Ticket Name</label>
+                                                <input type="text" class="form-control" name="ticketName[]" 
+                                                       placeholder="e.g., General Admission" required>
+                                                <div class="invalid-feedback"></div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label class="form-label required">Price (Rs.)</label>
+                                                <input type="number" class="form-control" name="ticketPrice[]" 
+                                                       placeholder="0" min="0" step="0.01" required>
+                                                <div class="invalid-feedback"></div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label class="form-label required">Quantity Available</label>
+                                                <input type="number" class="form-control" name="ticketQuantity[]" 
+                                                       placeholder="Number of tickets" min="1" required>
+                                                <div class="invalid-feedback"></div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label class="form-label">Sale Start Date</label>
+                                                <input type="date" class="form-control" name="saleStartDate[]">
+                                            </div>
+
+                                            <div class="col-12">
+                                                <label class="form-label">Description</label>
+                                                <textarea class="form-control" name="ticketDescription[]" rows="2" 
+                                                          placeholder="What's included with this ticket type?"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="add-ticket-type mt-3">
+                                    <button type="button" class="btn btn-outline-primary" onclick="addTicketType()">
+                                        <i class="bi bi-plus-circle me-2"></i>Add Another Ticket Type
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column - Preview & Settings -->
+                    <div class="col-lg-4">
+                        <!-- Event Preview Card -->
+                        <div class="preview-card sticky-top">
+                            <div class="preview-header">
+                                <h6 class="preview-title">Event Preview</h6>
+                                <small class="text-muted">How your event will appear to customers</small>
+                            </div>
+                            
+                            <div class="preview-content" id="eventPreview">
+                                <div class="preview-image">
+                                    <div class="placeholder-image" id="previewPlaceholder">
+                                        <i class="bi bi-image"></i>
+                                        <span>Event Image</span>
+                                    </div>
+                                    <img id="previewImage" class="d-none" src="" alt="Event Preview">
+                                </div>
+                                
+                                <div class="preview-details">
+                                    <h6 id="previewTitle">Event Title</h6>
+                                    <p id="previewCategory" class="preview-category">Category</p>
+                                    <div class="preview-info">
+                                        <div class="info-item">
+                                            <i class="bi bi-calendar3"></i>
+                                            <span id="previewDate">Select date</span>
+                                        </div>
+                                        <div class="info-item">
+                                            <i class="bi bi-clock"></i>
+                                            <span id="previewTime">Select time</span>
+                                        </div>
+                                        <div class="info-item">
+                                            <i class="bi bi-geo-alt"></i>
+                                            <span id="previewVenue">Select venue</span>
+                                        </div>
+                                        <div class="info-item">
+                                            <i class="bi bi-people"></i>
+                                            <span id="previewCapacity">0 capacity</span>
+                                        </div>
+                                    </div>
+                                    <div class="preview-price">
+                                        <span class="price-label">Starting from</span>
+                                        <span class="price-amount" id="previewPrice">Rs. 0</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Event Settings -->
+                        <div class="settings-card mt-4">
+                            <div class="settings-header">
+                                <h6 class="settings-title">Event Settings</h6>
+                            </div>
+                            <div class="settings-content">
+                                <div class="setting-item">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="publishImmediately" checked>
+                                        <label class="form-check-label" for="publishImmediately">
+                                            Publish immediately after creation
+                                        </label>
+                                    </div>
+                                    <small class="text-muted">Event will be visible to customers right away</small>
+                                </div>
+
+                                <div class="setting-item">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="allowWaitlist">
+                                        <label class="form-check-label" for="allowWaitlist">
+                                            Enable waitlist when sold out
+                                        </label>
+                                    </div>
+                                    <small class="text-muted">Let customers join a waitlist for full events</small>
+                                </div>
+
+                                <div class="setting-item">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="requireApproval">
+                                        <label class="form-check-label" for="requireApproval">
+                                            Require manual approval for registrations
+                                        </label>
+                                    </div>
+                                    <small class="text-muted">Review each registration before confirming</small>
+                                </div>
+
+                                <div class="setting-item">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="sendReminders" checked>
+                                        <label class="form-check-label" for="sendReminders">
+                                            Send event reminders
+                                        </label>
+                                    </div>
+                                    <small class="text-muted">Automatic email reminders to attendees</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Submit Actions -->
+                        <div class="submit-actions mt-4">
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary btn-lg">
+                                    <i class="bi bi-check-circle me-2"></i>Create Event
+                                </button>
+                                <button type="button" class="btn btn-outline-secondary" onclick="saveDraft()">
+                                    <i class="bi bi-save me-2"></i>Save as Draft
+                                </button>
+                            </div>
+                            <small class="text-muted text-center d-block mt-2">
+                                Your event will be reviewed and published within 24 hours
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+
+       <style>
+        /* EventHub Custom Styles - Matching existing design */
+        * {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f8fafc;
+            line-height: 1.6;
+        }
+
+        /* Navbar Styling - From navbar.html */
+        .eventhub-navbar {
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+            padding: 0.75rem 0;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .eventhub-brand {
+            text-decoration: none;
+            color: #6366f1 !important;
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .eventhub-brand:hover {
+            color: #5855eb !important;
+            text-decoration: none;
+        }
+
+        .brand-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .brand-text {
+            color: #6366f1;
+            font-weight: 700;
+        }
+
+        .eventhub-nav-link {
+            color: #64748b !important;
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 0.5rem 1rem !important;
+            margin: 0 0.25rem;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .eventhub-nav-link:hover {
+            color: #6366f1 !important;
+            background-color: rgba(99, 102, 241, 0.1);
+        }
+
+        .eventhub-nav-link.active {
+            color: #6366f1 !important;
+            background-color: rgba(99, 102, 241, 0.15);
+            font-weight: 600;
+        }
+
+        /* User Menu */
+        .user-menu {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            color: #374151 !important;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .user-menu:hover {
+            background-color: rgba(99, 102, 241, 0.1);
+            color: #6366f1 !important;
+        }
+
+        .user-avatar {
+            font-size: 1.5rem;
+            margin-right: 0.5rem;
+            color: #6366f1;
+        }
+
+        .user-name {
+            font-weight: 500;
+        }
+
+        .user-dropdown {
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            padding: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .user-dropdown .dropdown-item {
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .user-dropdown .dropdown-item:hover {
+            background-color: rgba(99, 102, 241, 0.1);
+            color: #6366f1;
+        }
+
+        .user-dropdown .dropdown-item.active {
+            background-color: rgba(99, 102, 241, 0.15);
+            color: #6366f1;
+        }
+
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            padding: 2rem 0;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .page-title {
+            font-size: 2.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 0;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        /* Form Sections */
+        .form-section {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+
+        .section-header {
+            background: #f8fafc;
+            padding: 1.5rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .section-title {
+            color: #374151;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-subtitle {
+            color: #6b7280;
+            margin: 0;
+            font-size: 0.9rem;
+        }
+
+        .section-content {
+            padding: 1.5rem;
+        }
+
+        /* Form Controls */
+        .form-label.required::after {
+            content: ' *';
+            color: #ef4444;
+        }
+
+        .form-control, .form-select {
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            transition: all 0.2s ease;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 0.2rem rgba(99, 102, 241, 0.1);
+        }
+
+        .form-control.is-invalid, .form-select.is-invalid {
+            border-color: #ef4444;
+        }
+
+        .form-control.is-valid, .form-select.is-valid {
+            border-color: #10b981;
+        }
+
+        /* Image Upload Area */
+        .image-upload-area {
+            border: 2px dashed #d1d5db;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .image-upload-area:hover {
+            border-color: #6366f1;
+            background: rgba(99, 102, 241, 0.05);
+        }
+
+        .upload-placeholder i {
+            font-size: 3rem;
+            color: #9ca3af;
+            margin-bottom: 1rem;
+        }
+
+        .upload-placeholder h6 {
+            color: #374151;
+            margin-bottom: 0.5rem;
+        }
+
+        .upload-placeholder p {
+            color: #6b7280;
+            margin-bottom: 0.5rem;
+        }
+
+        .uploaded-image {
+            position: relative;
+        }
+
+        .uploaded-image img {
+            max-width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .image-actions {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        /* Venue Type Selector */
+        .venue-type-selector .btn-group {
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .venue-type-selector .btn {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border: 2px solid #e5e7eb;
+        }
+
+        .venue-type-selector .btn:hover {
+            background: rgba(99, 102, 241, 0.1);
+            border-color: #6366f1;
+        }
+
+        .venue-type-selector .btn-check:checked + .btn {
+            background: #6366f1;
+            border-color: #6366f1;
+            color: white;
+        }
+
+        /* Ticket Type Cards */
+        .ticket-type-card {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .ticket-type-card:hover {
+            border-color: #6366f1;
+            background: rgba(99, 102, 241, 0.05);
+        }
+
+        .ticket-type-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .ticket-type-header h6 {
+            color: #374151;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        /* Preview Card */
+        .preview-card, .settings-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            position: sticky;
+            top: 2rem;
+        }
+
+        .preview-header, .settings-header {
+            background: #f8fafc;
+            padding: 1.5rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .preview-title, .settings-title {
+            color: #374151;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .preview-content, .settings-content {
+            padding: 1.5rem;
+        }
+
+        .preview-image {
+            position: relative;
+            margin-bottom: 1rem;
+        }
+
+        .placeholder-image {
+            height: 150px;
+            background: #f3f4f6;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #9ca3af;
+        }
+
+        .placeholder-image i {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .preview-image img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .preview-details h6 {
+            color: #374151;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .preview-category {
+            color: #6366f1;
+            font-size: 0.875rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .preview-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            color: #6b7280;
+            font-size: 0.875rem;
+        }
+
+        .info-item i {
+            margin-right: 0.5rem;
+            color: #9ca3af;
+        }
+
+        .preview-price {
+            text-align: center;
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 8px;
+        }
+
+        .price-label {
+            display: block;
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-bottom: 0.25rem;
+        }
+
+        .price-amount {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #374151;
+        }
+
+        /* Settings */
+        .setting-item {
+            margin-bottom: 1.5rem;
+        }
+
+        .setting-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .form-check-label {
+            font-weight: 500;
+            color: #374151;
+        }
+
+        .setting-item small {
+            display: block;
+            margin-top: 0.25rem;
+        }
+
+        /* Submit Actions */
+        .submit-actions {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .page-title {
+                font-size: 1.75rem;
+            }
+
+            .header-actions {
+                justify-content: center;
+            }
+
+            .preview-card, .settings-card, .submit-actions {
+                position: static;
+                margin-top: 2rem;
+            }
+
+            .venue-type-selector .btn-group {
+                flex-direction: column;
+            }
+
+            .venue-type-selector .btn {
+                border-radius: 8px !important;
+                margin-bottom: 0.5rem;
+            }
+        }
+
+        /* Animation Classes */
+        .fade-in {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Custom toggles */
+        .custom-toggler {
+            border: none;
+            padding: 0.25rem 0.5rem;
+        }
+
+        .custom-toggler:focus {
+            box-shadow: 0 0 0 0.2rem rgba(99, 102, 241, 0.25);
+        }
+    </style>
+
+    <script>
+        // Current user and form data
+        let currentUser = null;
+        let ticketTypeCounter = 1;
+        let uploadedImageFile = null;
+
+        // Venue data for auto-filling addresses
+        const venueData = {
+            'bmich': {
+                address: 'Bauddhaloka Mawatha, Colombo 07',
+                city: 'colombo',
+                capacity: 1500
+            },
+            'nelum-pokuna': {
+                address: 'Ananda Coomaraswamy Mawatha, Colombo 07',
+                city: 'colombo',
+                capacity: 1200
+            },
+            'colombo-convention': {
+                address: 'Lotus Road, Colombo 01',
+                city: 'colombo',
+                capacity: 2000
+            },
+            'galadari-hotel': {
+                address: 'Lotus Road, Colombo 01',
+                city: 'colombo',
+                capacity: 800
+            },
+            'cinnamon-grand': {
+                address: 'Galle Road, Colombo 03',
+                city: 'colombo',
+                capacity: 1000
+            },
+            'waters-edge': {
+                address: 'Ethul Kotte Road, Battaramulla',
+                city: 'colombo',
+                capacity: 600
+            },
+            'shangri-la': {
+                address: 'One Galle Face, Colombo 02',
+                city: 'colombo',
+                capacity: 1200
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', function () {
+            initializeCreateEventPage();
+            loadUserData();
+            setupEventListeners();
+            setupFormValidation();
+            updatePreview();
+        });
+
+        function initializeCreateEventPage() {
+            // Check if user is logged in
+            const sessionData = localStorage.getItem('userSession') || sessionStorage.getItem('userSession');
+            
+            if (!sessionData) {
+                window.location.href = 'login.html?redirect=create-event.html';
+                return;
+            }
+
+            currentUser = JSON.parse(sessionData);
+            
+            if (currentUser.role !== 'organizer') {
+                Swal.fire({
+                    title: 'Access Denied',
+                    text: 'This page is only accessible to event organizers.',
+                    icon: 'error',
+                    confirmButtonColor: '#6366f1'
+                }).then(() => {
+                    window.location.href = 'login.html';
+                });
+                return;
+            }
+
+            // Set minimum date to today
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('eventDate').min = today;
+            document.getElementById('registrationDeadline').min = today;
+        }
+
+        function loadUserData() {
+            if (!currentUser) return;
+
+            // Update organizer name in navbar
+            document.getElementById('userName').textContent = currentUser.name || 'Event Organizer';
+        }
+
+        function setupEventListeners() {
+            // Form field listeners for live preview
+            document.getElementById('eventTitle').addEventListener('input', updatePreview);
+            document.getElementById('eventCategory').addEventListener('change', updatePreview);
+            document.getElementById('eventDate').addEventListener('change', updatePreview);
+            document.getElementById('eventTime').addEventListener('change', updatePreview);
+            document.getElementById('venueName').addEventListener('change', handleVenueChange);
+            document.getElementById('venueCapacity').addEventListener('input', updatePreview);
+            document.getElementById('onlineCapacity').addEventListener('input', updatePreview);
+
+            // Description character counter
+            document.getElementById('eventDescription').addEventListener('input', function() {
+                const count = this.value.length;
+                document.getElementById('descriptionCount').textContent = count;
+                
+                if (count > 1800) {
+                    this.style.borderColor = '#f59e0b';
+                } else if (count > 2000) {
+                    this.style.borderColor = '#ef4444';
+                } else {
+                    this.style.borderColor = '#e5e7eb';
+                }
+            });
+
+            // Venue type radio buttons
+            document.querySelectorAll('input[name="venueType"]').forEach(radio => {
+                radio.addEventListener('change', handleVenueTypeChange);
+            });
+
+            // Image upload area click
+            document.getElementById('imageUploadArea').addEventListener('click', function() {
+                document.getElementById('eventImage').click();
+            });
+
+            // Custom venue field toggle
+            document.getElementById('venueName').addEventListener('change', function() {
+                const customField = document.getElementById('customVenueField');
+                if (this.value === 'other') {
+                    customField.classList.remove('d-none');
+                } else {
+                    customField.classList.add('d-none');
+                }
+            });
+
+            // Ticket pricing update
+            document.addEventListener('input', function(e) {
+                if (e.target.name === 'ticketPrice[]') {
+                    updatePreview();
+                }
+            });
+
+            // Form submission
+            document.getElementById('createEventForm').addEventListener('submit', handleFormSubmission);
+        }
+
+        function setupFormValidation() {
+            const form = document.getElementById('createEventForm');
+            const inputs = form.querySelectorAll('input[required], select[required], textarea[required]');
+
+            inputs.forEach(input => {
+                input.addEventListener('blur', validateField);
+                input.addEventListener('input', clearFieldError);
+            });
+        }
+
+        function validateField(event) {
+            const field = event.target;
+            const value = field.value.trim();
+            let isValid = true;
+            let message = '';
+
+            // Clear previous validation
+            field.classList.remove('is-invalid', 'is-valid');
+            const feedback = field.parentNode.querySelector('.invalid-feedback');
+            if (feedback) feedback.textContent = '';
+
+            // Required field validation
+            if (field.hasAttribute('required') && !value) {
+                isValid = false;
+                message = 'This field is required';
+            }
+
+            // Specific field validations
+            switch (field.id) {
+                case 'eventTitle':
+                    if (value && value.length < 5) {
+                        isValid = false;
+                        message = 'Event title must be at least 5 characters';
+                    }
+                    break;
+
+                case 'eventDate':
+                    if (value) {
+                        const eventDate = new Date(value);
+                        const today = new Date();
+                        today.setHours(0, 0, 0, 0);
+                        
+                        if (eventDate < today) {
+                            isValid = false;
+                            message = 'Event date cannot be in the past';
+                        }
+                    }
+                    break;
+
+                case 'venueCapacity':
+                case 'onlineCapacity':
+                    if (value && (parseInt(value) < 1 || parseInt(value) > 50000)) {
+                        isValid = false;
+                        message = 'Capacity must be between 1 and 50,000';
+                    }
+                    break;
+
+                case 'registrationDeadline':
+                    if (value) {
+                        const eventDate = new Date(document.getElementById('eventDate').value);
+                        const regDeadline = new Date(value);
+                        
+                        if (regDeadline >= eventDate) {
+                            isValid = false;
+                            message = 'Registration deadline must be before event date';
+                        }
+                    }
+                    break;
+            }
+
+            // Update field validation state
+            if (isValid && value) {
+                field.classList.add('is-valid');
+            } else if (!isValid) {
+                field.classList.add('is-invalid');
+                if (feedback) feedback.textContent = message;
+            }
+
+            return isValid;
+        }
+
+        function clearFieldError(event) {
+            const field = event.target;
+            field.classList.remove('is-invalid');
+            const feedback = field.parentNode.querySelector('.invalid-feedback');
+            if (feedback) feedback.textContent = '';
+        }
+
+        function handleVenueTypeChange() {
+            const venueType = document.querySelector('input[name="venueType"]:checked').value;
+            const physicalFields = document.getElementById('physicalVenueFields');
+            const onlineFields = document.getElementById('onlineVenueFields');
+
+            if (venueType === 'physical') {
+                physicalFields.classList.remove('d-none');
+                onlineFields.classList.add('d-none');
+                
+                // Make physical venue fields required
+                document.getElementById('venueName').required = true;
+                document.getElementById('venueAddress').required = true;
+                document.getElementById('venueCity').required = true;
+                document.getElementById('venueCapacity').required = true;
+                
+                // Remove online fields requirements
+                document.getElementById('onlineCapacity').required = false;
+            } else if (venueType === 'online') {
+                physicalFields.classList.add('d-none');
+                onlineFields.classList.remove('d-none');
+                
+                // Make online fields required
+                document.getElementById('onlineCapacity').required = true;
+                
+                // Remove physical venue requirements
+                document.getElementById('venueName').required = false;
+                document.getElementById('venueAddress').required = false;
+                document.getElementById('venueCity').required = false;
+                document.getElementById('venueCapacity').required = false;
+            } else { // hybrid
+                physicalFields.classList.remove('d-none');
+                onlineFields.classList.remove('d-none');
+                
+                // Both sets required for hybrid
+                document.getElementById('venueName').required = true;
+                document.getElementById('venueAddress').required = true;
+                document.getElementById('venueCity').required = true;
+                document.getElementById('venueCapacity').required = true;
+                document.getElementById('onlineCapacity').required = true;
+            }
+
+            updatePreview();
+        }
+
+        function handleVenueChange() {
+            const venueSelect = document.getElementById('venueName');
+            const selectedVenue = venueSelect.value;
+            
+            if (venueData[selectedVenue]) {
+                const venue = venueData[selectedVenue];
+                document.getElementById('venueAddress').value = venue.address;
+                document.getElementById('venueCity').value = venue.city;
+                document.getElementById('venueCapacity').value = venue.capacity;
+            }
+            
+            updatePreview();
+        }
+
+        function handleImageUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            // Validate file size (5MB limit)
+            if (file.size > 5 * 1024 * 1024) {
+                Swal.fire({
+                    title: 'File Too Large',
+                    text: 'Please select an image smaller than 5MB',
+                    icon: 'error',
+                    confirmButtonColor: '#6366f1'
+                });
+                return;
+            }
+
+            // Validate file type
+            if (!file.type.startsWith('image/')) {
+                Swal.fire({
+                    title: 'Invalid File Type',
+                    text: 'Please select a valid image file',
+                    icon: 'error',
+                    confirmButtonColor: '#6366f1'
+                });
+                return;
+            }
+
+            uploadedImageFile = file;
+            
+            // Create preview
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const placeholder = document.getElementById('uploadPlaceholder');
+                const uploadedDiv = document.getElementById('uploadedImage');
+                const preview = document.getElementById('imagePreview');
+                const previewImg = document.getElementById('previewImage');
+                const previewPlaceholder = document.getElementById('previewPlaceholder');
+
+                // Update upload area
+                placeholder.classList.add('d-none');
+                uploadedDiv.classList.remove('d-none');
+                preview.src = e.target.result;
+
+                // Update preview card
+                previewPlaceholder.classList.add('d-none');
+                previewImg.classList.remove('d-none');
+                previewImg.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function changeImage() {
+            document.getElementById('eventImage').click();
+        }
+
+        function removeImage() {
+            uploadedImageFile = null;
+            
+            // Reset upload area
+            document.getElementById('uploadPlaceholder').classList.remove('d-none');
+            document.getElementById('uploadedImage').classList.add('d-none');
+            document.getElementById('eventImage').value = '';
+
+            // Reset preview
+            document.getElementById('previewPlaceholder').classList.remove('d-none');
+            document.getElementById('previewImage').classList.add('d-none');
+        }
+
+        function addTicketType() {
+            const container = document.getElementById('ticketTypes');
+            const index = ticketTypeCounter++;
+            
+            const ticketTypeHtml = `
+                <div class="ticket-type-card" data-index="${index}">
+                    <div class="ticket-type-header">
+                        <h6>Ticket Type ${index + 1}</h6>
+                        <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeTicketType(${index})">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label required">Ticket Name</label>
+                            <input type="text" class="form-control" name="ticketName[]" 
+                                   placeholder="e.g., VIP, Premium, Student" required>
+                            <div class="invalid-feedback"></div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label required">Price (Rs.)</label>
+                            <input type="number" class="form-control" name="ticketPrice[]" 
+                                   placeholder="0" min="0" step="0.01" required>
+                            <div class="invalid-feedback"></div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label required">Quantity Available</label>
+                            <input type="number" class="form-control" name="ticketQuantity[]" 
+                                   placeholder="Number of tickets" min="1" required>
+                            <div class="invalid-feedback"></div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Sale Start Date</label>
+                            <input type="date" class="form-control" name="saleStartDate[]">
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label">Description</label>
+                            <textarea class="form-control" name="ticketDescription[]" rows="2" 
+                                      placeholder="What's included with this ticket type?"></textarea>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            container.insertAdjacentHTML('beforeend', ticketTypeHtml);
+            
+            // Add event listeners to new price inputs
+            const newCard = container.lastElementChild;
+            const priceInput = newCard.querySelector('input[name="ticketPrice[]"]');
+            priceInput.addEventListener('input', updatePreview);
+            
+            updatePreview();
+        }
+
+        function removeTicketType(index) {
+            const card = document.querySelector(`[data-index="${index}"]`);
+            if (card && document.querySelectorAll('.ticket-type-card').length > 1) {
+                card.remove();
+                updatePreview();
+            } else {
+                Swal.fire({
+                    title: 'Cannot Remove',
+                    text: 'You must have at least one ticket type',
+                    icon: 'warning',
+                    confirmButtonColor: '#6366f1'
+                });
+            }
+        }
+
+        function updatePreview() {
+            // Update title
+            const title = document.getElementById('eventTitle').value || 'Event Title';
+            document.getElementById('previewTitle').textContent = title;
+
+            // Update category
+            const categorySelect = document.getElementById('eventCategory');
+            const category = categorySelect.options[categorySelect.selectedIndex]?.text || 'Category';
+            document.getElementById('previewCategory').textContent = category;
+
+            // Update date
+            const eventDate = document.getElementById('eventDate').value;
+            if (eventDate) {
+                const formattedDate = new Date(eventDate).toLocaleDateString('en-US', {
+                    weekday: 'short',
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric'
+                });
+                document.getElementById('previewDate').textContent = 'Select date';
+            }
+
+            // Update time
+            const eventTime = document.getElementById('eventTime').value;
+            if (eventTime) {
+                const formattedTime = new Date(`2000-01-01T${eventTime}`).toLocaleTimeString('en-US', {
+                    hour: 'numeric',
+                    minute: '2-digit',
+                    hour12: true
+                });
+                document.getElementById('previewTime').textContent = formattedTime;
+            } else {
+                document.getElementById('previewTime').textContent = 'Select time';
+            }
+
+            // Update venue
+            const venueType = document.querySelector('input[name="venueType"]:checked').value;
+            let venueText = 'Select venue';
+            
+            if (venueType === 'online') {
+                venueText = 'Online Event';
+            } else if (venueType === 'hybrid') {
+                venueText = 'Hybrid Event';
+            } else {
+                const venueSelect = document.getElementById('venueName');
+                if (venueSelect.value && venueSelect.value !== 'other') {
+                    venueText = venueSelect.options[venueSelect.selectedIndex].text;
+                } else if (venueSelect.value === 'other') {
+                    const customVenue = document.getElementById('customVenueName').value;
+                    venueText = customVenue || 'Custom Venue';
+                }
+            }
+            document.getElementById('previewVenue').textContent = venueText;
+
+            // Update capacity
+            let capacity = 0;
+            if (venueType === 'online') {
+                capacity = parseInt(document.getElementById('onlineCapacity').value) || 0;
+            } else {
+                capacity = parseInt(document.getElementById('venueCapacity').value) || 0;
+                if (venueType === 'hybrid') {
+                    const onlineCapacity = parseInt(document.getElementById('onlineCapacity').value) || 0;
+                    capacity += onlineCapacity;
+                }
+            }
+            document.getElementById('previewCapacity').textContent = `${capacity.toLocaleString()} capacity`;
+
+            // Update price (lowest ticket price)
+            const priceInputs = document.querySelectorAll('input[name="ticketPrice[]"]');
+            let lowestPrice = null;
+            
+            priceInputs.forEach(input => {
+                const price = parseFloat(input.value);
+                if (!isNaN(price) && price >= 0) {
+                    if (lowestPrice === null || price < lowestPrice) {
+                        lowestPrice = price;
+                    }
+                }
+            });
+
+            if (lowestPrice !== null) {
+                document.getElementById('previewPrice').textContent = `Rs. ${lowestPrice.toLocaleString()}`;
+            } else {
+                document.getElementById('previewPrice').textContent = 'Rs. 0';
+            }
+        }
+
+        function handleFormSubmission(event) {
+            event.preventDefault();
+            
+            const form = event.target;
+            const formData = new FormData(form);
+            
+            // Validate all required fields
+            let isValid = true;
+            const requiredFields = form.querySelectorAll('[required]');
+            
+            requiredFields.forEach(field => {
+                if (!validateField({ target: field })) {
+                    isValid = false;
+                }
+            });
+
+            // Validate ticket types
+            const ticketNames = formData.getAll('ticketName[]');
+            const ticketPrices = formData.getAll('ticketPrice[]');
+            const ticketQuantities = formData.getAll('ticketQuantity[]');
+
+            if (ticketNames.length === 0 || ticketNames.some(name => !name.trim())) {
+                isValid = false;
+                Swal.fire({
+                    title: 'Validation Error',
+                    text: 'Please fill in all ticket type names',
+                    icon: 'error',
+                    confirmButtonColor: '#6366f1'
+                });
+                return;
+            }
+
+            if (ticketPrices.some(price => isNaN(parseFloat(price)) || parseFloat(price) < 0)) {
+                isValid = false;
+                Swal.fire({
+                    title: 'Validation Error',
+                    text: 'Please enter valid prices for all ticket types',
+                    icon: 'error',
+                    confirmButtonColor: '#6366f1'
+                });
+                return;
+            }
+
+            if (!isValid) {
+                Swal.fire({
+                    title: 'Validation Error',
+                    text: 'Please fill in all required fields correctly',
+                    icon: 'error',
+                    confirmButtonColor: '#6366f1'
+                });
+                return;
+            }
+
+            // Show loading
+            Swal.fire({
+                title: 'Creating Event...',
+                text: 'Please wait while we create your event',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            // Simulate API call
+            setTimeout(() => {
+                const eventData = collectFormData(formData);
+                
+                // In real app, send to API
+                console.log('Event Data:', eventData);
+                
+                Swal.fire({
+                    title: 'Event Created Successfully!',
+                    text: 'Your event has been submitted for review and will be published within 24 hours.',
+                    icon: 'success',
+                    confirmButtonColor: '#6366f1',
+                    confirmButtonText: 'View My Events'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = 'my-events.html';
+                    }
+                });
+            }, 2000);
+        }
+
+        function collectFormData(formData) {
+            const venueType = document.querySelector('input[name="venueType"]:checked').value;
+            
+            // Collect ticket types
+            const ticketTypes = [];
+            const ticketNames = formData.getAll('ticketName[]');
+            const ticketPrices = formData.getAll('ticketPrice[]');
+            const ticketQuantities = formData.getAll('ticketQuantity[]');
+            const ticketDescriptions = formData.getAll('ticketDescription[]');
+            const saleStartDates = formData.getAll('saleStartDate[]');
+
+            for (let i = 0; i < ticketNames.length; i++) {
+                ticketTypes.push({
+                    name: ticketNames[i],
+                    price: parseFloat(ticketPrices[i]),
+                    quantity: parseInt(ticketQuantities[i]),
+                    description: ticketDescriptions[i],
+                    saleStartDate: saleStartDates[i]
+                });
+            }
+
+            const eventData = {
+                organizerId: currentUser.userId,
+                organizerName: currentUser.name,
+                title: formData.get('eventTitle'),
+                description: formData.get('eventDescription'),
+                category: formData.get('eventCategory'),
+                type: formData.get('eventType'),
+                date: formData.get('eventDate'),
+                time: formData.get('eventTime'),
+                duration: formData.get('eventDuration'),
+                registrationDeadline: formData.get('registrationDeadline'),
+                venueType: venueType,
+                ticketTypes: ticketTypes,
+                settings: {
+                    publishImmediately: document.getElementById('publishImmediately').checked,
+                    allowWaitlist: document.getElementById('allowWaitlist').checked,
+                    requireApproval: document.getElementById('requireApproval').checked,
+                    sendReminders: document.getElementById('sendReminders').checked
+                },
+                createdAt: new Date().toISOString(),
+                status: document.getElementById('publishImmediately').checked ? 'pending_review' : 'draft'
+            };
+
+            // Add venue-specific data
+            if (venueType === 'physical' || venueType === 'hybrid') {
+                eventData.venue = {
+                    name: formData.get('venueName') === 'other' ? formData.get('customVenueName') : formData.get('venueName'),
+                    address: formData.get('venueAddress'),
+                    city: formData.get('venueCity'),
+                    capacity: parseInt(formData.get('venueCapacity'))
+                };
+            }
+
+            if (venueType === 'online' || venueType === 'hybrid') {
+                eventData.onlineDetails = {
+                    platform: formData.get('platformType'),
+                    capacity: parseInt(formData.get('onlineCapacity'))
+                };
+            }
+
+            // Add image if uploaded
+            if (uploadedImageFile) {
+                eventData.image = {
+                    file: uploadedImageFile,
+                    name: uploadedImageFile.name,
+                    size: uploadedImageFile.size
+                };
+            }
+
+            return eventData;
+        }
+
+        function saveDraft() {
+            const form = document.getElementById('createEventForm');
+            const formData = new FormData(form);
+            
+            Swal.fire({
+                title: 'Save as Draft',
+                text: 'Your event will be saved and you can continue editing later.',
+                icon: 'info',
+                showCancelButton: true,
+                confirmButtonColor: '#6366f1',
+                cancelButtonColor: '#6b7280',
+                confirmButtonText: 'Save Draft',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Simulate saving draft
+                    const eventData = collectFormData(formData);
+                    eventData.status = 'draft';
+                    
+                    console.log('Draft saved:', eventData);
+                    
+                    Swal.fire({
+                        title: 'Draft Saved!',
+                        text: 'Your event has been saved as a draft.',
+                        icon: 'success',
+                        confirmButtonColor: '#6366f1',
+                        timer: 2000
+                    });
+                }
+            });
+        }
+
+        function previewEvent() {
+            const title = document.getElementById('eventTitle').value;
+            if (!title.trim()) {
+                Swal.fire({
+                    title: 'Preview Not Available',
+                    text: 'Please enter an event title first to preview your event.',
+                    icon: 'warning',
+                    confirmButtonColor: '#6366f1'
+                });
+                return;
+            }
+
+            // In real app, open preview in new tab or modal
+            Swal.fire({
+                title: 'Event Preview',
+                html: `
+                    <div class="text-start">
+                        <h5>${title}</h5>
+                        <p class="text-muted">This is how your event will appear to customers. Full preview functionality would be implemented in the actual application.</p>
+                        <div class="mt-3">
+                            <button class="btn btn-primary btn-sm" onclick="window.open('event-details.html', '_blank')">
+                                View Full Preview
+                            </button>
+                        </div>
+                    </div>
+                `,
+                icon: 'info',
+                confirmButtonColor: '#6366f1',
+                showConfirmButton: false,
+                showCloseButton: true
+            });
+        }
+
+        function logout() {
+            Swal.fire({
+                title: 'Logout',
+                text: 'Are you sure you want to logout?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#6366f1',
+                cancelButtonColor: '#6b7280',
+                confirmButtonText: 'Yes, logout',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    localStorage.removeItem('userSession');
+                    sessionStorage.removeItem('userSession');
+                    window.location.href = 'index.html';
+                }
+            });
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+
+</body>
+</html>

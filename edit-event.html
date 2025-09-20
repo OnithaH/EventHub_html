@@ -1,0 +1,2201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EventHub - Edit Event</title>
+
+    <!-- Bootstrap 5.3 CSS (Latest) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <!-- Bootstrap Icons (Latest) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+    <!-- EventHub Header - From navbar.html -->
+    <nav class="navbar navbar-expand-lg eventhub-navbar">
+        <div class="container-fluid px-4">
+            <!-- Brand Logo -->
+            <a class="navbar-brand eventhub-brand d-flex align-items-center" href="index.html">
+                <div class="brand-icon me-2">
+                    <i class="bi bi-calendar-event me-1"></i>
+                </div>
+                <span class="brand-text">EventHub</span>
+            </a>
+
+            <!-- Mobile Toggle Button -->
+            <button class="navbar-toggler custom-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navigation Items -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <!-- Left Navigation -->
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link eventhub-nav-link" href="index.html">
+                            <i class="bi bi-house me-1"></i>Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link eventhub-nav-link" href="events.html">
+                            <i class="bi bi-calendar-event me-1"></i>Browse Events
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link eventhub-nav-link" href="my-events.html">
+                            <i class="bi bi-calendar3 me-1"></i>My Events
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link eventhub-nav-link" href="create-event.html">
+                            <i class="bi bi-plus-circle me-1"></i>Create Event
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link eventhub-nav-link" href="sales-reports.html">
+                            <i class="bi bi-bar-chart me-1"></i>Sales Reports
+                        </a>
+                    </li>
+                </ul>
+
+                <!-- Right Navigation - User Menu -->
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle user-menu" href="#" id="userDropdown" role="button" 
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            <div class="user-avatar">
+                                <i class="bi bi-person-circle"></i>
+                            </div>
+                            <span class="user-name" id="userName">Rajesh Events Ltd.</span>
+                        </a>
+                        <ul class="dropdown-menu user-dropdown" aria-labelledby="userDropdown">
+                            <li><a class="dropdown-item" href="organizer-dashboard.html">
+                                <i class="bi bi-speedometer2 me-2"></i>Dashboard</a></li>
+                            <li><a class="dropdown-item" href="user-profile.html">
+                                <i class="bi bi-person me-2"></i>Edit Profile</a></li>
+                            <li><a class="dropdown-item" href="my-events.html">
+                                <i class="bi bi-calendar3 me-2"></i>My Events</a></li>
+                            <li><a class="dropdown-item" href="create-event.html">
+                                <i class="bi bi-plus-circle me-2"></i>Create Event</a></li>
+                            <li><a class="dropdown-item" href="sales-reports.html">
+                                <i class="bi bi-bar-chart me-2"></i>Sales Reports</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#" onclick="logout()">
+                                <i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="header-content">
+                        <div class="header-info">
+                            <div class="header-breadcrumb">
+                                <nav aria-label="breadcrumb">
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item"><a href="my-events.html">My Events</a></li>
+                                        <li class="breadcrumb-item active" aria-current="page" id="eventTitleBreadcrumb">Edit Event</li>
+                                    </ol>
+                                </nav>
+                            </div>
+                            <h1 class="page-title">Edit Event</h1>
+                            <p class="page-subtitle">Update your event details and manage ticket sales</p>
+                        </div>
+                        <div class="header-actions">
+                            <div class="event-status">
+                                <span class="status-badge" id="eventStatusBadge">Published</span>
+                            </div>
+                            <button class="btn btn-outline-light me-2" onclick="previewEvent()">
+                                <i class="bi bi-eye me-2"></i>Preview
+                            </button>
+                            <button class="btn btn-light" onclick="viewAnalytics()">
+                                <i class="bi bi-bar-chart me-2"></i>Analytics
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Edit Event Form -->
+    <section class="edit-event-section py-5">
+        <div class="container-fluid">
+            <form id="editEventForm" novalidate>
+                <div class="row g-4">
+                    <!-- Left Column - Event Details -->
+                    <div class="col-lg-8">
+                        <!-- Sales Summary -->
+                        <div class="sales-summary-card mb-4">
+                            <div class="summary-header">
+                                <h5 class="summary-title">
+                                    <i class="bi bi-graph-up me-2"></i>Sales Overview
+                                </h5>
+                                <div class="summary-period">
+                                    <small class="text-muted">Last updated: <span id="lastUpdated">2 hours ago</span></small>
+                                </div>
+                            </div>
+                            <div class="summary-content">
+                                <div class="row g-3">
+                                    <div class="col-md-3">
+                                        <div class="summary-stat">
+                                            <div class="stat-value" id="ticketsSold">142</div>
+                                            <div class="stat-label">Tickets Sold</div>
+                                            <div class="stat-change positive">+12 today</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="summary-stat">
+                                            <div class="stat-value" id="totalRevenue">Rs. 355,000</div>
+                                            <div class="stat-label">Revenue</div>
+                                            <div class="stat-change positive">+8.5%</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="summary-stat">
+                                            <div class="stat-value" id="capacityFilled">71%</div>
+                                            <div class="stat-label">Capacity</div>
+                                            <div class="stat-progress">
+                                                <div class="progress">
+                                                    <div class="progress-bar bg-success" style="width: 71%"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="summary-stat">
+                                            <div class="stat-value" id="daysRemaining">15</div>
+                                            <div class="stat-label">Days to Event</div>
+                                            <div class="stat-urgency">Selling fast!</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Basic Information -->
+                        <div class="form-section">
+                            <div class="section-header">
+                                <h5 class="section-title">
+                                    <i class="bi bi-info-circle me-2"></i>Basic Information
+                                </h5>
+                                <div class="section-actions">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="allowEditing" checked>
+                                        <label class="form-check-label" for="allowEditing">
+                                            Enable editing
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="section-content">
+                                <div class="editing-warning alert alert-warning d-none" id="editingWarning">
+                                    <i class="bi bi-exclamation-triangle me-2"></i>
+                                    <strong>Important:</strong> Changing event details may affect existing bookings. 
+                                    Customers will be notified of any significant changes.
+                                </div>
+
+                                <div class="row g-3">
+                                    <div class="col-12">
+                                        <label for="eventTitle" class="form-label required">Event Title</label>
+                                        <input type="text" class="form-control" id="eventTitle" name="eventTitle" 
+                                               placeholder="Enter a compelling event title" maxlength="100" required>
+                                        <div class="invalid-feedback"></div>
+                                        <small class="text-muted">
+                                            <span id="titleCount">0</span>/100 characters
+                                            <span class="booking-impact ms-2" style="display: none;">
+                                                <i class="bi bi-info-circle"></i> Title changes will be reflected in existing bookings
+                                            </span>
+                                        </small>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label for="eventCategory" class="form-label required">Category</label>
+                                        <select class="form-select" id="eventCategory" name="eventCategory" required>
+                                            <option value="">Select category</option>
+                                            <option value="music">Music & Concerts</option>
+                                            <option value="technology">Technology & Innovation</option>
+                                            <option value="business">Business & Networking</option>
+                                            <option value="arts">Arts & Culture</option>
+                                            <option value="sports">Sports & Fitness</option>
+                                            <option value="food">Food & Drink</option>
+                                            <option value="education">Education & Learning</option>
+                                            <option value="entertainment">Entertainment</option>
+                                            <option value="health">Health & Wellness</option>
+                                            <option value="family">Family & Kids</option>
+                                        </select>
+                                        <div class="invalid-feedback"></div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label for="eventType" class="form-label required">Event Type</label>
+                                        <select class="form-select" id="eventType" name="eventType" required>
+                                            <option value="">Select type</option>
+                                            <option value="conference">Conference</option>
+                                            <option value="concert">Concert</option>
+                                            <option value="workshop">Workshop</option>
+                                            <option value="seminar">Seminar</option>
+                                            <option value="exhibition">Exhibition</option>
+                                            <option value="festival">Festival</option>
+                                            <option value="competition">Competition</option>
+                                            <option value="networking">Networking Event</option>
+                                            <option value="performance">Performance</option>
+                                            <option value="other">Other</option>
+                                        </select>
+                                        <div class="invalid-feedback"></div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <label for="eventDescription" class="form-label required">Event Description</label>
+                                        <textarea class="form-control" id="eventDescription" name="eventDescription" 
+                                                  rows="5" placeholder="Describe your event in detail..." maxlength="2000" required></textarea>
+                                        <div class="invalid-feedback"></div>
+                                        <small class="text-muted">
+                                            <span id="descriptionCount">0</span>/2000 characters
+                                        </small>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <label for="eventImage" class="form-label">Event Image</label>
+                                        <div class="image-upload-area" id="imageUploadArea">
+                                            <input type="file" class="form-control d-none" id="eventImage" name="eventImage" 
+                                                   accept="image/*" onchange="handleImageUpload(event)">
+                                            <div class="current-image" id="currentImage">
+                                                <img id="existingImagePreview" src="pictures/event-concert.jpg" alt="Current Event Image">
+                                                <div class="image-overlay">
+                                                    <button type="button" class="btn btn-sm btn-light" onclick="changeImage()">
+                                                        <i class="bi bi-pencil"></i> Change Image
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="upload-placeholder d-none" id="uploadPlaceholder">
+                                                <i class="bi bi-cloud-upload"></i>
+                                                <h6>Upload New Event Image</h6>
+                                                <p>Drop your image here or click to browse</p>
+                                                <small>Recommended: 1200x630px, Max size: 5MB</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Date & Time -->
+                        <div class="form-section">
+                            <div class="section-header">
+                                <h5 class="section-title">
+                                    <i class="bi bi-calendar3 me-2"></i>Date & Time
+                                </h5>
+                                <div class="section-warning">
+                                    <small class="text-warning">
+                                        <i class="bi bi-exclamation-triangle me-1"></i>
+                                        Date/time changes require customer notification
+                                    </small>
+                                </div>
+                            </div>
+                            <div class="section-content">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label for="eventDate" class="form-label required">Event Date</label>
+                                        <input type="date" class="form-control" id="eventDate" name="eventDate" required>
+                                        <div class="invalid-feedback"></div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label for="eventTime" class="form-label required">Start Time</label>
+                                        <input type="time" class="form-control" id="eventTime" name="eventTime" required>
+                                        <div class="invalid-feedback"></div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label for="eventDuration" class="form-label">Duration (hours)</label>
+                                        <select class="form-select" id="eventDuration" name="eventDuration">
+                                            <option value="">Select duration</option>
+                                            <option value="1">1 hour</option>
+                                            <option value="1.5">1.5 hours</option>
+                                            <option value="2">2 hours</option>
+                                            <option value="2.5">2.5 hours</option>
+                                            <option value="3">3 hours</option>
+                                            <option value="4">4 hours</option>
+                                            <option value="6">6 hours</option>
+                                            <option value="8">8 hours (full day)</option>
+                                            <option value="multiple">Multiple days</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label for="registrationDeadline" class="form-label">Registration Deadline</label>
+                                        <input type="date" class="form-control" id="registrationDeadline" name="registrationDeadline">
+                                        <small class="text-muted">Last date for ticket purchases</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Venue Information -->
+                        <div class="form-section">
+                            <div class="section-header">
+                                <h5 class="section-title">
+                                    <i class="bi bi-geo-alt me-2"></i>Venue Information
+                                </h5>
+                                <div class="section-info">
+                                    <small class="text-muted">Venue changes may affect logistics</small>
+                                </div>
+                            </div>
+                            <div class="section-content">
+                                <div class="row g-3">
+                                    <div class="col-12">
+                                        <div class="venue-type-selector mb-3">
+                                            <label class="form-label">Venue Type</label>
+                                            <div class="btn-group w-100" role="group">
+                                                <input type="radio" class="btn-check" name="venueType" id="physical" value="physical" checked>
+                                                <label class="btn btn-outline-primary" for="physical">
+                                                    <i class="bi bi-building me-2"></i>Physical Venue
+                                                </label>
+
+                                                <input type="radio" class="btn-check" name="venueType" id="online" value="online">
+                                                <label class="btn btn-outline-primary" for="online">
+                                                    <i class="bi bi-camera-video me-2"></i>Online Event
+                                                </label>
+
+                                                <input type="radio" class="btn-check" name="venueType" id="hybrid" value="hybrid">
+                                                <label class="btn btn-outline-primary" for="hybrid">
+                                                    <i class="bi bi-globe me-2"></i>Hybrid
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div id="physicalVenueFields">
+                                        <div class="row g-3">
+                                            <div class="col-12">
+                                                <label for="venueName" class="form-label required">Venue Name</label>
+                                                <select class="form-select" id="venueName" name="venueName">
+                                                    <option value="">Select a venue</option>
+                                                    <option value="bmich">Bandaranaike Memorial International Conference Hall (BMICH)</option>
+                                                    <option value="nelum-pokuna">Nelum Pokuna Theatre</option>
+                                                    <option value="colombo-convention">Colombo Convention Centre</option>
+                                                    <option value="galadari-hotel">Galadari Hotel Colombo</option>
+                                                    <option value="cinnamon-grand">Cinnamon Grand Colombo</option>
+                                                    <option value="waters-edge">Waters Edge Battaramulla</option>
+                                                    <option value="shangri-la">Shangri-La Hotel Colombo</option>
+                                                    <option value="other">Other (specify below)</option>
+                                                </select>
+                                                <div class="invalid-feedback"></div>
+                                            </div>
+
+                                            <div class="col-12 d-none" id="customVenueField">
+                                                <label for="customVenueName" class="form-label">Custom Venue Name</label>
+                                                <input type="text" class="form-control" id="customVenueName" name="customVenueName" 
+                                                       placeholder="Enter venue name">
+                                            </div>
+
+                                            <div class="col-12">
+                                                <label for="venueAddress" class="form-label required">Address</label>
+                                                <textarea class="form-control" id="venueAddress" name="venueAddress" 
+                                                          rows="3" placeholder="Full venue address"></textarea>
+                                                <div class="invalid-feedback"></div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="venueCity" class="form-label required">City</label>
+                                                <select class="form-select" id="venueCity" name="venueCity">
+                                                    <option value="">Select city</option>
+                                                    <option value="colombo">Colombo</option>
+                                                    <option value="kandy">Kandy</option>
+                                                    <option value="galle">Galle</option>
+                                                    <option value="jaffna">Jaffna</option>
+                                                    <option value="negombo">Negombo</option>
+                                                    <option value="other">Other</option>
+                                                </select>
+                                                <div class="invalid-feedback"></div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="venueCapacity" class="form-label required">Venue Capacity</label>
+                                                <input type="number" class="form-control" id="venueCapacity" name="venueCapacity" 
+                                                       placeholder="Maximum attendees" min="1" max="50000">
+                                                <div class="invalid-feedback"></div>
+                                                <small class="text-warning capacity-warning" style="display: none;">
+                                                    <i class="bi bi-exclamation-triangle me-1"></i>
+                                                    Reducing capacity below sold tickets requires action
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div id="onlineVenueFields" class="d-none">
+                                        <div class="row g-3">
+                                            <div class="col-12">
+                                                <label for="platformType" class="form-label">Platform</label>
+                                                <select class="form-select" id="platformType" name="platformType">
+                                                    <option value="">Select platform</option>
+                                                    <option value="zoom">Zoom</option>
+                                                    <option value="teams">Microsoft Teams</option>
+                                                    <option value="meet">Google Meet</option>
+                                                    <option value="webex">Cisco Webex</option>
+                                                    <option value="youtube">YouTube Live</option>
+                                                    <option value="facebook">Facebook Live</option>
+                                                    <option value="other">Other</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Ticket Pricing -->
+                        <div class="form-section">
+                            <div class="section-header">
+                                <h5 class="section-title">
+                                    <i class="bi bi-ticket-perforated me-2"></i>Ticket Pricing & Availability
+                                </h5>
+                                <div class="section-actions">
+                                    <button type="button" class="btn btn-sm btn-outline-primary" onclick="viewBookingDetails()">
+                                        <i class="bi bi-people me-1"></i>View Bookings
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="section-content">
+                                <div class="pricing-warning alert alert-info">
+                                    <i class="bi bi-info-circle me-2"></i>
+                                    <strong>Price Changes:</strong> Increasing prices affects only new bookings. 
+                                    Decreasing prices may require customer notifications.
+                                </div>
+
+                                <div class="ticket-types" id="ticketTypes">
+                                    <!-- Existing ticket types will be loaded here -->
+                                </div>
+
+                                <div class="add-ticket-type mt-3">
+                                    <button type="button" class="btn btn-outline-primary" onclick="addTicketType()">
+                                        <i class="bi bi-plus-circle me-2"></i>Add Another Ticket Type
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column - Preview & Actions -->
+                    <div class="col-lg-4">
+                        <!-- Event Management Actions -->
+                        <div class="management-card sticky-top">
+                            <div class="management-header">
+                                <h6 class="management-title">Event Management</h6>
+                                <div class="event-id">
+                                    <small class="text-muted">ID: <span id="eventId">EVT-2025-001</span></small>
+                                </div>
+                            </div>
+                            
+                            <div class="management-content">
+                                <!-- Event Status -->
+                                <div class="status-section mb-4">
+                                    <label class="form-label">Event Status</label>
+                                    <select class="form-select" id="eventStatus" onchange="handleStatusChange()">
+                                        <option value="published">Published</option>
+                                        <option value="draft">Draft</option>
+                                        <option value="paused">Paused</option>
+                                        <option value="cancelled">Cancelled</option>
+                                    </select>
+                                    <small class="text-muted">Changes will take effect immediately</small>
+                                </div>
+
+                                <!-- Quick Actions -->
+                                <div class="quick-actions mb-4">
+                                    <h6 class="actions-subtitle">Quick Actions</h6>
+                                    <div class="action-buttons">
+                                        <button type="button" class="action-btn" onclick="sendUpdate()">
+                                            <i class="bi bi-envelope"></i>
+                                            <span>Send Update to Customers</span>
+                                        </button>
+                                        
+                                        <button type="button" class="action-btn" onclick="duplicateEvent()">
+                                            <i class="bi bi-files"></i>
+                                            <span>Duplicate Event</span>
+                                        </button>
+                                        
+                                        <button type="button" class="action-btn" onclick="exportAttendees()">
+                                            <i class="bi bi-download"></i>
+                                            <span>Export Attendee List</span>
+                                        </button>
+
+                                        <button type="button" class="action-btn danger" onclick="deleteEvent()">
+                                            <i class="bi bi-trash"></i>
+                                            <span>Delete Event</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Event Settings -->
+                                <div class="settings-section">
+                                    <h6 class="settings-subtitle">Event Settings</h6>
+                                    <div class="setting-item">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="allowWaitlist" checked>
+                                            <label class="form-check-label" for="allowWaitlist">
+                                                Enable waitlist when sold out
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="setting-item">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="requireApproval">
+                                            <label class="form-check-label" for="requireApproval">
+                                                Require manual approval
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="setting-item">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="sendReminders" checked>
+                                            <label class="form-check-label" for="sendReminders">
+                                                Send event reminders
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="setting-item">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="showAttendeeCount" checked>
+                                            <label class="form-check-label" for="showAttendeeCount">
+                                                Show attendee count publicly
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Submit Actions -->
+
+
+                       <div class="submit-actions mt-4">
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary btn-lg">
+                                    <i class="bi bi-check-circle me-2"></i>Save Changes
+                                </button>
+                                <button type="button" class="btn btn-outline-secondary" onclick="discardChanges()">
+                                    <i class="bi bi-x-circle me-2"></i>Discard Changes
+                                </button>
+                                <button type="button" class="btn btn-outline-info" onclick="previewChanges()">
+                                    <i class="bi bi-eye me-2"></i>Preview Changes
+                                </button>
+                            </div>
+                            <small class="text-muted text-center d-block mt-2">
+                                Changes will be saved and customers will be notified if necessary
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    
+
+
+
+    <style>
+        /* EventHub Custom Styles - Matching existing design */
+        * {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f8fafc;
+            line-height: 1.6;
+        }
+
+        /* Navbar Styling - From navbar.html */
+        .eventhub-navbar {
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+            padding: 0.75rem 0;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .eventhub-brand {
+            text-decoration: none;
+            color: #6366f1 !important;
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .eventhub-brand:hover {
+            color: #5855eb !important;
+            text-decoration: none;
+        }
+
+        .brand-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .brand-text {
+            color: #6366f1;
+            font-weight: 700;
+        }
+
+        .eventhub-nav-link {
+            color: #64748b !important;
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 0.5rem 1rem !important;
+            margin: 0 0.25rem;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .eventhub-nav-link:hover {
+            color: #6366f1 !important;
+            background-color: rgba(99, 102, 241, 0.1);
+        }
+
+        .eventhub-nav-link.active {
+            color: #6366f1 !important;
+            background-color: rgba(99, 102, 241, 0.15);
+            font-weight: 600;
+        }
+
+        /* User Menu */
+        .user-menu {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            color: #374151 !important;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .user-menu:hover {
+            background-color: rgba(99, 102, 241, 0.1);
+            color: #6366f1 !important;
+        }
+
+        .user-avatar {
+            font-size: 1.5rem;
+            margin-right: 0.5rem;
+            color: #6366f1;
+        }
+
+        .user-name {
+            font-weight: 500;
+        }
+
+        .user-dropdown {
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            padding: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .user-dropdown .dropdown-item {
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .user-dropdown .dropdown-item:hover {
+            background-color: rgba(99, 102, 241, 0.1);
+            color: #6366f1;
+        }
+
+        .user-dropdown .dropdown-item.active {
+            background-color: rgba(99, 102, 241, 0.15);
+            color: #6366f1;
+        }
+
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            padding: 2rem 0;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .header-breadcrumb .breadcrumb {
+            background: none;
+            padding: 0;
+            margin-bottom: 1rem;
+        }
+
+        .header-breadcrumb .breadcrumb-item a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+        }
+
+        .header-breadcrumb .breadcrumb-item.active {
+            color: white;
+        }
+
+        .page-title {
+            font-size: 2.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 0;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .status-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            background: rgba(34, 197, 94, 0.2);
+            color: #16a34a;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+
+        /* Sales Summary Card */
+        .sales-summary-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .summary-header {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            padding: 1.5rem;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .summary-title {
+            color: #374151;
+            font-weight: 600;
+            margin: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .summary-content {
+            padding: 1.5rem;
+        }
+
+        .summary-stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #374151;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #6b7280;
+            font-size: 0.875rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-change {
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .stat-change.positive {
+            color: #10b981;
+        }
+
+        .stat-urgency {
+            color: #f59e0b;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .stat-progress .progress {
+            height: 4px;
+            border-radius: 2px;
+            background-color: #f3f4f6;
+        }
+
+        /* Form Sections */
+        .form-section {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+
+        .section-header {
+            background: #f8fafc;
+            padding: 1.5rem;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .section-title {
+            color: #374151;
+            font-weight: 600;
+            margin: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-actions, .section-warning, .section-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .section-content {
+            padding: 1.5rem;
+        }
+
+        /* Form Controls */
+        .form-label.required::after {
+            content: ' *';
+            color: #ef4444;
+        }
+
+        .form-control, .form-select {
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            transition: all 0.2s ease;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 0.2rem rgba(99, 102, 241, 0.1);
+        }
+
+        .form-control:disabled, .form-select:disabled {
+            background-color: #f9fafb;
+            opacity: 0.7;
+        }
+
+        /* Image Upload */
+        .current-image {
+            position: relative;
+            display: inline-block;
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .current-image img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .image-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .current-image:hover .image-overlay {
+            opacity: 1;
+        }
+
+        /* Venue Type Selector */
+        .venue-type-selector .btn-group {
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .venue-type-selector .btn {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border: 2px solid #e5e7eb;
+        }
+
+        .venue-type-selector .btn:hover {
+            background: rgba(99, 102, 241, 0.1);
+            border-color: #6366f1;
+        }
+
+        .venue-type-selector .btn-check:checked + .btn {
+            background: #6366f1;
+            border-color: #6366f1;
+            color: white;
+        }
+
+        /* Ticket Type Cards */
+        .ticket-type-card {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .ticket-type-card:hover {
+            border-color: #6366f1;
+            background: rgba(99, 102, 241, 0.05);
+        }
+
+        .ticket-type-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .ticket-type-header h6 {
+            color: #374151;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .sales-info {
+            background: #e0f2fe;
+            border: 1px solid #0891b2;
+            border-radius: 8px;
+            padding: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .sales-info-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.875rem;
+        }
+
+        .sold-count {
+            color: #0891b2;
+            font-weight: 600;
+        }
+
+        .revenue-amount {
+            color: #374151;
+            font-weight: 600;
+        }
+
+        /* Management Card */
+        .management-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .management-header {
+            background: #f8fafc;
+            padding: 1.5rem;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .management-title {
+            color: #374151;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .management-content {
+            padding: 1.5rem;
+        }
+
+        .status-section, .quick-actions, .settings-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .status-section:last-child, .quick-actions:last-child, .settings-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .actions-subtitle, .settings-subtitle {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 1rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .action-btn {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            background: white;
+            color: #374151;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            font-size: 0.875rem;
+        }
+
+        .action-btn:hover {
+            background: #f8fafc;
+            border-color: #6366f1;
+            color: #374151;
+        }
+
+        .action-btn.danger {
+            color: #dc2626;
+            border-color: #fecaca;
+        }
+
+        .action-btn.danger:hover {
+            background: #fef2f2;
+            border-color: #dc2626;
+        }
+
+        .action-btn i {
+            margin-right: 0.5rem;
+            width: 16px;
+        }
+
+        .setting-item {
+            margin-bottom: 1rem;
+        }
+
+        .setting-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .form-check-label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #374151;
+        }
+
+        /* Submit Actions */
+        .submit-actions {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+        }
+
+        /* Warnings and Alerts */
+        .editing-warning {
+            border-left: 4px solid #f59e0b;
+        }
+
+        .pricing-warning {
+            border-left: 4px solid #3b82f6;
+        }
+
+        .booking-impact {
+            color: #3b82f6;
+            font-weight: 500;
+        }
+
+        .capacity-warning {
+            display: flex;
+            align-items: center;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .page-title {
+                font-size: 1.75rem;
+            }
+
+            .header-actions {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .management-card {
+                position: static;
+                margin-top: 2rem;
+            }
+
+            .summary-content .row {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .venue-type-selector .btn-group {
+                flex-direction: column;
+            }
+
+            .venue-type-selector .btn {
+                border-radius: 8px !important;
+                margin-bottom: 0.5rem;
+            }
+        }
+
+        /* Animation Classes */
+        .fade-in {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Custom toggles */
+        .custom-toggler {
+            border: none;
+            padding: 0.25rem 0.5rem;
+        }
+
+        .custom-toggler:focus {
+            box-shadow: 0 0 0 0.2rem rgba(99, 102, 241, 0.25);
+        }
+    </style>
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+
+        <script>
+        // Current user and event data
+        let currentUser = null;
+        let currentEvent = null;
+        let originalEventData = null;
+        let hasUnsavedChanges = false;
+        let editingEnabled = true;
+
+        // Sample event data for editing
+        const sampleEventData = {
+            eventId: 'EVT-2025-001',
+            organizerId: 'ORG001',
+            title: 'Jazz Night Under Stars',
+            description: 'An enchanting evening of smooth jazz music under the starlit sky at the beautiful Royal Botanical Gardens in Kandy. Join us for an unforgettable musical journey featuring local and international jazz artists.',
+            category: 'music',
+            type: 'concert',
+            date: '2025-01-30',
+            time: '20:00',
+            duration: '3',
+            registrationDeadline: '2025-01-28',
+            venueType: 'physical',
+            venue: {
+                name: 'Royal Botanical Gardens',
+                customName: 'Royal Botanical Gardens, Kandy',
+                address: 'Peradeniya Road, Kandy 20000',
+                city: 'kandy',
+                capacity: 200
+            },
+            ticketTypes: [
+                {
+                    id: 'TT001',
+                    name: 'Regular',
+                    price: 2500,
+                    quantity: 120,
+                    sold: 85,
+                    revenue: 212500,
+                    description: 'General admission with standing area access',
+                    saleStartDate: '2024-12-01'
+                },
+                {
+                    id: 'TT002',
+                    name: 'Premium',
+                    price: 4000,
+                    quantity: 60,
+                    sold: 42,
+                    revenue: 168000,
+                    description: 'Reserved seating with complimentary refreshments',
+                    saleStartDate: '2024-12-01'
+                },
+                {
+                    id: 'TT003',
+                    name: 'VIP',
+                    price: 6500,
+                    quantity: 20,
+                    sold: 15,
+                    revenue: 97500,
+                    description: 'Front row seating with meet & greet opportunity',
+                    saleStartDate: '2024-12-01'
+                }
+            ],
+            status: 'published',
+            settings: {
+                allowWaitlist: true,
+                requireApproval: false,
+                sendReminders: true,
+                showAttendeeCount: true
+            },
+            stats: {
+                totalSold: 142,
+                totalRevenue: 478000,
+                capacityFilled: 71,
+                daysRemaining: 15
+            },
+            image: 'pictures/event-jazz.jpg',
+            createdAt: '2024-12-01T10:00:00Z',
+            lastUpdated: '2024-12-30T08:30:00Z'
+        };
+
+        document.addEventListener('DOMContentLoaded', function () {
+            initializeEditEventPage();
+            loadUserData();
+            loadEventData();
+            setupEventListeners();
+            setupFormValidation();
+        });
+
+        function initializeEditEventPage() {
+            // Check if user is logged in
+            const sessionData = localStorage.getItem('userSession') || sessionStorage.getItem('userSession');
+            
+            if (!sessionData) {
+                window.location.href = 'login.html?redirect=edit-event.html';
+                return;
+            }
+
+            currentUser = JSON.parse(sessionData);
+            
+            if (currentUser.role !== 'organizer') {
+                Swal.fire({
+                    title: 'Access Denied',
+                    text: 'This page is only accessible to event organizers.',
+                    icon: 'error',
+                    confirmButtonColor: '#6366f1'
+                }).then(() => {
+                    window.location.href = 'login.html';
+                });
+                return;
+            }
+        }
+
+        function loadUserData() {
+            if (!currentUser) return;
+
+            // Update organizer name in navbar
+            document.getElementById('userName').textContent = currentUser.name || 'Event Organizer';
+        }
+
+        function loadEventData() {
+            // In real app, get event ID from URL parameter and fetch from API
+            const urlParams = new URLSearchParams(window.location.search);
+            const eventId = urlParams.get('id') || 'EVT-2025-001';
+            
+            // For demo, use sample data
+            currentEvent = { ...sampleEventData };
+            originalEventData = JSON.parse(JSON.stringify(currentEvent));
+            
+            populateForm();
+            updateSalesOverview();
+        }
+
+        function populateForm() {
+            if (!currentEvent) return;
+
+            // Update page headers
+            document.getElementById('eventTitleBreadcrumb').textContent = currentEvent.title;
+            document.getElementById('eventId').textContent = currentEvent.eventId;
+            document.getElementById('eventStatusBadge').textContent = currentEvent.status.charAt(0).toUpperCase() + currentEvent.status.slice(1);
+
+            // Populate basic information
+            document.getElementById('eventTitle').value = currentEvent.title;
+            document.getElementById('eventCategory').value = currentEvent.category;
+            document.getElementById('eventType').value = currentEvent.type;
+            document.getElementById('eventDescription').value = currentEvent.description;
+            
+            // Update character counters
+            document.getElementById('titleCount').textContent = currentEvent.title.length;
+            document.getElementById('descriptionCount').textContent = currentEvent.description.length;
+
+            // Populate date and time
+            document.getElementById('eventDate').value = currentEvent.date;
+            document.getElementById('eventTime').value = currentEvent.time;
+            document.getElementById('eventDuration').value = currentEvent.duration;
+            document.getElementById('registrationDeadline').value = currentEvent.registrationDeadline;
+
+            // Populate venue information
+            document.querySelector(`input[name="venueType"][value="${currentEvent.venueType}"]`).checked = true;
+            
+            if (currentEvent.venue) {
+                document.getElementById('venueName').value = 'other';
+                document.getElementById('customVenueName').value = currentEvent.venue.customName;
+                document.getElementById('venueAddress').value = currentEvent.venue.address;
+                document.getElementById('venueCity').value = currentEvent.venue.city;
+                document.getElementById('venueCapacity').value = currentEvent.venue.capacity;
+                
+                // Show custom venue field
+                document.getElementById('customVenueField').classList.remove('d-none');
+            }
+
+            // Set image
+            document.getElementById('existingImagePreview').src = currentEvent.image;
+
+            // Populate event status and settings
+            document.getElementById('eventStatus').value = currentEvent.status;
+            document.getElementById('allowWaitlist').checked = currentEvent.settings.allowWaitlist;
+            document.getElementById('requireApproval').checked = currentEvent.settings.requireApproval;
+            document.getElementById('sendReminders').checked = currentEvent.settings.sendReminders;
+            document.getElementById('showAttendeeCount').checked = currentEvent.settings.showAttendeeCount;
+
+            // Populate ticket types
+            populateTicketTypes();
+            
+            // Set minimum dates
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('eventDate').min = today;
+            document.getElementById('registrationDeadline').min = today;
+        }
+
+        function populateTicketTypes() {
+            const container = document.getElementById('ticketTypes');
+            container.innerHTML = '';
+
+            currentEvent.ticketTypes.forEach((ticket, index) => {
+                const ticketCard = createTicketTypeCard(ticket, index);
+                container.appendChild(ticketCard);
+            });
+        }
+
+        function createTicketTypeCard(ticket, index) {
+            const div = document.createElement('div');
+            div.className = 'ticket-type-card';
+            div.setAttribute('data-index', index);
+            div.setAttribute('data-ticket-id', ticket.id);
+
+            const fillPercentage = Math.round((ticket.sold / ticket.quantity) * 100);
+            const canDelete = currentEvent.ticketTypes.length > 1 && ticket.sold === 0;
+
+            div.innerHTML = `
+                <div class="ticket-type-header">
+                    <h6>${ticket.name} Ticket</h6>
+                    ${canDelete ? `
+                        <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeTicketType(${index})">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    ` : ''}
+                </div>
+
+                <div class="sales-info">
+                    <div class="sales-info-content">
+                        <span class="sold-count">${ticket.sold}/${ticket.quantity} sold (${fillPercentage}%)</span>
+                        <span class="revenue-amount">Rs. ${ticket.revenue.toLocaleString()} revenue</span>
+                    </div>
+                </div>
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label required">Ticket Name</label>
+                        <input type="text" class="form-control" name="ticketName[]" 
+                               value="${ticket.name}" required ${ticket.sold > 0 ? 'disabled' : ''}>
+                        <div class="invalid-feedback"></div>
+                        ${ticket.sold > 0 ? '<small class="text-muted">Cannot change name after sales started</small>' : ''}
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label required">Price (Rs.)</label>
+                        <input type="number" class="form-control" name="ticketPrice[]" 
+                               value="${ticket.price}" min="0" step="0.01" required>
+                        <div class="invalid-feedback"></div>
+                        <small class="text-muted">Price changes affect new bookings only</small>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label required">Total Quantity</label>
+                        <input type="number" class="form-control" name="ticketQuantity[]" 
+                               value="${ticket.quantity}" min="${ticket.sold}" required>
+                        <div class="invalid-feedback"></div>
+                        <small class="text-muted">Cannot be less than sold tickets (${ticket.sold})</small>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Sale Start Date</label>
+                        <input type="date" class="form-control" name="saleStartDate[]" 
+                               value="${ticket.saleStartDate}">
+                        <small class="text-muted">Leave empty for immediate sales</small>
+                    </div>
+
+                    <div class="col-12">
+                        <label class="form-label">Description</label>
+                        <textarea class="form-control" name="ticketDescription[]" rows="2" 
+                                  placeholder="What's included with this ticket type?">${ticket.description}</textarea>
+                    </div>
+                </div>
+            `;
+
+            return div;
+        }
+
+        function updateSalesOverview() {
+            document.getElementById('ticketsSold').textContent = currentEvent.stats.totalSold;
+            document.getElementById('totalRevenue').textContent = `Rs. ${currentEvent.stats.totalRevenue.toLocaleString()}`;
+            document.getElementById('capacityFilled').textContent = `${currentEvent.stats.capacityFilled}%`;
+            document.getElementById('daysRemaining').textContent = currentEvent.stats.daysRemaining;
+            
+            // Update last updated time
+            const lastUpdated = new Date(currentEvent.lastUpdated);
+            const now = new Date();
+            const diffHours = Math.floor((now - lastUpdated) / (1000 * 60 * 60));
+            document.getElementById('lastUpdated').textContent = `${diffHours} hours ago`;
+        }
+
+        function setupEventListeners() {
+            // Track form changes
+            const form = document.getElementById('editEventForm');
+            form.addEventListener('input', markAsChanged);
+            form.addEventListener('change', markAsChanged);
+
+            // Character counters
+            document.getElementById('eventTitle').addEventListener('input', function() {
+                document.getElementById('titleCount').textContent = this.value.length;
+                
+                if (this.value !== originalEventData.title) {
+                    document.querySelector('.booking-impact').style.display = 'inline';
+                } else {
+                    document.querySelector('.booking-impact').style.display = 'none';
+                }
+            });
+
+            document.getElementById('eventDescription').addEventListener('input', function() {
+                document.getElementById('descriptionCount').textContent = this.value.length;
+            });
+
+            // Editing toggle
+            document.getElementById('allowEditing').addEventListener('change', function() {
+                toggleEditingMode(this.checked);
+            });
+
+            // Venue type changes
+            document.querySelectorAll('input[name="venueType"]').forEach(radio => {
+                radio.addEventListener('change', handleVenueTypeChange);
+            });
+
+            // Venue selection
+            document.getElementById('venueName').addEventListener('change', function() {
+                const customField = document.getElementById('customVenueField');
+                if (this.value === 'other') {
+                    customField.classList.remove('d-none');
+                } else {
+                    customField.classList.add('d-none');
+                }
+            });
+
+            // Capacity validation
+            document.getElementById('venueCapacity').addEventListener('input', function() {
+                const sold = currentEvent.stats.totalSold;
+                const newCapacity = parseInt(this.value);
+                const warning = document.querySelector('.capacity-warning');
+                
+                if (newCapacity < sold) {
+                    warning.style.display = 'block';
+                    this.classList.add('is-invalid');
+                } else {
+                    warning.style.display = 'none';
+                    this.classList.remove('is-invalid');
+                }
+            });
+
+            // Form submission
+            form.addEventListener('submit', handleFormSubmission);
+
+            // Warn before leaving if unsaved changes
+            window.addEventListener('beforeunload', function(e) {
+                if (hasUnsavedChanges) {
+                    e.preventDefault();
+                    e.returnValue = '';
+                }
+            });
+        }
+
+        function setupFormValidation() {
+            const form = document.getElementById('editEventForm');
+            const inputs = form.querySelectorAll('input[required], select[required], textarea[required]');
+
+            inputs.forEach(input => {
+                input.addEventListener('blur', validateField);
+                input.addEventListener('input', clearFieldError);
+            });
+        }
+
+        function markAsChanged() {
+            hasUnsavedChanges = true;
+            // Visual indication of unsaved changes
+            const submitBtn = document.querySelector('button[type="submit"]');
+            if (!submitBtn.classList.contains('btn-warning')) {
+                submitBtn.classList.remove('btn-primary');
+                submitBtn.classList.add('btn-warning');
+                submitBtn.innerHTML = '<i class="bi bi-exclamation-triangle me-2"></i>Save Changes*';
+            }
+        }
+
+        function toggleEditingMode(enabled) {
+            editingEnabled = enabled;
+            const form = document.getElementById('editEventForm');
+            const inputs = form.querySelectorAll('input, select, textarea');
+            const warning = document.getElementById('editingWarning');
+
+            inputs.forEach(input => {
+                if (input.id !== 'allowEditing' && input.id !== 'eventStatus') {
+                    input.disabled = !enabled;
+                }
+            });
+
+            if (enabled) {
+                warning.classList.add('d-none');
+            } else {
+                warning.classList.remove('d-none');
+            }
+        }
+
+        function handleVenueTypeChange() {
+            const venueType = document.querySelector('input[name="venueType"]:checked').value;
+            const physicalFields = document.getElementById('physicalVenueFields');
+            const onlineFields = document.getElementById('onlineVenueFields');
+
+            if (venueType === 'physical') {
+                physicalFields.classList.remove('d-none');
+                onlineFields.classList.add('d-none');
+            } else if (venueType === 'online') {
+                physicalFields.classList.add('d-none');
+                onlineFields.classList.remove('d-none');
+            } else { // hybrid
+                physicalFields.classList.remove('d-none');
+                onlineFields.classList.remove('d-none');
+            }
+        }
+
+        function validateField(event) {
+            const field = event.target;
+            const value = field.value.trim();
+            let isValid = true;
+            let message = '';
+
+            // Clear previous validation
+            field.classList.remove('is-invalid', 'is-valid');
+            const feedback = field.parentNode.querySelector('.invalid-feedback');
+            if (feedback) feedback.textContent = '';
+
+            // Required field validation
+            if (field.hasAttribute('required') && !value) {
+                isValid = false;
+                message = 'This field is required';
+            }
+
+            // Specific validations
+            switch (field.name) {
+                case 'ticketQuantity[]':
+                    const ticketCard = field.closest('.ticket-type-card');
+                    const ticketId = ticketCard.getAttribute('data-ticket-id');
+                    const ticket = currentEvent.ticketTypes.find(t => t.id === ticketId);
+                    
+                    if (ticket && parseInt(value) < ticket.sold) {
+                        isValid = false;
+                        message = `Cannot be less than sold tickets (${ticket.sold})`;
+                    }
+                    break;
+
+                case 'eventDate':
+                    if (value) {
+                        const eventDate = new Date(value);
+                        const today = new Date();
+                        today.setHours(0, 0, 0, 0);
+                        
+                        if (eventDate < today) {
+                            isValid = false;
+                            message = 'Event date cannot be in the past';
+                        }
+                    }
+                    break;
+            }
+
+            // Update field validation state
+            if (isValid && value) {
+                field.classList.add('is-valid');
+            } else if (!isValid) {
+                field.classList.add('is-invalid');
+                if (feedback) feedback.textContent = message;
+            }
+
+            return isValid;
+        }
+
+        function clearFieldError(event) {
+            const field = event.target;
+            field.classList.remove('is-invalid');
+            const feedback = field.parentNode.querySelector('.invalid-feedback');
+            if (feedback) feedback.textContent = '';
+        }
+
+        function handleImageUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            // Validate file
+            if (file.size > 5 * 1024 * 1024) {
+                Swal.fire({
+                    title: 'File Too Large',
+                    text: 'Please select an image smaller than 5MB',
+                    icon: 'error',
+                    confirmButtonColor: '#6366f1'
+                });
+                return;
+            }
+
+            if (!file.type.startsWith('image/')) {
+                Swal.fire({
+                    title: 'Invalid File Type',
+                    text: 'Please select a valid image file',
+                    icon: 'error',
+                    confirmButtonColor: '#6366f1'
+                });
+                return;
+            }
+
+            // Preview new image
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('existingImagePreview').src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+
+            markAsChanged();
+        }
+
+        function changeImage() {
+            document.getElementById('eventImage').click();
+        }
+
+        function addTicketType() {
+            const container = document.getElementById('ticketTypes');
+            const index = currentEvent.ticketTypes.length;
+            
+            const newTicket = {
+                id: `TT${Date.now()}`,
+                name: '',
+                price: 0,
+                quantity: 1,
+                sold: 0,
+                revenue: 0,
+                description: '',
+                saleStartDate: ''
+            };
+            
+            currentEvent.ticketTypes.push(newTicket);
+            
+            const ticketCard = createTicketTypeCard(newTicket, index);
+            container.appendChild(ticketCard);
+            
+            markAsChanged();
+        }
+
+        function removeTicketType(index) {
+            const ticket = currentEvent.ticketTypes[index];
+            
+            if (ticket.sold > 0) {
+                Swal.fire({
+                    title: 'Cannot Remove',
+                    text: 'Cannot remove ticket type that has existing sales',
+                    icon: 'error',
+                    confirmButtonColor: '#6366f1'
+                });
+                return;
+            }
+
+            if (currentEvent.ticketTypes.length <= 1) {
+                Swal.fire({
+                    title: 'Cannot Remove',
+                    text: 'You must have at least one ticket type',
+                    icon: 'warning',
+                    confirmButtonColor: '#6366f1'
+                });
+                return;
+            }
+
+            Swal.fire({
+                title: 'Remove Ticket Type',
+                text: 'Are you sure you want to remove this ticket type?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#ef4444',
+                cancelButtonColor: '#6b7280',
+                confirmButtonText: 'Yes, remove',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const card = document.querySelector(`[data-index="${index}"]`);
+                    card.remove();
+                    currentEvent.ticketTypes.splice(index, 1);
+                    markAsChanged();
+                }
+            });
+        }
+
+        function handleFormSubmission(event) {
+            event.preventDefault();
+            
+            if (!editingEnabled) {
+                Swal.fire({
+                    title: 'Editing Disabled',
+                    text: 'Please enable editing to save changes',
+                    icon: 'warning',
+                    confirmButtonColor: '#6366f1'
+                });
+                return;
+            }
+
+            const form = event.target;
+            const formData = new FormData(form);
+            
+            // Validate all required fields
+            let isValid = true;
+            const requiredFields = form.querySelectorAll('[required]');
+            
+            requiredFields.forEach(field => {
+                if (!validateField({ target: field })) {
+                    isValid = false;
+                }
+            });
+
+            if (!isValid) {
+                Swal.fire({
+                    title: 'Validation Error',
+                    text: 'Please fix all validation errors before saving',
+                    icon: 'error',
+                    confirmButtonColor: '#6366f1'
+                });
+                return;
+            }
+
+            // Check for significant changes that require customer notification
+            const significantChanges = checkSignificantChanges(formData);
+            
+            if (significantChanges.length > 0) {
+                Swal.fire({
+                    title: 'Customer Notification Required',
+                    html: `
+                        <div class="text-start">
+                            <p>The following changes will require notifying customers:</p>
+                            <ul class="text-muted">
+                                ${significantChanges.map(change => `<li>${change}</li>`).join('')}
+                            </ul>
+                            <p>Would you like to proceed and send notifications?</p>
+                        </div>
+                    `,
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#6366f1',
+                    cancelButtonColor: '#6b7280',
+                    confirmButtonText: 'Save & Notify',
+                    cancelButtonText: 'Cancel'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        saveEvent(formData, true);
+                    }
+                });
+            } else {
+                saveEvent(formData, false);
+            }
+        }
+
+        function checkSignificantChanges(formData) {
+            const changes = [];
+            
+            if (formData.get('eventDate') !== originalEventData.date) {
+                changes.push('Event date changed');
+            }
+            
+            if (formData.get('eventTime') !== originalEventData.time) {
+                changes.push('Event time changed');
+            }
+            
+            if (formData.get('venueAddress') !== originalEventData.venue.address) {
+                changes.push('Venue location changed');
+            }
+            
+            return changes;
+        }
+
+        function saveEvent(formData, notifyCustomers) {
+            Swal.fire({
+                title: 'Saving Changes...',
+                text: 'Please wait while we update your event',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            // Simulate API call
+            setTimeout(() => {
+                const eventData = collectFormData(formData);
+                
+                console.log('Updated Event Data:', eventData);
+                console.log('Notify Customers:', notifyCustomers);
+                
+                hasUnsavedChanges = false;
+                
+                // Reset submit button
+                const submitBtn = document.querySelector('button[type="submit"]');
+                submitBtn.classList.remove('btn-warning');
+                submitBtn.classList.add('btn-primary');
+                submitBtn.innerHTML = '<i class="bi bi-check-circle me-2"></i>Save Changes';
+                
+                Swal.fire({
+                    title: 'Event Updated!',
+                    text: notifyCustomers ? 
+                        'Your event has been updated and customers have been notified.' :
+                        'Your event has been updated successfully.',
+                    icon: 'success',
+                    confirmButtonColor: '#6366f1',
+                    confirmButtonText: 'Continue Editing'
+                });
+            }, 2000);
+        }
+
+        function collectFormData(formData) {
+            // Collect updated event data similar to create event
+            const eventData = {
+                eventId: currentEvent.eventId,
+                title: formData.get('eventTitle'),
+                description: formData.get('eventDescription'),
+                category: formData.get('eventCategory'),
+                type: formData.get('eventType'),
+                date: formData.get('eventDate'),
+                time: formData.get('eventTime'),
+                duration: formData.get('eventDuration'),
+                registrationDeadline: formData.get('registrationDeadline'),
+                status: document.getElementById('eventStatus').value,
+                lastUpdated: new Date().toISOString()
+            };
+
+            // Add venue data, ticket types, settings etc.
+            // Implementation similar to create event page
+
+            return eventData;
+        }
+
+        // Management Actions
+        function handleStatusChange() {
+            const newStatus = document.getElementById('eventStatus').value;
+            const statusBadge = document.getElementById('eventStatusBadge');
+            
+            statusBadge.textContent = newStatus.charAt(0).toUpperCase() + newStatus.slice(1);
+            
+            if (newStatus === 'cancelled') {
+                Swal.fire({
+                    title: 'Cancel Event?',
+                    text: 'This will cancel the event and notify all attendees. This action cannot be undone.',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#ef4444',
+                    cancelButtonColor: '#6b7280',
+                    confirmButtonText: 'Yes, cancel event',
+                    cancelButtonText: 'Keep event'
+                }).then((result) => {
+                    if (!result.isConfirmed) {
+                        document.getElementById('eventStatus').value = currentEvent.status;
+                        statusBadge.textContent = currentEvent.status.charAt(0).toUpperCase() + currentEvent.status.slice(1);
+                    }
+                });
+            }
+            
+            markAsChanged();
+        }
+
+        function sendUpdate() {
+            Swal.fire({
+                title: 'Send Update to Customers',
+                input: 'textarea',
+                inputLabel: 'Update Message',
+                inputPlaceholder: 'Enter your message to customers...',
+                showCancelButton: true,
+                confirmButtonColor: '#6366f1',
+                cancelButtonColor: '#6b7280',
+                confirmButtonText: 'Send Update',
+                cancelButtonText: 'Cancel',
+                inputValidator: (value) => {
+                    if (!value) {
+                        return 'You need to write a message!'
+                    }
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: 'Update Sent!',
+                        text: 'Your message has been sent to all customers',
+                        icon: 'success',
+                        confirmButtonColor: '#6366f1'
+                    });
+                }
+            });
+        }
+
+        function duplicateEvent() {
+            Swal.fire({
+                title: 'Duplicate Event',
+                text: 'This will create a copy of this event that you can modify.',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#6366f1',
+                cancelButtonColor: '#6b7280',
+                confirmButtonText: 'Create Duplicate',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Redirect to create event with pre-filled data
+                    window.location.href = `create-event.html?duplicate=${currentEvent.eventId}`;
+                }
+            });
+        }
+
+        function exportAttendees() {
+            Swal.fire({
+                title: 'Export Attendee List',
+                text: 'Choose export format:',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#6366f1',
+                cancelButtonColor: '#6b7280',
+                confirmButtonText: 'Excel (.xlsx)',
+                cancelButtonText: 'Cancel',
+                showDenyButton: true,
+                denyButtonText: 'CSV (.csv)',
+                denyButtonColor: '#10b981'
+            }).then((result) => {
+                if (result.isConfirmed || result.isDenied) {
+                    const format = result.isConfirmed ? 'xlsx' : 'csv';
+                    Swal.fire({
+                        title: 'Exporting...',
+                        text: `Preparing attendee list in ${format.toUpperCase()} format`,
+                        icon: 'info',
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                }
+            });
+        }
+
+        function deleteEvent() {
+            Swal.fire({
+                title: 'Delete Event?',
+                html: `
+                    <div class="text-start">
+                        <p><strong>This action cannot be undone!</strong></p>
+                        <p>Deleting this event will:</p>
+                        <ul class="text-muted">
+                            <li>Cancel all existing bookings</li>
+                            <li>Refund all customers automatically</li>
+                            <li>Remove the event from all listings</li>
+                            <li>Delete all associated data</li>
+                        </ul>
+                        <p>Type <strong>DELETE</strong> to confirm:</p>
+                    </div>
+                `,
+                input: 'text',
+                inputPlaceholder: 'Type DELETE here',
+                icon: 'error',
+                showCancelButton: true,
+                confirmButtonColor: '#ef4444',
+                cancelButtonColor: '#6b7280',
+                confirmButtonText: 'Delete Event',
+                cancelButtonText: 'Cancel',
+                inputValidator: (value) => {
+                    if (value !== 'DELETE') {
+                        return 'You must type DELETE to confirm'
+                    }
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: 'Event Deleted',
+                        text: 'The event has been deleted and customers have been notified.',
+                        icon: 'success',
+                        confirmButtonColor: '#6366f1'
+                    }).then(() => {
+                        window.location.href = 'my-events.html';
+                    });
+                }
+            });
+        }
+
+        function viewBookingDetails() {
+            window.open(`event-bookings.html?event=${currentEvent.eventId}`, '_blank');
+        }
+
+        function viewAnalytics() {
+            window.open(`event-analytics.html?event=${currentEvent.eventId}`, '_blank');
+        }
+
+        function previewEvent() {
+            window.open(`event-details.html?id=${currentEvent.eventId}`, '_blank');
+        }
+
+        function previewChanges() {
+            Swal.fire({
+                title: 'Preview Changes',
+                html: `
+                    <div class="text-start">
+                        <p>Preview functionality would show how the event will appear with your current changes.</p>
+                        <div class="mt-3">
+                            <button class="btn btn-primary btn-sm" onclick="window.open('event-details.html', '_blank')">
+                                View Live Preview
+                            </button>
+                        </div>
+                    </div>
+                `,
+                icon: 'info',
+                confirmButtonColor: '#6366f1',
+                showConfirmButton: false,
+                showCloseButton: true
+            });
+        }
+
+        function discardChanges() {
+            if (!hasUnsavedChanges) {
+                return;
+            }
+
+            Swal.fire({
+                title: 'Discard Changes?',
+                text: 'All unsaved changes will be lost. This cannot be undone.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#ef4444',
+                cancelButtonColor: '#6b7280',
+                confirmButtonText: 'Discard Changes',
+                cancelButtonText: 'Keep Editing'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.reload();
+                }
+            });
+        }
+
+        function logout() {
+            if (hasUnsavedChanges) {
+                Swal.fire({
+                    title: 'Unsaved Changes',
+                    text: 'You have unsaved changes. Save them before logging out?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#6366f1',
+                    cancelButtonColor: '#ef4444',
+                    confirmButtonText: 'Save & Logout',
+                    cancelButtonText: 'Logout Without Saving',
+                    showDenyButton: true,
+                    denyButtonText: 'Continue Editing',
+                    denyButtonColor: '#6b7280'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Save then logout
+                        document.getElementById('editEventForm').dispatchEvent(new Event('submit'));
+                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                        // Logout without saving
+                        performLogout();
+                    }
+                });
+            } else {
+                Swal.fire({
+                    title: 'Logout',
+                    text: 'Are you sure you want to logout?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#6366f1',
+                    cancelButtonColor: '#6b7280',
+                    confirmButtonText: 'Yes, logout',
+                    cancelButtonText: 'Cancel'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        performLogout();
+                    }
+                });
+            }
+        }
+
+        function performLogout() {
+            localStorage.removeItem('userSession');
+            sessionStorage.removeItem('userSession');
+            window.location.href = 'index.html';
+        }
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+
+</html>                                
