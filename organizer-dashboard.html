@@ -1,0 +1,1718 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EventHub - Organizer Dashboard</title>
+
+    <!-- Bootstrap 5.3 CSS (Latest) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <!-- Bootstrap Icons (Latest) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Chart.js for analytics -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <!-- EventHub Header - From navbar.html -->
+    <nav class="navbar navbar-expand-lg eventhub-navbar">
+        <div class="container-fluid px-4">
+            <!-- Brand Logo -->
+            <a class="navbar-brand eventhub-brand d-flex align-items-center" href="index.html">
+                <div class="brand-icon me-2">
+                    <i class="bi bi-calendar-event me-1"></i>
+                </div>
+                <span class="brand-text">EventHub</span>
+            </a>
+
+            <!-- Mobile Toggle Button -->
+            <button class="navbar-toggler custom-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navigation Items -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <!-- Left Navigation -->
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link eventhub-nav-link" href="index.html">
+                            <i class="bi bi-house me-1"></i>Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link eventhub-nav-link" href="events.html">
+                            <i class="bi bi-calendar-event me-1"></i>Browse Events
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link eventhub-nav-link" href="my-events.html">
+                            <i class="bi bi-calendar3 me-1"></i>My Events
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link eventhub-nav-link" href="create-event.html">
+                            <i class="bi bi-plus-circle me-1"></i>Create Event
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link eventhub-nav-link" href="sales-reports.html">
+                            <i class="bi bi-bar-chart me-1"></i>Sales Reports
+                        </a>
+                    </li>
+                </ul>
+
+                <!-- Right Navigation - User Menu -->
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle user-menu" href="#" id="userDropdown" role="button" 
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            <div class="user-avatar">
+                                <i class="bi bi-person-circle"></i>
+                            </div>
+                            <span class="user-name" id="userName">Rajesh Events Ltd.</span>
+                        </a>
+                        <ul class="dropdown-menu user-dropdown" aria-labelledby="userDropdown">
+                            <li><a class="dropdown-item active" href="organizer-dashboard.html">
+                                <i class="bi bi-speedometer2 me-2"></i>Dashboard</a></li>
+                            <li><a class="dropdown-item" href="user-profile.html">
+                                <i class="bi bi-person me-2"></i>Edit Profile</a></li>
+                            <li><a class="dropdown-item" href="my-events.html">
+                                <i class="bi bi-calendar3 me-2"></i>My Events</a></li>
+                            <li><a class="dropdown-item" href="create-event.html">
+                                <i class="bi bi-plus-circle me-2"></i>Create Event</a></li>
+                            <li><a class="dropdown-item" href="sales-reports.html">
+                                <i class="bi bi-bar-chart me-2"></i>Sales Reports</a></li>
+                            <li><a class="dropdown-item" href="qr-scanner.html">
+                                <i class="bi bi-qr-code-scan me-2"></i>QR Scanner</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#" onclick="logout()">
+                                <i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Welcome Section -->
+    <section class="welcome-section">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="welcome-content">
+                        <div class="welcome-info">
+                            <div class="welcome-text">
+                                <h1 class="welcome-title">Welcome back, <span id="organizerName">Rajesh Events</span>! 🎉</h1>
+                                <p class="welcome-subtitle">Monitor your events, track sales, and grow your audience</p>
+                            </div>
+                            <div class="performance-summary">
+                                <div class="performance-card">
+                                    <div class="performance-icon">
+                                        <i class="bi bi-graph-up"></i>
+                                    </div>
+                                    <div class="performance-content">
+                                        <h4 id="revenueGrowth">+25%</h4>
+                                        <p>Revenue Growth</p>
+                                        <small>vs last month</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard Stats -->
+    <section class="dashboard-stats py-4">
+        <div class="container-fluid">
+            <div class="row g-4">
+                <div class="col-xl-3 col-lg-6 col-md-6">
+                    <div class="stat-card revenue">
+                        <div class="stat-icon">
+                            <i class="bi bi-currency-dollar"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h4 id="totalRevenue">Rs. 2,45,000</h4>
+                            <p>Total Revenue</p>
+                            <small class="stat-change positive">+15% this month</small>
+                        </div>
+                        <div class="stat-chart">
+                            <canvas id="revenueChart" height="60"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-6 col-md-6">
+                    <div class="stat-card events">
+                        <div class="stat-icon">
+                            <i class="bi bi-calendar-event"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h4 id="totalEvents">8</h4>
+                            <p>Active Events</p>
+                            <small class="stat-change">3 upcoming events</small>
+                        </div>
+                        <div class="stat-progress">
+                            <div class="progress">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: 75%" id="eventsProgress"></div>
+                            </div>
+                            <small>75% capacity filled</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-6 col-md-6">
+                    <div class="stat-card tickets">
+                        <div class="stat-icon">
+                            <i class="bi bi-ticket-perforated"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h4 id="ticketsSold">1,247</h4>
+                            <p>Tickets Sold</p>
+                            <small class="stat-change positive">+8% this week</small>
+                        </div>
+                        <div class="stat-chart">
+                            <canvas id="ticketsChart" height="60"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-6 col-md-6">
+                    <div class="stat-card customers">
+                        <div class="stat-icon">
+                            <i class="bi bi-people"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h4 id="totalCustomers">956</h4>
+                            <p>Total Customers</p>
+                            <small class="stat-change positive">+12 new this week</small>
+                        </div>
+                        <div class="customer-rating">
+                            <div class="rating-stars">
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-half"></i>
+                            </div>
+                            <small>4.5/5 avg rating</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Dashboard Content -->
+    <section class="dashboard-content py-4">
+        <div class="container-fluid">
+            <div class="row g-4">
+                <!-- Revenue Analytics -->
+                <div class="col-lg-8">
+                    <div class="analytics-card">
+                        <div class="analytics-header">
+                            <h5 class="analytics-title">Revenue Analytics</h5>
+                            <div class="analytics-controls">
+                                <select class="form-select form-select-sm" id="revenueTimeFilter">
+                                    <option value="7days">Last 7 Days</option>
+                                    <option value="30days" selected>Last 30 Days</option>
+                                    <option value="3months">Last 3 Months</option>
+                                    <option value="6months">Last 6 Months</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="analytics-content">
+                            <canvas id="revenueAnalyticsChart" height="100"></canvas>
+                        </div>
+                        <div class="analytics-summary">
+                            <div class="summary-item">
+                                <span class="summary-label">This Period</span>
+                                <span class="summary-value text-primary">Rs. 85,000</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Previous Period</span>
+                                <span class="summary-value text-muted">Rs. 72,000</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Growth</span>
+                                <span class="summary-value text-success">+18.1%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="col-lg-4">
+                    <div class="actions-card">
+                        <div class="actions-header">
+                            <h5 class="actions-title">Quick Actions</h5>
+                        </div>
+                        <div class="actions-content">
+                            <div class="action-buttons">
+                                <a href="create-event.html" class="action-btn primary">
+                                    <div class="action-icon">
+                                        <i class="bi bi-plus-circle"></i>
+                                    </div>
+                                    <div class="action-text">
+                                        <h6>Create New Event</h6>
+                                        <p>Add a new event to your portfolio</p>
+                                    </div>
+                                </a>
+                                
+                                <a href="qr-scanner.html" class="action-btn">
+                                    <div class="action-icon">
+                                        <i class="bi bi-qr-code-scan"></i>
+                                    </div>
+                                    <div class="action-text">
+                                        <h6>Scan QR Tickets</h6>
+                                        <p>Verify attendee tickets at entry</p>
+                                    </div>
+                                </a>
+                                
+                                <a href="sales-reports.html" class="action-btn">
+                                    <div class="action-icon">
+                                        <i class="bi bi-bar-chart"></i>
+                                    </div>
+                                    <div class="action-text">
+                                        <h6>View Sales Reports</h6>
+                                        <p>Detailed analytics and insights</p>
+                                    </div>
+                                </a>
+
+                                <button class="action-btn" onclick="exportData()">
+                                    <div class="action-icon">
+                                        <i class="bi bi-download"></i>
+                                    </div>
+                                    <div class="action-text">
+                                        <h6>Export Data</h6>
+                                        <p>Download reports and customer data</p>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Revenue Breakdown -->
+                    <div class="breakdown-card mt-4">
+                        <div class="breakdown-header">
+                            <h6 class="breakdown-title">Revenue by Category</h6>
+                        </div>
+                        <div class="breakdown-content">
+                            <canvas id="categoryChart" height="200"></canvas>
+                        </div>
+                        <div class="breakdown-list" id="categoryBreakdown">
+                            <!-- Category breakdown will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Events -->
+                <div class="col-lg-8">
+                    <div class="events-card">
+                        <div class="events-header">
+                            <h5 class="events-title">My Recent Events</h5>
+                            <a href="my-events.html" class="btn btn-sm btn-outline-primary">View All</a>
+                        </div>
+                        <div class="events-content">
+                            <div class="events-list" id="recentEventsList">
+                                <!-- Recent events will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Performance Insights -->
+                <div class="col-lg-4">
+                    <div class="insights-card">
+                        <div class="insights-header">
+                            <h5 class="insights-title">Performance Insights</h5>
+                        </div>
+                        <div class="insights-content">
+                            <div class="insight-item">
+                                <div class="insight-icon success">
+                                    <i class="bi bi-trending-up"></i>
+                                </div>
+                                <div class="insight-text">
+                                    <h6>Best Performing Event</h6>
+                                    <p>New Year Gala 2025</p>
+                                    <small class="text-success">98% capacity filled</small>
+                                </div>
+                            </div>
+
+                            <div class="insight-item">
+                                <div class="insight-icon warning">
+                                    <i class="bi bi-clock"></i>
+                                </div>
+                                <div class="insight-text">
+                                    <h6>Attention Needed</h6>
+                                    <p>Tech Conference 2025</p>
+                                    <small class="text-warning">Only 45% tickets sold</small>
+                                </div>
+                            </div>
+
+                            <div class="insight-item">
+                                <div class="insight-icon info">
+                                    <i class="bi bi-calendar-check"></i>
+                                </div>
+                                <div class="insight-text">
+                                    <h6>Upcoming Event</h6>
+                                    <p>Jazz Night Under Stars</p>
+                                    <small class="text-info">Tomorrow at 8:00 PM</small>
+                                </div>
+                            </div>
+
+                            <div class="insight-item">
+                                <div class="insight-icon primary">
+                                    <i class="bi bi-star"></i>
+                                </div>
+                                <div class="insight-text">
+                                    <h6>Customer Feedback</h6>
+                                    <p>Latest reviews</p>
+                                    <small class="text-primary">4.5/5 average rating</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Bookings -->
+                <div class="col-12">
+                    <div class="bookings-card">
+                        <div class="bookings-header">
+                            <h5 class="bookings-title">Recent Bookings</h5>
+                            <div class="bookings-controls">
+                                <select class="form-select form-select-sm" id="bookingsFilter">
+                                    <option value="today">Today</option>
+                                    <option value="week" selected>This Week</option>
+                                    <option value="month">This Month</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="bookings-content">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Booking ID</th>
+                                            <th>Customer</th>
+                                            <th>Event</th>
+                                            <th>Tickets</th>
+                                            <th>Amount</th>
+                                            <th>Date</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="recentBookingsTable">
+                                        <!-- Recent bookings will be loaded here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+
+    <style>
+        /* EventHub Custom Styles - Matching existing design */
+        * {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f8fafc;
+            line-height: 1.6;
+        }
+
+        /* Navbar Styling - From navbar.html */
+        .eventhub-navbar {
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+            padding: 0.75rem 0;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .eventhub-brand {
+            text-decoration: none;
+            color: #6366f1 !important;
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .eventhub-brand:hover {
+            color: #5855eb !important;
+            text-decoration: none;
+        }
+
+        .brand-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .brand-text {
+            color: #6366f1;
+            font-weight: 700;
+        }
+
+        .eventhub-nav-link {
+            color: #64748b !important;
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 0.5rem 1rem !important;
+            margin: 0 0.25rem;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .eventhub-nav-link:hover {
+            color: #6366f1 !important;
+            background-color: rgba(99, 102, 241, 0.1);
+        }
+
+        .eventhub-nav-link.active {
+            color: #6366f1 !important;
+            background-color: rgba(99, 102, 241, 0.15);
+            font-weight: 600;
+        }
+
+        /* User Menu */
+        .user-menu {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            color: #374151 !important;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .user-menu:hover {
+            background-color: rgba(99, 102, 241, 0.1);
+            color: #6366f1 !important;
+        }
+
+        .user-avatar {
+            font-size: 1.5rem;
+            margin-right: 0.5rem;
+            color: #6366f1;
+        }
+
+        .user-name {
+            font-weight: 500;
+        }
+
+        .user-dropdown {
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            padding: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .user-dropdown .dropdown-item {
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .user-dropdown .dropdown-item:hover {
+            background-color: rgba(99, 102, 241, 0.1);
+            color: #6366f1;
+        }
+
+        .user-dropdown .dropdown-item.active {
+            background-color: rgba(99, 102, 241, 0.15);
+            color: #6366f1;
+        }
+
+        /* Welcome Section */
+        .welcome-section {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            padding: 3rem 0 2rem;
+        }
+
+        .welcome-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .welcome-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .welcome-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 0;
+        }
+
+        .performance-summary {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .performance-card {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 16px;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .performance-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .performance-content h4 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .performance-content p {
+            margin-bottom: 0.25rem;
+            font-weight: 500;
+        }
+
+        .performance-content small {
+            opacity: 0.8;
+        }
+
+        /* Dashboard Stats */
+        .dashboard-stats {
+            margin-top: -1rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+        }
+
+        .stat-card.revenue::before {
+            background: linear-gradient(90deg, #10b981, #34d399);
+        }
+
+        .stat-card.events::before {
+            background: linear-gradient(90deg, #6366f1, #8b5cf6);
+        }
+
+        .stat-card.tickets::before {
+            background: linear-gradient(90deg, #f59e0b, #fbbf24);
+        }
+
+        .stat-card.customers::before {
+            background: linear-gradient(90deg, #ec4899, #f472b6);
+        }
+
+        .stat-card .stat-icon {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            color: white;
+        }
+
+        .stat-card.revenue .stat-icon {
+            background: linear-gradient(135deg, #10b981, #34d399);
+        }
+
+        .stat-card.events .stat-icon {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+        }
+
+        .stat-card.tickets .stat-icon {
+            background: linear-gradient(135deg, #f59e0b, #fbbf24);
+        }
+
+        .stat-card.customers .stat-icon {
+            background: linear-gradient(135deg, #ec4899, #f472b6);
+        }
+
+        .stat-content h4 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-content p {
+            color: #6b7280;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .stat-change {
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .stat-change.positive {
+            color: #10b981;
+        }
+
+        .stat-change.negative {
+            color: #ef4444;
+        }
+
+        .stat-chart {
+            margin-top: 1rem;
+            height: 40px;
+        }
+
+        .stat-progress {
+            margin-top: 1rem;
+        }
+
+        .stat-progress .progress {
+            height: 6px;
+            border-radius: 3px;
+            background-color: #f3f4f6;
+        }
+
+        .stat-progress .progress-bar {
+            border-radius: 3px;
+        }
+
+        .customer-rating {
+            margin-top: 1rem;
+        }
+
+        .rating-stars {
+            color: #fbbf24;
+            margin-bottom: 0.25rem;
+        }
+
+        /* Analytics Card */
+        .analytics-card, .actions-card, .breakdown-card, .events-card, .insights-card, .bookings-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .analytics-header, .actions-header, .breakdown-header, .events-header, .insights-header, .bookings-header {
+            padding: 1.5rem 1.5rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .analytics-title, .actions-title, .breakdown-title, .events-title, .insights-title, .bookings-title {
+            font-weight: 600;
+            color: #374151;
+            margin: 0;
+        }
+
+        .analytics-content, .actions-content, .breakdown-content, .events-content, .insights-content, .bookings-content {
+            padding: 1.5rem;
+        }
+
+        .analytics-summary {
+            padding: 1rem 1.5rem;
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .summary-item {
+            text-align: center;
+        }
+
+        .summary-label {
+            display: block;
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-bottom: 0.25rem;
+        }
+
+        .summary-value {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .action-btn {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            background: white;
+            text-decoration: none;
+            color: #374151;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .action-btn:hover {
+            background: #f8fafc;
+            border-color: #6366f1;
+            color: #374151;
+            transform: translateY(-1px);
+        }
+
+        .action-btn.primary {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            border-color: transparent;
+        }
+
+        .action-btn.primary:hover {
+            background: linear-gradient(135deg, #5855eb, #7c3aed);
+            color: white;
+        }
+
+        .action-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-size: 1.25rem;
+            background: rgba(99, 102, 241, 0.1);
+            color: #6366f1;
+        }
+
+        .action-btn.primary .action-icon {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        .action-text h6 {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .action-text p {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin: 0;
+        }
+
+        .action-btn.primary .action-text p {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Breakdown Card */
+        .breakdown-list {
+            padding: 0 1.5rem 1.5rem;
+        }
+
+        .breakdown-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .breakdown-item:last-child {
+            border-bottom: none;
+        }
+
+        .breakdown-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .breakdown-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 0.75rem;
+        }
+
+        .breakdown-name {
+            font-weight: 500;
+            color: #374151;
+        }
+
+        .breakdown-amount {
+            font-weight: 600;
+            color: #6b7280;
+        }
+
+        /* Events List */
+        .events-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .event-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            transition: all 0.2s ease;
+        }
+
+        .event-item:hover {
+            background: #f8fafc;
+            border-color: #6366f1;
+        }
+
+        .event-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            background: #e2e8f0;
+            margin-right: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6b7280;
+        }
+
+        .event-details {
+            flex: 1;
+        }
+
+        .event-details h6 {
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 0.25rem;
+        }
+
+        .event-details p {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-bottom: 0.25rem;
+        }
+
+        .event-stats {
+            text-align: right;
+        }
+
+        .event-revenue {
+            font-weight: 700;
+            color: #374151;
+            margin-bottom: 0.25rem;
+        }
+
+        .event-progress {
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+
+        /* Insights Card */
+        .insight-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 1rem 0;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .insight-item:last-child {
+            border-bottom: none;
+        }
+
+        .insight-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            color: white;
+            font-size: 1rem;
+        }
+
+        .insight-icon.success {
+            background: linear-gradient(135deg, #10b981, #34d399);
+        }
+
+        .insight-icon.warning {
+            background: linear-gradient(135deg, #f59e0b, #fbbf24);
+        }
+
+        .insight-icon.info {
+            background: linear-gradient(135deg, #3b82f6, #60a5fa);
+        }
+
+        .insight-icon.primary {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+        }
+
+        .insight-text h6 {
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 0.25rem;
+        }
+
+        .insight-text p {
+            color: #6b7280;
+            margin-bottom: 0.25rem;
+        }
+
+        /* Bookings Table */
+        .table {
+            margin-bottom: 0;
+        }
+
+        .table th {
+            border-top: none;
+            border-bottom: 2px solid #e2e8f0;
+            color: #374151;
+            font-weight: 600;
+            padding: 1rem 0.75rem;
+        }
+
+        .table td {
+            border-color: #f3f4f6;
+            padding: 1rem 0.75rem;
+            vertical-align: middle;
+        }
+
+        .table tbody tr:hover {
+            background-color: #f8fafc;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-badge.confirmed {
+            background: rgba(34, 197, 94, 0.1);
+            color: #16a34a;
+        }
+
+        .status-badge.pending {
+            background: rgba(245, 158, 11, 0.1);
+            color: #d97706;
+        }
+
+        .btn-table {
+            padding: 0.25rem 0.75rem;
+            font-size: 0.75rem;
+            border-radius: 6px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .welcome-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .performance-summary {
+                justify-content: center;
+            }
+
+            .welcome-title {
+                font-size: 2rem;
+            }
+
+            .analytics-summary {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .summary-item {
+                text-align: left;
+            }
+
+            .event-item {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .event-image {
+                margin-right: 0;
+                margin-bottom: 1rem;
+            }
+
+            .event-stats {
+                text-align: center;
+                margin-top: 1rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .welcome-section {
+                padding: 2rem 0 1.5rem;
+            }
+
+            .performance-summary {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .performance-card {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .stat-content h4 {
+                font-size: 1.5rem;
+            }
+
+            .action-btn {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .action-icon {
+                margin-right: 0;
+                margin-bottom: 0.5rem;
+            }
+        }
+
+        /* Animation Classes */
+        .fade-in {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Custom toggles */
+        .custom-toggler {
+            border: none;
+            padding: 0.25rem 0.5rem;
+        }
+
+        .custom-toggler:focus {
+            box-shadow: 0 0 0 0.2rem rgba(99, 102, 241, 0.25);
+        }
+    </style>
+
+    <script>
+        // Current user and dashboard data
+        let currentUser = null;
+        let dashboardData = {};
+        let revenueChart = null;
+        let revenueAnalyticsChart = null;
+        let ticketsChart = null;
+        let categoryChart = null;
+
+        // Sample organizer data - implementing Task 8 requirements
+        const sampleOrganizerData = {
+            organizerId: 'ORG001',
+            organizerName: 'Rajesh Events Ltd.',
+            totalRevenue: 245000,
+            revenueGrowth: 25,
+            totalEvents: 8,
+            activeEvents: 5,
+            ticketsSold: 1247,
+            totalCustomers: 956,
+            avgRating: 4.5,
+            
+            // Revenue by month (last 6 months)
+            monthlyRevenue: [45000, 52000, 38000, 65000, 72000, 85000],
+            monthlyTickets: [180, 208, 152, 260, 288, 340],
+            
+            // Revenue by category
+            categoryRevenue: {
+                music: 95000,
+                technology: 65000,
+                business: 45000,
+                arts: 25000,
+                sports: 15000
+            },
+
+            // Recent events
+            recentEvents: [
+                {
+                    eventId: 'EVT001',
+                    title: 'New Year Gala 2025',
+                    date: '2024-12-31',
+                    venue: 'BMICH, Colombo',
+                    category: 'entertainment',
+                    revenue: 85000,
+                    ticketsSold: 340,
+                    capacity: 350,
+                    status: 'active'
+                },
+                {
+                    eventId: 'EVT002',
+                    title: 'Jazz Night Under Stars',
+                    date: '2025-01-30',
+                    venue: 'Royal Botanical Gardens',
+                    category: 'music',
+                    revenue: 25000,
+                    ticketsSold: 100,
+                    capacity: 150,
+                    status: 'active'
+                },
+                {
+                    eventId: 'EVT003',
+                    title: 'Tech Conference 2025',
+                    date: '2025-02-15',
+                    venue: 'Colombo Convention Centre',
+                    category: 'technology',
+                    revenue: 67500,
+                    ticketsSold: 135,
+                    capacity: 300,
+                    status: 'active'
+                }
+            ],
+
+            // Recent bookings
+            recentBookings: [
+                {
+                    bookingId: 'BK202512301234578',
+                    customerName: 'Priya Fernando',
+                    customerEmail: 'priya@example.com',
+                    eventTitle: 'New Year Gala 2025',
+                    tickets: 2,
+                    amount: 15000,
+                    bookingDate: '2024-12-30T18:30:00Z',
+                    status: 'confirmed'
+                },
+                {
+                    bookingId: 'BK202512291234577',
+                    customerName: 'Amara Silva',
+                    customerEmail: 'amara@example.com',
+                    eventTitle: 'Jazz Night Under Stars',
+                    tickets: 1,
+                    amount: 2500,
+                    bookingDate: '2024-12-29T14:20:00Z',
+                    status: 'confirmed'
+                },
+                {
+                    bookingId: 'BK202512281234576',
+                    customerName: 'Dinesh Perera',
+                    customerEmail: 'dinesh@example.com',
+                    eventTitle: 'Tech Conference 2025',
+                    tickets: 3,
+                    amount: 22500,
+                    bookingDate: '2024-12-28T10:15:00Z',
+                    status: 'pending'
+                }
+            ]
+        };
+
+        document.addEventListener('DOMContentLoaded', function () {
+            initializeOrganizerDashboard();
+            loadUserData();
+            loadDashboardData();
+            setupEventListeners();
+            setupCharts();
+        });
+
+        function initializeOrganizerDashboard() {
+            // Check if user is logged in
+            const sessionData = localStorage.getItem('userSession') || sessionStorage.getItem('userSession');
+            
+            if (!sessionData) {
+                window.location.href = 'login.html?redirect=organizer-dashboard.html';
+                return;
+            }
+
+            currentUser = JSON.parse(sessionData);
+            
+            if (currentUser.role !== 'organizer') {
+                Swal.fire({
+                    title: 'Access Denied',
+                    text: 'This page is only accessible to event organizers.',
+                    icon: 'error',
+                    confirmButtonColor: '#6366f1'
+                }).then(() => {
+                    window.location.href = 'login.html';
+                });
+                return;
+            }
+        }
+
+        function loadUserData() {
+            if (!currentUser) return;
+
+            // Update organizer name in navbar and welcome section
+            document.getElementById('userName').textContent = currentUser.name || sampleOrganizerData.organizerName;
+            document.getElementById('organizerName').textContent = currentUser.name || sampleOrganizerData.organizerName;
+        }
+
+        function loadDashboardData() {
+            // In real app, fetch from API. For demo, use sample data
+            dashboardData = sampleOrganizerData;
+            
+            updateDashboardStats();
+            updateRecentEvents();
+            updateRecentBookings();
+            updateCategoryBreakdown();
+        }
+
+        function updateDashboardStats() {
+            // Update main stats
+            document.getElementById('totalRevenue').textContent = `Rs. ${dashboardData.totalRevenue.toLocaleString()}`;
+            document.getElementById('revenueGrowth').textContent = `+${dashboardData.revenueGrowth}%`;
+            document.getElementById('totalEvents').textContent = dashboardData.totalEvents;
+            document.getElementById('ticketsSold').textContent = dashboardData.ticketsSold.toLocaleString();
+            document.getElementById('totalCustomers').textContent = dashboardData.totalCustomers.toLocaleString();
+
+            // Calculate and update progress
+            const totalCapacity = dashboardData.recentEvents.reduce((sum, event) => sum + event.capacity, 0);
+            const totalSold = dashboardData.recentEvents.reduce((sum, event) => sum + event.ticketsSold, 0);
+            const fillPercentage = Math.round((totalSold / totalCapacity) * 100);
+            
+            document.getElementById('eventsProgress').style.width = `${fillPercentage}%`;
+        }
+
+        function updateRecentEvents() {
+            const container = document.getElementById('recentEventsList');
+            container.innerHTML = '';
+
+            dashboardData.recentEvents.forEach(event => {
+                const fillPercentage = Math.round((event.ticketsSold / event.capacity) * 100);
+                
+                const eventItem = document.createElement('div');
+                eventItem.className = 'event-item fade-in';
+                
+                eventItem.innerHTML = `
+                    <div class="event-image">
+                        <i class="bi bi-calendar-event"></i>
+                    </div>
+                    <div class="event-details">
+                        <h6>${event.title}</h6>
+                        <p><i class="bi bi-calendar3 me-1"></i>${formatEventDate(event.date)}</p>
+                        <p><i class="bi bi-geo-alt me-1"></i>${event.venue}</p>
+                    </div>
+                    <div class="event-stats">
+                        <div class="event-revenue">Rs. ${event.revenue.toLocaleString()}</div>
+                        <div class="event-progress">${event.ticketsSold}/${event.capacity} tickets (${fillPercentage}%)</div>
+                    </div>
+                `;
+                
+                container.appendChild(eventItem);
+            });
+        }
+
+        function updateRecentBookings() {
+            const tbody = document.getElementById('recentBookingsTable');
+            tbody.innerHTML = '';
+
+            dashboardData.recentBookings.forEach(booking => {
+                const row = document.createElement('tr');
+                row.className = 'fade-in';
+                
+                const statusClass = booking.status === 'confirmed' ? 'confirmed' : 'pending';
+                const statusText = booking.status.charAt(0).toUpperCase() + booking.status.slice(1);
+                
+                row.innerHTML = `
+                    <td><code>${booking.bookingId}</code></td>
+                    <td>
+                        <div>
+                            <strong>${booking.customerName}</strong><br>
+                            <small class="text-muted">${booking.customerEmail}</small>
+                        </div>
+                    </td>
+                    <td>${booking.eventTitle}</td>
+                    <td>${booking.tickets}</td>
+                    <td><strong>Rs. ${booking.amount.toLocaleString()}</strong></td>
+                    <td>${formatDateTime(booking.bookingDate)}</td>
+                    <td><span class="status-badge ${statusClass}">${statusText}</span></td>
+                    <td>
+                        <button class="btn btn-table btn-outline-primary btn-sm" onclick="viewBookingDetails('${booking.bookingId}')">
+                            <i class="bi bi-eye"></i>
+                        </button>
+                    </td>
+                `;
+                
+                tbody.appendChild(row);
+            });
+        }
+
+        function updateCategoryBreakdown() {
+            const categoryColors = {
+                music: '#8b5cf6',
+                technology: '#06b6d4',
+                business: '#10b981',
+                arts: '#f59e0b',
+                sports: '#ef4444'
+            };
+
+            // Sort categories by revenue
+            const sortedCategories = Object.entries(dashboardData.categoryRevenue)
+                .sort(([,a], [,b]) => b - a);
+
+            const container = document.getElementById('categoryBreakdown');
+            container.innerHTML = '';
+
+            sortedCategories.forEach(([category, amount]) => {
+                const categoryItem = document.createElement('div');
+                categoryItem.className = 'breakdown-item';
+                
+                categoryItem.innerHTML = `
+                    <div class="breakdown-info">
+                        <div class="breakdown-color" style="background-color: ${categoryColors[category] || '#64748b'}"></div>
+                        <span class="breakdown-name">${category.charAt(0).toUpperCase() + category.slice(1)}</span>
+                    </div>
+                    <span class="breakdown-amount">Rs. ${amount.toLocaleString()}</span>
+                `;
+                
+                container.appendChild(categoryItem);
+            });
+        }
+
+        function setupEventListeners() {
+            // Revenue time filter
+            document.getElementById('revenueTimeFilter').addEventListener('change', function() {
+                updateRevenueAnalyticsChart();
+            });
+
+            // Bookings filter
+            document.getElementById('bookingsFilter').addEventListener('change', function() {
+                updateRecentBookings();
+            });
+        }
+
+        function setupCharts() {
+            setupRevenueChart();
+            setupRevenueAnalyticsChart();
+            setupTicketsChart();
+            setupCategoryChart();
+        }
+
+        function setupRevenueChart() {
+            const ctx = document.getElementById('revenueChart').getContext('2d');
+            
+            revenueChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['', '', '', '', '', ''],
+                    datasets: [{
+                        data: dashboardData.monthlyRevenue.slice(-6),
+                        borderColor: '#10b981',
+                        backgroundColor: 'transparent',
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        x: { display: false },
+                        y: { display: false }
+                    }
+                }
+            });
+        }
+
+        function setupRevenueAnalyticsChart() {
+            const ctx = document.getElementById('revenueAnalyticsChart').getContext('2d');
+            
+            const months = ['Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            
+            revenueAnalyticsChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: months,
+                    datasets: [{
+                        label: 'Revenue',
+                        data: dashboardData.monthlyRevenue,
+                        backgroundColor: 'rgba(99, 102, 241, 0.8)',
+                        borderColor: '#6366f1',
+                        borderWidth: 1,
+                        borderRadius: 8,
+                        borderSkipped: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return 'Rs. ' + (value / 1000) + 'K';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function setupTicketsChart() {
+            const ctx = document.getElementById('ticketsChart').getContext('2d');
+            
+            ticketsChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['', '', '', '', '', ''],
+                    datasets: [{
+                        data: dashboardData.monthlyTickets.slice(-6),
+                        borderColor: '#f59e0b',
+                        backgroundColor: 'transparent',
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        x: { display: false },
+                        y: { display: false }
+                    }
+                }
+            });
+        }
+
+        function setupCategoryChart() {
+            const ctx = document.getElementById('categoryChart').getContext('2d');
+            
+            const categories = Object.keys(dashboardData.categoryRevenue);
+            const revenues = Object.values(dashboardData.categoryRevenue);
+            const colors = ['#8b5cf6', '#06b6d4', '#10b981', '#f59e0b', '#ef4444'];
+            
+            categoryChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: categories.map(cat => cat.charAt(0).toUpperCase() + cat.slice(1)),
+                    datasets: [{
+                        data: revenues,
+                        backgroundColor: colors,
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    cutout: '60%'
+                }
+            });
+        }
+
+        function updateRevenueAnalyticsChart() {
+            // In real app, fetch new data based on time filter
+            // For demo, just update with same data
+            revenueAnalyticsChart.update();
+        }
+
+        // Utility Functions
+        function formatEventDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', {
+                weekday: 'short',
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+            });
+        }
+
+        function formatDateTime(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', {
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        // Action Functions
+        function viewBookingDetails(bookingId) {
+            const booking = dashboardData.recentBookings.find(b => b.bookingId === bookingId);
+            if (!booking) return;
+
+            Swal.fire({
+                title: 'Booking Details',
+                html: `
+                    <div class="text-start">
+                        <div class="mb-3">
+                            <strong>Booking ID:</strong> ${booking.bookingId}<br>
+                            <strong>Customer:</strong> ${booking.customerName}<br>
+                            <strong>Email:</strong> ${booking.customerEmail}<br>
+                            <strong>Event:</strong> ${booking.eventTitle}
+                        </div>
+                        <hr>
+                        <div class="mb-3">
+                            <strong>Tickets:</strong> ${booking.tickets}<br>
+                            <strong>Amount:</strong> Rs. ${booking.amount.toLocaleString()}<br>
+                            <strong>Status:</strong> ${booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}<br>
+                            <strong>Booked:</strong> ${formatDateTime(booking.bookingDate)}
+                        </div>
+                    </div>
+                `,
+                icon: 'info',
+                confirmButtonText: 'Close',
+                confirmButtonColor: '#6366f1',
+                showCancelButton: true,
+                cancelButtonText: 'Send Email',
+                cancelButtonColor: '#10b981'
+            }).then((result) => {
+                if (result.dismiss === Swal.DismissReason.cancel) {
+                    // Simulate sending email
+                    Swal.fire({
+                        title: 'Email Sent!',
+                        text: `Email sent to ${booking.customerEmail}`,
+                        icon: 'success',
+                        confirmButtonColor: '#6366f1',
+                        timer: 2000
+                    });
+                }
+            });
+        }
+
+        function exportData() {
+            Swal.fire({
+                title: 'Export Data',
+                text: 'Choose what data you would like to export:',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#6366f1',
+                cancelButtonColor: '#6b7280',
+                confirmButtonText: 'Export All Data',
+                cancelButtonText: 'Cancel',
+                showDenyButton: true,
+                denyButtonText: 'Export Revenue Only',
+                denyButtonColor: '#10b981'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Export all data
+                    Swal.fire({
+                        title: 'Exporting...',
+                        text: 'Preparing your complete data export',
+                        icon: 'info',
+                        confirmButtonColor: '#6366f1',
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                } else if (result.isDenied) {
+                    // Export revenue only
+                    Swal.fire({
+                        title: 'Exporting...',
+                        text: 'Preparing your revenue report',
+                        icon: 'info',
+                        confirmButtonColor: '#6366f1',
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                }
+            });
+        }
+
+        function logout() {
+            Swal.fire({
+                title: 'Logout',
+                text: 'Are you sure you want to logout?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#6366f1',
+                cancelButtonColor: '#6b7280',
+                confirmButtonText: 'Yes, logout',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    localStorage.removeItem('userSession');
+                    sessionStorage.removeItem('userSession');
+                    window.location.href = 'index.html';
+                }
+            });
+        }
+    </script>
+
+</body>
+
+</html>
