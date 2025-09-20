@@ -2,371 +2,340 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Events - EventHub</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EventHub - My Events</title>
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    
-    <!-- Bootstrap Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
-    
+    <!-- Bootstrap 5.3 CSS (Latest) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <!-- Bootstrap Icons (Latest) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
-        /* CSS Variables for EventHub Theme */
-        :root {
-            --primary-color: #6366f1;
-            --primary-hover: #5855eb;
-            --secondary-color: #8b5cf6;
-            --accent-color: #06b6d4;
-            --success-color: #10b981;
-            --warning-color: #f59e0b;
-            --danger-color: #ef4444;
-            --dark-color: #1f2937;
-            --light-bg: #f8fafc;
-            --border-color: #e2e8f0;
-            --text-muted: #64748b;
-            --gradient-primary: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-            --gradient-secondary: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
-            --box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            --box-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-        }
-
-        /* Base Styles */
+        /* EventHub Custom Styles - Matching existing design */
         * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: var(--light-bg);
-            color: var(--dark-color);
+            margin: 0;
+            padding: 0;
+            background-color: #f8fafc;
             line-height: 1.6;
         }
 
-        /* Navigation Styles - Consistent with organizer-dashboard.html */
-        .navbar {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--border-color);
-            box-shadow: var(--box-shadow);
-            padding: 1rem 0;
+        /* Navbar Styling - From navbar.html */
+        .eventhub-navbar {
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+            padding: 0.75rem 0;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
-        .navbar-brand {
+        .eventhub-brand {
+            text-decoration: none;
+            color: #6366f1 !important;
             font-weight: 700;
             font-size: 1.5rem;
-            text-decoration: none;
-            color: var(--primary-color) !important;
-            display: flex;
-            align-items: center;
         }
 
-        .navbar-brand i {
-            font-size: 1.75rem;
-            margin-right: 0.5rem;
-            background: var(--gradient-primary);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .brand-text {
-            background: var(--gradient-primary);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .eventhub-nav-link {
-            color: var(--text-muted) !important;
-            font-weight: 500;
-            margin: 0 0.5rem;
-            padding: 0.5rem 1rem !important;
-            border-radius: 0.5rem;
-            transition: all 0.3s ease;
+        .eventhub-brand:hover {
+            color: #5855eb !important;
             text-decoration: none;
         }
 
-        .eventhub-nav-link:hover,
-        .eventhub-nav-link.active {
-            color: var(--primary-color) !important;
-            background: rgba(99, 102, 241, 0.1);
-        }
-
-        .user-menu {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            color: var(--dark-color) !important;
-            text-decoration: none;
-            padding: 0.5rem 1rem;
-            border-radius: 0.75rem;
-            transition: all 0.3s ease;
-        }
-
-        .user-menu:hover {
-            background: rgba(99, 102, 241, 0.05);
-            color: var(--primary-color) !important;
-        }
-
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: var(--gradient-primary);
+        .brand-icon {
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            font-size: 1.25rem;
+            font-size: 1.5rem;
         }
 
-        .user-name {
+        .brand-text {
+            color: #6366f1;
+            font-weight: 700;
+        }
+
+        .eventhub-nav-link {
+            color: #64748b !important;
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 0.5rem 1rem !important;
+            margin: 0 0.25rem;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .eventhub-nav-link:hover {
+            color: #6366f1 !important;
+            background-color: rgba(99, 102, 241, 0.1);
+        }
+
+        .eventhub-nav-link.active {
+            color: #6366f1 !important;
+            background-color: rgba(99, 102, 241, 0.15);
             font-weight: 600;
         }
 
-        .user-dropdown {
-            border: none;
-            box-shadow: var(--box-shadow-lg);
-            border-radius: 1rem;
-            padding: 0.5rem;
-            margin-top: 0.5rem;
-        }
-
-        .user-dropdown .dropdown-item {
-            border-radius: 0.5rem;
-            padding: 0.75rem 1rem;
-            font-weight: 500;
-            color: var(--text-muted);
+        /* User Menu */
+        .user-menu {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            color: #374151 !important;
+            text-decoration: none;
+            border-radius: 8px;
             transition: all 0.2s ease;
         }
 
-        .user-dropdown .dropdown-item:hover,
-        .user-dropdown .dropdown-item.active {
-            background: rgba(99, 102, 241, 0.1);
-            color: var(--primary-color);
+        .user-menu:hover {
+            background-color: rgba(99, 102, 241, 0.1);
+            color: #6366f1 !important;
+        }
+
+        .user-avatar {
+            font-size: 1.5rem;
+            margin-right: 0.5rem;
+            color: #6366f1;
+        }
+
+        .user-name {
+            font-weight: 500;
+        }
+
+        .user-dropdown {
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            padding: 0.5rem 0;
+        }
+
+        .user-dropdown .dropdown-item {
+            padding: 0.75rem 1.5rem;
+            color: #374151;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+        }
+
+        .user-dropdown .dropdown-item:hover {
+            background-color: rgba(99, 102, 241, 0.1);
+            color: #6366f1;
         }
 
         /* Page Header */
         .page-header {
-            background: var(--gradient-primary);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 4rem 0 2rem;
             color: white;
-            padding: 3rem 0 2rem;
-            position: relative;
-            overflow: hidden;
         }
 
-        .page-header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 20"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100" height="20" fill="url(%23grid)"/></svg>');
-            opacity: 0.3;
+        .page-header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            gap: 2rem;
         }
 
-        .header-content {
-            position: relative;
-            z-index: 2;
+        .header-text {
+            flex: 1;
         }
 
         .page-title {
-            font-size: 2.5rem;
+            font-size: 3rem;
             font-weight: 700;
             margin-bottom: 0.5rem;
-            background: rgba(255, 255, 255, 0.95);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: white;
         }
 
         .page-subtitle {
-            font-size: 1.1rem;
+            font-size: 1.25rem;
             opacity: 0.9;
-            margin-bottom: 2rem;
+            margin-bottom: 1rem;
+            color: white;
         }
 
-        .header-stats {
-            display: flex;
-            gap: 2rem;
-            flex-wrap: wrap;
+        .breadcrumb {
+            background: transparent;
+            padding: 0;
+            margin: 0;
         }
 
-        .stat-item {
-            background: rgba(255, 255, 255, 0.15);
+        .breadcrumb-item a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+        }
+
+        .breadcrumb-item a:hover {
+            color: white;
+        }
+
+        .breadcrumb-item.active {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .breadcrumb-item + .breadcrumb-item::before {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .btn-create-event {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 1rem;
+        }
+
+        .btn-create-event:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Events Overview */
+        .events-overview {
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .overview-card {
+            background: white;
+            border-radius: 16px;
             padding: 1.5rem;
-            text-align: center;
-            min-width: 120px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
         }
 
-        .stat-value {
-            font-size: 2rem;
+        .overview-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .overview-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            background: #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #64748b;
+        }
+
+        .overview-icon.active {
+            background: linear-gradient(135deg, #10b981, #34d399);
+            color: white;
+        }
+
+        .overview-icon.sold {
+            background: linear-gradient(135deg, #3b82f6, #60a5fa);
+            color: white;
+        }
+
+        .overview-icon.revenue {
+            background: linear-gradient(135deg, #f59e0b, #fbbf24);
+            color: white;
+        }
+
+        .overview-content h3 {
+            font-size: 1.75rem;
             font-weight: 700;
-            display: block;
-            margin-bottom: 0.5rem;
+            color: #1f2937;
+            margin: 0;
         }
 
-        .stat-label {
-            font-size: 0.9rem;
-            opacity: 0.9;
+        .overview-content p {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin: 0;
         }
 
         /* Events Controls */
         .events-controls {
             background: white;
-            border-radius: 1rem;
-            padding: 2rem;
-            margin: -2rem 0 2rem;
-            box-shadow: var(--box-shadow-lg);
-            border: 1px solid var(--border-color);
-            position: relative;
-            z-index: 3;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
         }
 
-        .events-controls-header {
-            display: flex;
-            justify-content: between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .controls-left {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            flex: 1;
-        }
-
-        .controls-right {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .search-box {
-            position: relative;
-            flex: 1;
-            max-width: 400px;
+        .search-box .input-group-text {
+            background: #f8fafc;
+            border-color: #e2e8f0;
+            color: #6b7280;
         }
 
         .search-box .form-control {
-            padding-left: 3rem;
-            border: 2px solid var(--border-color);
-            border-radius: 0.75rem;
-            transition: all 0.3s ease;
+            border-color: #e2e8f0;
         }
 
         .search-box .form-control:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 0.2rem rgba(99, 102, 241, 0.25);
+            border-color: #6366f1;
+            box-shadow: 0 0 0 0.2rem rgba(99, 102, 241, 0.1);
         }
 
-        .search-box i {
-            position: absolute;
-            left: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-muted);
-            z-index: 5;
+        .form-select {
+            border-color: #e2e8f0;
         }
 
-        .filter-select {
-            border: 2px solid var(--border-color);
-            border-radius: 0.75rem;
-            padding: 0.5rem 1rem;
-            background: white;
-            transition: all 0.3s ease;
+        .form-select:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 0.2rem rgba(99, 102, 241, 0.1);
         }
 
-        .filter-select:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 0.2rem rgba(99, 102, 241, 0.25);
+        .view-toggle .btn {
+            border-color: #e2e8f0;
+            color: #6b7280;
         }
 
-        .btn-create-event {
-            background: var(--gradient-primary);
-            border: none;
-            color: white;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.75rem;
-            font-weight: 600;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: all 0.3s ease;
-            box-shadow: var(--box-shadow);
-        }
-
-        .btn-create-event:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--box-shadow-lg);
+        .view-toggle .btn.active {
+            background-color: #6366f1;
+            border-color: #6366f1;
             color: white;
         }
 
-        .view-toggle {
-            display: flex;
-            background: var(--light-bg);
-            border-radius: 0.5rem;
-            padding: 0.25rem;
-            border: 1px solid var(--border-color);
-        }
-
-        .view-toggle button {
-            border: none;
-            background: transparent;
-            padding: 0.5rem 1rem;
-            border-radius: 0.25rem;
-            color: var(--text-muted);
-            transition: all 0.2s ease;
-        }
-
-        .view-toggle button.active {
-            background: white;
-            color: var(--primary-color);
-            box-shadow: var(--box-shadow);
-        }
-
-        /* Events Grid */
-        .events-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
+        /* Event Cards */
         .event-card {
             background: white;
-            border-radius: 1rem;
+            border-radius: 16px;
             overflow: hidden;
-            box-shadow: var(--box-shadow);
-            border: 1px solid var(--border-color);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
             transition: all 0.3s ease;
-            position: relative;
+            height: 100%;
         }
 
         .event-card:hover {
             transform: translateY(-4px);
-            box-shadow: var(--box-shadow-lg);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
         }
 
         .event-image {
-            height: 200px;
-            background: var(--light-bg);
             position: relative;
+            height: 200px;
+            background: #f1f5f9;
             overflow: hidden;
         }
 
@@ -376,400 +345,244 @@
             object-fit: cover;
         }
 
-        .event-image .placeholder-icon {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 3rem;
-            color: var(--text-muted);
-        }
-
         .event-status {
             position: absolute;
-            top: 1rem;
-            right: 1rem;
+            top: 0.75rem;
+            left: 0.75rem;
             padding: 0.25rem 0.75rem;
-            border-radius: 1rem;
-            font-size: 0.8rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
             font-weight: 600;
             text-transform: uppercase;
         }
 
-        .event-status.active {
-            background: var(--success-color);
+        .status-active {
+            background: rgba(34, 197, 94, 0.9);
             color: white;
         }
 
-        .event-status.draft {
-            background: var(--warning-color);
+        .status-draft {
+            background: rgba(156, 163, 175, 0.9);
             color: white;
         }
 
-        .event-status.ended {
-            background: var(--text-muted);
+        .status-completed {
+            background: rgba(59, 130, 246, 0.9);
             color: white;
         }
 
-        .event-status.cancelled {
-            background: var(--danger-color);
+        .status-cancelled {
+            background: rgba(239, 68, 68, 0.9);
             color: white;
+        }
+
+        .event-actions {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            display: flex;
+            gap: 0.5rem;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .event-card:hover .event-actions {
+            opacity: 1;
+        }
+
+        .event-actions .btn {
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 8px;
+            padding: 0.5rem;
+            transition: all 0.2s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .event-actions .btn:hover {
+            background: white;
+            transform: scale(1.1);
         }
 
         .event-content {
             padding: 1.5rem;
         }
 
-        .event-title {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--dark-color);
-            margin-bottom: 0.5rem;
-            line-height: 1.3;
-        }
-
-        .event-details {
+        .event-header {
             display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
+            justify-content: space-between;
+            align-items: flex-start;
             margin-bottom: 1rem;
         }
 
-        .event-detail {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--text-muted);
-            font-size: 0.9rem;
+        .event-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin: 0;
+            flex: 1;
+            margin-right: 1rem;
         }
 
-        .event-detail i {
-            color: var(--primary-color);
+        .event-category .badge {
+            font-size: 0.75rem;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+        }
+
+        .event-info {
+            margin-bottom: 1rem;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            color: #6b7280;
+            font-size: 0.875rem;
+        }
+
+        .info-item i {
+            margin-right: 0.5rem;
+            color: #6366f1;
             width: 16px;
         }
 
         .event-stats {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
             padding: 1rem;
-            background: var(--light-bg);
-            border-radius: 0.5rem;
+            background: #f8fafc;
+            border-radius: 8px;
         }
 
         .stat {
             text-align: center;
         }
 
-        .stat-number {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--dark-color);
+        .stat-value {
             display: block;
+            font-weight: 700;
+            color: #1f2937;
+            font-size: 1rem;
         }
 
-        .stat-text {
-            font-size: 0.8rem;
-            color: var(--text-muted);
+        .stat-label {
+            font-size: 0.75rem;
+            color: #6b7280;
             text-transform: uppercase;
-            font-weight: 600;
+            font-weight: 500;
         }
 
-        .event-actions {
-            display: flex;
-            gap: 0.5rem;
+        .progress-container {
+            margin-bottom: 0;
         }
 
-        .btn-action {
-            flex: 1;
-            padding: 0.6rem;
-            border-radius: 0.5rem;
-            border: none;
-            font-weight: 600;
-            font-size: 0.875rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            transition: all 0.2s ease;
-            text-decoration: none;
-        }
-
-        .btn-view {
-            background: rgba(99, 102, 241, 0.1);
-            color: var(--primary-color);
-        }
-
-        .btn-view:hover {
-            background: rgba(99, 102, 241, 0.2);
-            color: var(--primary-color);
-        }
-
-        .btn-edit {
-            background: rgba(16, 185, 129, 0.1);
-            color: var(--success-color);
-        }
-
-        .btn-edit:hover {
-            background: rgba(16, 185, 129, 0.2);
-            color: var(--success-color);
-        }
-
-        .btn-delete {
-            background: rgba(239, 68, 68, 0.1);
-            color: var(--danger-color);
-        }
-
-        .btn-delete:hover {
-            background: rgba(239, 68, 68, 0.2);
-            color: var(--danger-color);
-        }
-
-        /* Events List View */
-        .events-list {
-            display: none;
-        }
-
-        .events-list.active {
-            display: block;
-        }
-
-        .events-grid.list-view {
-            display: none;
-        }
-
-        .event-list-item {
-            background: white;
-            border-radius: 1rem;
-            padding: 1.5rem;
-            margin-bottom: 1rem;
-            box-shadow: var(--box-shadow);
-            border: 1px solid var(--border-color);
-            transition: all 0.3s ease;
-        }
-
-        .event-list-item:hover {
-            box-shadow: var(--box-shadow-lg);
-            border-color: var(--primary-color);
-        }
-
-        .event-list-content {
-            display: flex;
-            align-items: center;
-            gap: 2rem;
-        }
-
-        .event-list-image {
-            width: 80px;
-            height: 80px;
-            border-radius: 0.75rem;
-            background: var(--light-bg);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            flex-shrink: 0;
-        }
-
-        .event-list-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .event-list-info {
-            flex: 1;
-        }
-
-        .event-list-title {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--dark-color);
+        .progress {
+            height: 6px;
+            background: #e2e8f0;
+            border-radius: 3px;
             margin-bottom: 0.5rem;
         }
 
-        .event-list-details {
-            display: flex;
-            gap: 2rem;
-            margin-bottom: 0.5rem;
-            flex-wrap: wrap;
+        .progress-bar {
+            border-radius: 3px;
         }
 
-        .event-list-stats {
-            display: flex;
-            gap: 2rem;
-            margin-left: auto;
-            align-items: center;
+        .progress-text {
+            color: #6b7280;
+            font-size: 0.75rem;
         }
 
-        .event-list-stat {
-            text-align: center;
-        }
-
-        .event-list-actions {
-            display: flex;
-            gap: 0.5rem;
-            margin-left: 1rem;
-        }
-
-        /* Empty State */
-        .empty-state {
+        /* No Events */
+        .no-events-container {
             text-align: center;
             padding: 4rem 2rem;
         }
 
-        .empty-state-icon {
+        .no-events-content {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .no-events-icon {
             font-size: 4rem;
-            color: var(--text-muted);
+            color: #d1d5db;
             margin-bottom: 1rem;
         }
 
-        .empty-state h3 {
-            color: var(--dark-color);
-            margin-bottom: 1rem;
+        .no-events-container h5 {
+            color: #6b7280;
+            margin-bottom: 0.5rem;
         }
 
-        .empty-state p {
-            color: var(--text-muted);
+        .no-events-container p {
+            color: #9ca3af;
             margin-bottom: 2rem;
         }
 
         /* Pagination */
-        .pagination-container {
-            display: flex;
-            justify-content: center;
-            margin-top: 2rem;
-        }
-
         .pagination .page-link {
-            border-color: var(--border-color);
-            color: var(--text-muted);
-        }
-
-        .pagination .page-link:hover {
-            border-color: var(--primary-color);
-            color: var(--primary-color);
+            border-color: #e2e8f0;
+            color: #6b7280;
+            padding: 0.75rem 1rem;
         }
 
         .pagination .page-item.active .page-link {
-            background-color: var(--primary-color);
-            border-color: var(--primary-color);
+            background-color: #6366f1;
+            border-color: #6366f1;
         }
 
-        /* Responsive Design */
+        .pagination .page-link:hover {
+            background-color: rgba(99, 102, 241, 0.1);
+            border-color: #6366f1;
+            color: #6366f1;
+        }
+
+        /* Mobile Responsive */
         @media (max-width: 768px) {
+            .page-header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+
             .page-title {
                 font-size: 2rem;
             }
 
-            .header-stats {
-                gap: 1rem;
+            .page-subtitle {
+                font-size: 1rem;
             }
 
-            .stat-item {
-                min-width: 100px;
-                padding: 1rem;
-            }
-
-            .stat-value {
-                font-size: 1.5rem;
-            }
-
-            .events-controls-header {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .controls-left {
+            .events-controls .row {
                 flex-direction: column;
             }
 
-            .search-box {
-                max-width: none;
+            .events-controls .col-lg-2,
+            .events-controls .col-lg-4 {
+                margin-bottom: 1rem;
             }
 
-            .events-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .event-list-content {
+            .event-stats {
                 flex-direction: column;
                 gap: 1rem;
+            }
+
+            .stat {
+                display: flex;
+                justify-content: space-between;
+                text-align: left;
+            }
+
+            .overview-card {
+                flex-direction: column;
                 text-align: center;
             }
-
-            .event-list-details {
-                justify-content: center;
-            }
-
-            .event-list-stats {
-                margin-left: 0;
-                justify-content: center;
-            }
         }
 
-        @media (max-width: 576px) {
-            .page-header {
-                padding: 2rem 0 1.5rem;
-            }
-
-            .events-controls {
-                margin: -1.5rem 0 1.5rem;
-                padding: 1.5rem;
-            }
-
-            .header-stats {
-                justify-content: center;
-            }
-
-            .controls-right {
-                flex-direction: column;
-                width: 100%;
-            }
-
-            .view-toggle {
-                width: 100%;
-            }
-        }
-
-        /* Animation Classes */
-        .fade-in {
-            animation: fadeIn 0.6s ease-out forwards;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .slide-in {
-            animation: slideIn 0.5s ease-out forwards;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateX(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        /* Loading spinner */
-        .spinner-border {
-            width: 3rem;
-            height: 3rem;
-        }
-
-        /* Custom toggles */
+        /* Custom Toggle */
         .custom-toggler {
             border: none;
             padding: 0.25rem 0.5rem;
@@ -779,551 +592,16 @@
             box-shadow: 0 0 0 0.2rem rgba(99, 102, 241, 0.25);
         }
     </style>
-
-    <script>
-        // Current user and events data
-        let currentUser = null;
-        let allEvents = [];
-        let filteredEvents = [];
-        let currentView = 'grid';
-        let currentFilter = 'all';
-        let currentSort = 'date-desc';
-
-        // Sample events data - implementing Task 2 requirements
-        const sampleEvents = [
-            {
-                eventId: 'EVT001',
-                title: 'New Year Gala 2025',
-                description: 'Celebrate the new year with an extravagant gala featuring live music, dining, and entertainment.',
-                date: '2024-12-31',
-                time: '8:00 PM',
-                venue: 'BMICH, Colombo',
-                category: 'entertainment',
-                image: 'pictures/event-gala.jpg',
-                capacity: 350,
-                ticketsSold: 340,
-                revenue: 85000,
-                status: 'active',
-                created: '2024-11-15',
-                ticketPrice: 250
-            },
-            {
-                eventId: 'EVT002',
-                title: 'Jazz Night Under Stars',
-                description: 'An intimate jazz evening in the beautiful botanical gardens setting.',
-                date: '2025-01-30',
-                time: '7:30 PM',
-                venue: 'Royal Botanical Gardens, Peradeniya',
-                category: 'music',
-                image: 'pictures/event-jazz.jpg',
-                capacity: 150,
-                ticketsSold: 100,
-                revenue: 25000,
-                status: 'active',
-                created: '2024-12-01',
-                ticketPrice: 150
-            },
-            {
-                eventId: 'EVT003',
-                title: 'Tech Conference 2025',
-                description: 'Latest trends in technology and innovation with industry experts.',
-                date: '2025-02-15',
-                time: '9:00 AM',
-                venue: 'Colombo Convention Centre',
-                category: 'technology',
-                image: 'pictures/event-tech.jpg',
-                capacity: 500,
-                ticketsSold: 225,
-                revenue: 45000,
-                status: 'active',
-                created: '2024-11-20',
-                ticketPrice: 200
-            },
-            {
-                eventId: 'EVT004',
-                title: 'Art Exhibition Opening',
-                description: 'Contemporary art exhibition featuring local and international artists.',
-                date: '2025-03-10',
-                time: '6:00 PM',
-                venue: 'National Art Gallery, Colombo',
-                category: 'arts',
-                image: 'pictures/event-art.jpg',
-                capacity: 200,
-                ticketsSold: 0,
-                revenue: 0,
-                status: 'draft',
-                created: '2024-12-10',
-                ticketPrice: 75
-            },
-            {
-                eventId: 'EVT005',
-                title: 'Food Festival 2024',
-                description: 'A celebration of Sri Lankan cuisine with cooking demonstrations and tastings.',
-                date: '2024-11-25',
-                time: '11:00 AM',
-                venue: 'Galle Face Green, Colombo',
-                category: 'food',
-                image: 'pictures/event-food.jpg',
-                capacity: 1000,
-                ticketsSold: 850,
-                revenue: 42500,
-                status: 'ended',
-                created: '2024-10-01',
-                ticketPrice: 50
-            },
-            {
-                eventId: 'EVT006',
-                title: 'Business Summit 2025',
-                description: 'Annual business summit with keynote speakers and networking opportunities.',
-                date: '2025-04-20',
-                time: '8:00 AM',
-                venue: 'Shangri-La Hotel, Colombo',
-                category: 'business',
-                image: 'pictures/event-business.jpg',
-                capacity: 300,
-                ticketsSold: 0,
-                revenue: 0,
-                status: 'cancelled',
-                created: '2024-11-30',
-                ticketPrice: 300
-            }
-        ];
-
-        // Sample organizer data
-        const sampleOrganizerData = {
-            organizerId: 'ORG001',
-            organizerName: 'Rajesh Events Ltd.',
-            totalEvents: 6,
-            activeEvents: 3,
-            totalRevenue: 197500,
-            totalTicketsSold: 1515
-        };
-
-        // Initialize page
-        document.addEventListener('DOMContentLoaded', function() {
-            initializePage();
-        });
-
-        function initializePage() {
-            // Set user data
-            currentUser = sampleOrganizerData;
-            allEvents = [...sampleEvents];
-            filteredEvents = [...allEvents];
-
-            // Update header stats
-            updateHeaderStats();
-
-            // Render events
-            renderEvents();
-
-            // Setup event listeners
-            setupEventListeners();
-
-            // Add fade-in animation
-            document.body.classList.add('fade-in');
-        }
-
-        function updateHeaderStats() {
-            const stats = calculateStats();
-            
-            document.getElementById('totalEvents').textContent = stats.totalEvents;
-            document.getElementById('activeEvents').textContent = stats.activeEvents;
-            document.getElementById('totalRevenue').textContent = 'Rs. ' + stats.totalRevenue.toLocaleString();
-            document.getElementById('totalTickets').textContent = stats.totalTickets.toLocaleString();
-            
-            // Update organizer name
-            document.getElementById('organizerName').textContent = currentUser.organizerName;
-        }
-
-        function calculateStats() {
-            const totalEvents = allEvents.length;
-            const activeEvents = allEvents.filter(event => event.status === 'active').length;
-            const totalRevenue = allEvents.reduce((sum, event) => sum + event.revenue, 0);
-            const totalTickets = allEvents.reduce((sum, event) => sum + event.ticketsSold, 0);
-
-            return {
-                totalEvents,
-                activeEvents,
-                totalRevenue,
-                totalTickets
-            };
-        }
-
-        function setupEventListeners() {
-            // Search functionality
-            document.getElementById('searchEvents').addEventListener('input', function(e) {
-                filterEvents();
-            });
-
-            // Filter dropdown
-            document.getElementById('filterStatus').addEventListener('change', function(e) {
-                currentFilter = e.target.value;
-                filterEvents();
-            });
-
-            // Sort dropdown
-            document.getElementById('sortEvents').addEventListener('change', function(e) {
-                currentSort = e.target.value;
-                sortEvents();
-                renderEvents();
-            });
-
-            // View toggle buttons
-            document.getElementById('gridViewBtn').addEventListener('click', function() {
-                switchView('grid');
-            });
-
-            document.getElementById('listViewBtn').addEventListener('click', function() {
-                switchView('list');
-            });
-        }
-
-        function filterEvents() {
-            const searchTerm = document.getElementById('searchEvents').value.toLowerCase();
-            
-            filteredEvents = allEvents.filter(event => {
-                const matchesSearch = event.title.toLowerCase().includes(searchTerm) ||
-                                    event.description.toLowerCase().includes(searchTerm) ||
-                                    event.venue.toLowerCase().includes(searchTerm) ||
-                                    event.category.toLowerCase().includes(searchTerm);
-                
-                const matchesFilter = currentFilter === 'all' || event.status === currentFilter;
-                
-                return matchesSearch && matchesFilter;
-            });
-
-            sortEvents();
-            renderEvents();
-        }
-
-        function sortEvents() {
-            filteredEvents.sort((a, b) => {
-                switch (currentSort) {
-                    case 'date-asc':
-                        return new Date(a.date) - new Date(b.date);
-                    case 'date-desc':
-                        return new Date(b.date) - new Date(a.date);
-                    case 'title-asc':
-                        return a.title.localeCompare(b.title);
-                    case 'title-desc':
-                        return b.title.localeCompare(a.title);
-                    case 'revenue-desc':
-                        return b.revenue - a.revenue;
-                    case 'revenue-asc':
-                        return a.revenue - b.revenue;
-                    case 'tickets-desc':
-                        return b.ticketsSold - a.ticketsSold;
-                    case 'tickets-asc':
-                        return a.ticketsSold - b.ticketsSold;
-                    default:
-                        return new Date(b.date) - new Date(a.date);
-                }
-            });
-        }
-
-        function switchView(view) {
-            currentView = view;
-            
-            // Update button states
-            document.getElementById('gridViewBtn').classList.toggle('active', view === 'grid');
-            document.getElementById('listViewBtn').classList.toggle('active', view === 'list');
-            
-            // Show/hide appropriate containers
-            document.getElementById('eventsGrid').style.display = view === 'grid' ? 'grid' : 'none';
-            document.getElementById('eventsList').style.display = view === 'list' ? 'block' : 'none';
-            
-            renderEvents();
-        }
-
-        function renderEvents() {
-            if (currentView === 'grid') {
-                renderGridView();
-            } else {
-                renderListView();
-            }
-        }
-
-        function renderGridView() {
-            const container = document.getElementById('eventsGrid');
-            
-            if (filteredEvents.length === 0) {
-                container.innerHTML = `
-                    <div class="col-12">
-                        <div class="empty-state">
-                            <div class="empty-state-icon">
-                                <i class="bi bi-calendar-x"></i>
-                            </div>
-                            <h3>No Events Found</h3>
-                            <p>No events match your current search or filter criteria.</p>
-                            <a href="create-event.html" class="btn btn-create-event">
-                                <i class="bi bi-plus-circle"></i>
-                                Create Your First Event
-                            </a>
-                        </div>
-                    </div>
-                `;
-                return;
-            }
-
-            container.innerHTML = filteredEvents.map(event => `
-                <div class="event-card" data-event-id="${event.eventId}">
-                    <div class="event-image">
-                        <img src="${event.image}" alt="${event.title}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                        <div class="placeholder-icon" style="display: none;">
-                            <i class="bi bi-calendar-event"></i>
-                        </div>
-                        <span class="event-status ${event.status}">${event.status}</span>
-                    </div>
-                    <div class="event-content">
-                        <h3 class="event-title">${event.title}</h3>
-                        <div class="event-details">
-                            <div class="event-detail">
-                                <i class="bi bi-calendar"></i>
-                                <span>${formatEventDate(event.date)} at ${event.time}</span>
-                            </div>
-                            <div class="event-detail">
-                                <i class="bi bi-geo-alt"></i>
-                                <span>${event.venue}</span>
-                            </div>
-                            <div class="event-detail">
-                                <i class="bi bi-tag"></i>
-                                <span>${capitalizeFirst(event.category)}</span>
-                            </div>
-                        </div>
-                        <div class="event-stats">
-                            <div class="stat">
-                                <span class="stat-number">${event.ticketsSold}</span>
-                                <span class="stat-text">Sold</span>
-                            </div>
-                            <div class="stat">
-                                <span class="stat-number">${event.capacity}</span>
-                                <span class="stat-text">Capacity</span>
-                            </div>
-                            <div class="stat">
-                                <span class="stat-number">Rs. ${event.revenue.toLocaleString()}</span>
-                                <span class="stat-text">Revenue</span>
-                            </div>
-                        </div>
-                        <div class="event-actions">
-                            <a href="event-details.html?id=${event.eventId}" class="btn-action btn-view">
-                                <i class="bi bi-eye"></i>
-                                View
-                            </a>
-                            <a href="edit-event.html?id=${event.eventId}" class="btn-action btn-edit">
-                                <i class="bi bi-pencil"></i>
-                                Edit
-                            </a>
-                            <button class="btn-action btn-delete" onclick="deleteEvent('${event.eventId}')">
-                                <i class="bi bi-trash"></i>
-                                Delete
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function renderListView() {
-            const container = document.getElementById('eventsList');
-            
-            if (filteredEvents.length === 0) {
-                container.innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-state-icon">
-                            <i class="bi bi-calendar-x"></i>
-                        </div>
-                        <h3>No Events Found</h3>
-                        <p>No events match your current search or filter criteria.</p>
-                        <a href="create-event.html" class="btn btn-create-event">
-                            <i class="bi bi-plus-circle"></i>
-                            Create Your First Event
-                        </a>
-                    </div>
-                `;
-                return;
-            }
-
-            container.innerHTML = filteredEvents.map(event => `
-                <div class="event-list-item" data-event-id="${event.eventId}">
-                    <div class="event-list-content">
-                        <div class="event-list-image">
-                            <img src="${event.image}" alt="${event.title}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                            <div class="placeholder-icon" style="display: none;">
-                                <i class="bi bi-calendar-event"></i>
-                            </div>
-                        </div>
-                        <div class="event-list-info">
-                            <h3 class="event-list-title">${event.title}</h3>
-                            <div class="event-list-details">
-                                <div class="event-detail">
-                                    <i class="bi bi-calendar"></i>
-                                    <span>${formatEventDate(event.date)} at ${event.time}</span>
-                                </div>
-                                <div class="event-detail">
-                                    <i class="bi bi-geo-alt"></i>
-                                    <span>${event.venue}</span>
-                                </div>
-                                <div class="event-detail">
-                                    <i class="bi bi-tag"></i>
-                                    <span>${capitalizeFirst(event.category)}</span>
-                                </div>
-                                <span class="event-status ${event.status}">${event.status}</span>
-                            </div>
-                        </div>
-                        <div class="event-list-stats">
-                            <div class="event-list-stat">
-                                <span class="stat-number">${event.ticketsSold}/${event.capacity}</span>
-                                <span class="stat-text">Tickets</span>
-                            </div>
-                            <div class="event-list-stat">
-                                <span class="stat-number">Rs. ${event.revenue.toLocaleString()}</span>
-                                <span class="stat-text">Revenue</span>
-                            </div>
-                        </div>
-                        <div class="event-list-actions">
-                            <a href="event-details.html?id=${event.eventId}" class="btn-action btn-view">
-                                <i class="bi bi-eye"></i>
-                            </a>
-                            <a href="edit-event.html?id=${event.eventId}" class="btn-action btn-edit">
-                                <i class="bi bi-pencil"></i>
-                            </a>
-                            <button class="btn-action btn-delete" onclick="deleteEvent('${event.eventId}')">
-                                <i class="bi bi-trash"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function deleteEvent(eventId) {
-            const event = allEvents.find(e => e.eventId === eventId);
-            
-            if (!event) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Event Not Found',
-                    text: 'The event you are trying to delete could not be found.',
-                    confirmButtonColor: '#6366f1'
-                });
-                return;
-            }
-
-            // Check if event has sold tickets
-            if (event.ticketsSold > 0) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Cannot Delete Event',
-                    text: 'This event has sold tickets and cannot be deleted. You can cancel it instead.',
-                    confirmButtonColor: '#6366f1',
-                    showCancelButton: true,
-                    cancelButtonText: 'Keep Event',
-                    confirmButtonText: 'Cancel Event'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        cancelEvent(eventId);
-                    }
-                });
-                return;
-            }
-
-            Swal.fire({
-                icon: 'warning',
-                title: 'Delete Event',
-                text: `Are you sure you want to delete "${event.title}"? This action cannot be undone.`,
-                showCancelButton: true,
-                confirmButtonColor: '#ef4444',
-                cancelButtonColor: '#6b7280',
-                confirmButtonText: 'Yes, Delete',
-                cancelButtonText: 'Cancel'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Remove event from array
-                    const index = allEvents.findIndex(e => e.eventId === eventId);
-                    if (index > -1) {
-                        allEvents.splice(index, 1);
-                        filterEvents();
-                        updateHeaderStats();
-                        
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Event Deleted',
-                            text: 'The event has been successfully deleted.',
-                            confirmButtonColor: '#6366f1',
-                            timer: 2000,
-                            showConfirmButton: false
-                        });
-                    }
-                }
-            });
-        }
-
-        function cancelEvent(eventId) {
-            const event = allEvents.find(e => e.eventId === eventId);
-            if (event) {
-                event.status = 'cancelled';
-                filterEvents();
-                updateHeaderStats();
-                
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Event Cancelled',
-                    text: 'The event has been cancelled. Attendees will be notified.',
-                    confirmButtonColor: '#6366f1'
-                });
-            }
-        }
-
-        function formatEventDate(dateString) {
-            const date = new Date(dateString);
-            return date.toLocaleDateString('en-US', {
-                weekday: 'short',
-                year: 'numeric',
-                month: 'short',
-                day: 'numeric'
-            });
-        }
-
-        function capitalizeFirst(str) {
-            return str.charAt(0).toUpperCase() + str.slice(1);
-        }
-
-        function logout() {
-            Swal.fire({
-                icon: 'question',
-                title: 'Logout',
-                text: 'Are you sure you want to logout?',
-                showCancelButton: true,
-                confirmButtonColor: '#6366f1',
-                cancelButtonColor: '#6b7280',
-                confirmButtonText: 'Yes, Logout',
-                cancelButtonText: 'Cancel'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Logged Out',
-                        text: 'You have been successfully logged out.',
-                        confirmButtonColor: '#6366f1',
-                        timer: 1500,
-                        showConfirmButton: false
-                    }).then(() => {
-                        window.location.href = 'login.html';
-                    });
-                }
-            });
-        }
-    </script>
 </head>
 
 <body>
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg sticky-top">
-        <div class="container-fluid">
-            <!-- Brand -->
-            <a class="navbar-brand" href="index.html">
-                <div class="brand-icon">
-                    <i class="bi bi-calendar-event"></i>
+    <!-- EventHub Header - Organizer -->
+    <nav class="navbar navbar-expand-lg eventhub-navbar">
+        <div class="container-fluid px-4">
+            <!-- Brand Logo -->
+            <a class="navbar-brand eventhub-brand d-flex align-items-center" href="index.html">
+                <div class="brand-icon me-2">
+                    <i class="bi bi-calendar-event me-1"></i>
                 </div>
                 <span class="brand-text">EventHub</span>
             </a>
@@ -1367,21 +645,21 @@
                 </ul>
 
                 <!-- Right Navigation - User Menu -->
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav">
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle user-menu" href="#" id="userDropdown" role="button" 
-                           data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle user-menu" href="#" id="userDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
                             <div class="user-avatar">
                                 <i class="bi bi-person-circle"></i>
                             </div>
-                            <span class="user-name" id="userName">Rajesh Events Ltd.</span>
+                            <span class="user-name" id="userName">Rajesh Events</span>
                         </a>
                         <ul class="dropdown-menu user-dropdown" aria-labelledby="userDropdown">
                             <li><a class="dropdown-item" href="organizer-dashboard.html">
                                 <i class="bi bi-speedometer2 me-2"></i>Dashboard</a></li>
                             <li><a class="dropdown-item" href="user-profile.html">
-                                <i class="bi bi-person me-2"></i>Edit Profile</a></li>
-                            <li><a class="dropdown-item active" href="my-events.html">
+                                <i class="bi bi-person me-2"></i>My Profile</a></li>
+                            <li><a class="dropdown-item" href="my-events.html">
                                 <i class="bi bi-calendar3 me-2"></i>My Events</a></li>
                             <li><a class="dropdown-item" href="create-event.html">
                                 <i class="bi bi-plus-circle me-2"></i>Create Event</a></li>
@@ -1401,31 +679,25 @@
 
     <!-- Page Header -->
     <section class="page-header">
-        <div class="container-fluid">
+        <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <div class="header-content">
-                        <div class="header-info">
+                    <div class="page-header-content">
+                        <div class="header-text">
                             <h1 class="page-title">My Events</h1>
-                            <p class="page-subtitle">Manage and track all your events from one place</p>
+                            <p class="page-subtitle">Manage your events, track performance, and engage with your audience</p>
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                                    <li class="breadcrumb-item"><a href="organizer-dashboard.html">Dashboard</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">My Events</li>
+                                </ol>
+                            </nav>
                         </div>
-                        <div class="header-stats">
-                            <div class="stat-item">
-                                <span class="stat-value" id="totalEvents">6</span>
-                                <span class="stat-label">Total Events</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-value" id="activeEvents">3</span>
-                                <span class="stat-label">Active Events</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-value" id="totalRevenue">Rs. 197,500</span>
-                                <span class="stat-label">Total Revenue</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-value" id="totalTickets">1,515</span>
-                                <span class="stat-label">Tickets Sold</span>
-                            </div>
+                        <div class="header-actions">
+                            <a href="create-event.html" class="btn btn-create-event">
+                                <i class="bi bi-plus-circle me-2"></i>Create New Event
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -1433,90 +705,1113 @@
         </div>
     </section>
 
-    <!-- Events Controls -->
-    <section class="container-fluid">
-        <div class="events-controls">
-            <div class="events-controls-header">
-                <div class="controls-left">
-                    <div class="search-box">
-                        <i class="bi bi-search"></i>
-                        <input type="text" class="form-control" id="searchEvents" 
-                               placeholder="Search events by title, venue, or category...">
+    <!-- Events Overview Section -->
+    <section class="events-overview py-4">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-3 col-md-6">
+                    <div class="overview-card">
+                        <div class="overview-icon">
+                            <i class="bi bi-calendar-event"></i>
+                        </div>
+                        <div class="overview-content">
+                            <h3 id="totalEvents">8</h3>
+                            <p>Total Events</p>
+                        </div>
                     </div>
-                    <select class="form-select filter-select" id="filterStatus">
-                        <option value="all">All Status</option>
-                        <option value="active">Active</option>
-                        <option value="draft">Draft</option>
-                        <option value="ended">Ended</option>
-                        <option value="cancelled">Cancelled</option>
-                    </select>
-                    <select class="form-select filter-select" id="sortEvents">
-                        <option value="date-desc">Latest First</option>
-                        <option value="date-asc">Oldest First</option>
-                        <option value="title-asc">Title A-Z</option>
-                        <option value="title-desc">Title Z-A</option>
-                        <option value="revenue-desc">Highest Revenue</option>
-                        <option value="revenue-asc">Lowest Revenue</option>
-                        <option value="tickets-desc">Most Tickets Sold</option>
-                        <option value="tickets-asc">Least Tickets Sold</option>
-                    </select>
                 </div>
-                <div class="controls-right">
-                    <div class="view-toggle">
-                        <button id="gridViewBtn" class="active">
-                            <i class="bi bi-grid-3x3-gap"></i>
-                        </button>
-                        <button id="listViewBtn">
-                            <i class="bi bi-list"></i>
-                        </button>
+                <div class="col-lg-3 col-md-6">
+                    <div class="overview-card">
+                        <div class="overview-icon active">
+                            <i class="bi bi-calendar-check"></i>
+                        </div>
+                        <div class="overview-content">
+                            <h3 id="activeEvents">5</h3>
+                            <p>Active Events</p>
+                        </div>
                     </div>
-                    <a href="create-event.html" class="btn-create-event">
-                        <i class="bi bi-plus-circle"></i>
-                        Create Event
-                    </a>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="overview-card">
+                        <div class="overview-icon sold">
+                            <i class="bi bi-ticket-perforated"></i>
+                        </div>
+                        <div class="overview-content">
+                            <h3 id="totalTickets">1,247</h3>
+                            <p>Tickets Sold</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="overview-card">
+                        <div class="overview-icon revenue">
+                            <i class="bi bi-currency-dollar"></i>
+                        </div>
+                        <div class="overview-content">
+                            <h3 id="totalRevenue">Rs. 245,000</h3>
+                            <p>Total Revenue</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Events Content -->
-    <section class="container-fluid">
-        <!-- Grid View -->
-        <div class="events-grid" id="eventsGrid">
-            <!-- Events will be loaded here -->
-        </div>
+    <!-- Events Management Section -->
+    <section class="events-management py-5">
+        <div class="container">
+            <!-- Filters and Search -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="events-controls">
+                        <div class="row g-3 align-items-center">
+                            <div class="col-lg-4">
+                                <div class="search-box">
+                                    <div class="input-group">
+                                        <span class="input-group-text">
+                                            <i class="bi bi-search"></i>
+                                        </span>
+                                        <input type="text" class="form-control" id="searchEvents" 
+                                               placeholder="Search events...">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-2">
+                                <select class="form-select" id="statusFilter">
+                                    <option value="all">All Status</option>
+                                    <option value="active">Active</option>
+                                    <option value="draft">Draft</option>
+                                    <option value="completed">Completed</option>
+                                    <option value="cancelled">Cancelled</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-2">
+                                <select class="form-select" id="categoryFilter">
+                                    <option value="all">All Categories</option>
+                                    <option value="music">Music</option>
+                                    <option value="technology">Technology</option>
+                                    <option value="business">Business</option>
+                                    <option value="entertainment">Entertainment</option>
+                                    <option value="sports">Sports</option>
+                                    <option value="arts">Arts & Culture</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-2">
+                                <select class="form-select" id="sortFilter">
+                                    <option value="date_desc">Newest First</option>
+                                    <option value="date_asc">Oldest First</option>
+                                    <option value="name_asc">Name A-Z</option>
+                                    <option value="name_desc">Name Z-A</option>
+                                    <option value="revenue_desc">Revenue High-Low</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-2">
+                                <div class="view-toggle">
+                                    <div class="btn-group" role="group">
+                                        <button type="button" class="btn btn-outline-secondary active" id="gridView">
+                                            <i class="bi bi-grid"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-outline-secondary" id="listView">
+                                            <i class="bi bi-list"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-        <!-- List View -->
-        <div class="events-list" id="eventsList">
-            <!-- Events will be loaded here -->
-        </div>
+            <!-- Events Grid -->
+            <div class="row g-4" id="eventsGrid">
+                <!-- Event Card 1 -->
+                <div class="col-lg-4 col-md-6 event-card-container" data-status="active" data-category="entertainment" data-event-id="EVT001">
+                    <div class="event-card">
+                        <div class="event-image">
+                            <img src="picture/event-concert.jpg" alt="New Year Gala 2025">
+                            <div class="event-status status-active">Active</div>
+                            <div class="event-actions">
+                                <button class="btn btn-sm btn-light" onclick="viewEvent('EVT001')" title="View Details">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                                <button class="btn btn-sm btn-light" onclick="editEvent('EVT001')" title="Edit Event">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                                <div class="dropdown">
+                                    <button class="btn btn-sm btn-light dropdown-toggle" type="button" 
+                                            data-bs-toggle="dropdown">
+                                        <i class="bi bi-three-dots"></i>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="#" onclick="duplicateEvent('EVT001')">
+                                            <i class="bi bi-copy me-2"></i>Duplicate</a></li>
+                                        <li><a class="dropdown-item" href="#" onclick="viewAnalytics('EVT001')">
+                                            <i class="bi bi-graph-up me-2"></i>Analytics</a></li>
+                                        <li><a class="dropdown-item" href="#" onclick="shareEvent('EVT001')">
+                                            <i class="bi bi-share me-2"></i>Share</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item text-danger" href="#" onclick="deleteEvent('EVT001')">
+                                            <i class="bi bi-trash me-2"></i>Delete</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="event-content">
+                            <div class="event-header">
+                                <h5 class="event-title">New Year Gala 2025</h5>
+                                <div class="event-category">
+                                    <span class="badge bg-primary">Entertainment</span>
+                                </div>
+                            </div>
+                            <div class="event-details">
+                                <div class="event-info">
+                                    <div class="info-item">
+                                        <i class="bi bi-calendar3"></i>
+                                        <span>Dec 31, 2024 • 8:00 PM</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <i class="bi bi-geo-alt"></i>
+                                        <span>BMICH, Colombo</span>
+                                    </div>
+                                </div>
+                                <div class="event-stats">
+                                    <div class="stat">
+                                        <span class="stat-value">340</span>
+                                        <span class="stat-label">Sold</span>
+                                    </div>
+                                    <div class="stat">
+                                        <span class="stat-value">350</span>
+                                        <span class="stat-label">Capacity</span>
+                                    </div>
+                                    <div class="stat">
+                                        <span class="stat-value">Rs. 85K</span>
+                                        <span class="stat-label">Revenue</span>
+                                    </div>
+                                </div>
+                                <div class="progress-container">
+                                    <div class="progress">
+                                        <div class="progress-bar" style="width: 97%"></div>
+                                    </div>
+                                    <small class="progress-text">97% sold</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-        <!-- Pagination -->
-        <div class="pagination-container">
-            <nav aria-label="Events pagination">
-                <ul class="pagination">
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#" tabindex="-1">Previous</a>
-                    </li>
-                    <li class="page-item active">
-                        <a class="page-link" href="#">1</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">2</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">3</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">Next</a>
-                    </li>
-                </ul>
-            </nav>
+                <!-- Event Card 2 -->
+                <div class="col-lg-4 col-md-6 event-card-container" data-status="active" data-category="music" data-event-id="EVT002">
+                    <div class="event-card">
+                        <div class="event-image">
+                            <img src="picture/event-jazz.jpg" alt="Jazz Night Under Stars">
+                            <div class="event-status status-active">Active</div>
+                            <div class="event-actions">
+                                <button class="btn btn-sm btn-light" onclick="viewEvent('EVT002')" title="View Details">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                                <button class="btn btn-sm btn-light" onclick="editEvent('EVT002')" title="Edit Event">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                                <div class="dropdown">
+                                    <button class="btn btn-sm btn-light dropdown-toggle" type="button" 
+                                            data-bs-toggle="dropdown">
+                                        <i class="bi bi-three-dots"></i>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="#" onclick="duplicateEvent('EVT002')">
+                                            <i class="bi bi-copy me-2"></i>Duplicate</a></li>
+                                        <li><a class="dropdown-item" href="#" onclick="viewAnalytics('EVT002')">
+                                            <i class="bi bi-graph-up me-2"></i>Analytics</a></li>
+                                        <li><a class="dropdown-item" href="#" onclick="shareEvent('EVT002')">
+                                            <i class="bi bi-share me-2"></i>Share</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item text-danger" href="#" onclick="deleteEvent('EVT002')">
+                                            <i class="bi bi-trash me-2"></i>Delete</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="event-content">
+                            <div class="event-header">
+                                <h5 class="event-title">Jazz Night Under Stars</h5>
+                                <div class="event-category">
+                                    <span class="badge bg-success">Music</span>
+                                </div>
+                            </div>
+                            <div class="event-details">
+                                <div class="event-info">
+                                    <div class="info-item">
+                                        <i class="bi bi-calendar3"></i>
+                                        <span>Jan 30, 2025 • 7:30 PM</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <i class="bi bi-geo-alt"></i>
+                                        <span>Royal Botanical Gardens</span>
+                                    </div>
+                                </div>
+                                <div class="event-stats">
+                                    <div class="stat">
+                                        <span class="stat-value">100</span>
+                                        <span class="stat-label">Sold</span>
+                                    </div>
+                                    <div class="stat">
+                                        <span class="stat-value">150</span>
+                                        <span class="stat-label">Capacity</span>
+                                    </div>
+                                    <div class="stat">
+                                        <span class="stat-value">Rs. 25K</span>
+                                        <span class="stat-label">Revenue</span>
+                                    </div>
+                                </div>
+                                <div class="progress-container">
+                                    <div class="progress">
+                                        <div class="progress-bar bg-success" style="width: 67%"></div>
+                                    </div>
+                                    <small class="progress-text">67% sold</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Event Card 3 -->
+                <div class="col-lg-4 col-md-6 event-card-container" data-status="active" data-category="technology" data-event-id="EVT003">
+                    <div class="event-card">
+                        <div class="event-image">
+                            <img src="picture/event-tech.jpg" alt="Tech Conference 2025">
+                            <div class="event-status status-active">Active</div>
+                            <div class="event-actions">
+                                <button class="btn btn-sm btn-light" onclick="viewEvent('EVT003')" title="View Details">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                                <button class="btn btn-sm btn-light" onclick="editEvent('EVT003')" title="Edit Event">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                                <div class="dropdown">
+                                    <button class="btn btn-sm btn-light dropdown-toggle" type="button" 
+                                            data-bs-toggle="dropdown">
+                                        <i class="bi bi-three-dots"></i>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="#" onclick="duplicateEvent('EVT003')">
+                                            <i class="bi bi-copy me-2"></i>Duplicate</a></li>
+                                        <li><a class="dropdown-item" href="#" onclick="viewAnalytics('EVT003')">
+                                            <i class="bi bi-graph-up me-2"></i>Analytics</a></li>
+                                        <li><a class="dropdown-item" href="#" onclick="shareEvent('EVT003')">
+                                            <i class="bi bi-share me-2"></i>Share</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item text-danger" href="#" onclick="deleteEvent('EVT003')">
+                                            <i class="bi bi-trash me-2"></i>Delete</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="event-content">
+                            <div class="event-header">
+                                <h5 class="event-title">Tech Conference 2025</h5>
+                                <div class="event-category">
+                                    <span class="badge bg-warning">Technology</span>
+                                </div>
+                            </div>
+                            <div class="event-details">
+                                <div class="event-info">
+                                    <div class="info-item">
+                                        <i class="bi bi-calendar3"></i>
+                                        <span>Feb 15, 2025 • 9:00 AM</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <i class="bi bi-geo-alt"></i>
+                                        <span>Colombo Convention Centre</span>
+                                    </div>
+                                </div>
+                                <div class="event-stats">
+                                    <div class="stat">
+                                        <span class="stat-value">135</span>
+                                        <span class="stat-label">Sold</span>
+                                    </div>
+                                    <div class="stat">
+                                        <span class="stat-value">300</span>
+                                        <span class="stat-label">Capacity</span>
+                                    </div>
+                                    <div class="stat">
+                                        <span class="stat-value">Rs. 67K</span>
+                                        <span class="stat-label">Revenue</span>
+                                    </div>
+                                </div>
+                                <div class="progress-container">
+                                    <div class="progress">
+                                        <div class="progress-bar bg-warning" style="width: 45%"></div>
+                                    </div>
+                                    <small class="progress-text">45% sold</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Event Card 4 -->
+                <div class="col-lg-4 col-md-6 event-card-container" data-status="draft" data-category="business" data-event-id="EVT004">
+                    <div class="event-card">
+                        <div class="event-image">
+                            <img src="picture/event-startup.jpg" alt="Business Summit 2025">
+                            <div class="event-status status-draft">Draft</div>
+                            <div class="event-actions">
+                                <button class="btn btn-sm btn-light" onclick="viewEvent('EVT004')" title="View Details">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                                <button class="btn btn-sm btn-light" onclick="editEvent('EVT004')" title="Edit Event">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                                <div class="dropdown">
+                                    <button class="btn btn-sm btn-light dropdown-toggle" type="button" 
+                                            data-bs-toggle="dropdown">
+                                        <i class="bi bi-three-dots"></i>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="#" onclick="publishEvent('EVT004')">
+                                            <i class="bi bi-upload me-2"></i>Publish</a></li>
+                                        <li><a class="dropdown-item" href="#" onclick="duplicateEvent('EVT004')">
+                                            <i class="bi bi-copy me-2"></i>Duplicate</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item text-danger" href="#" onclick="deleteEvent('EVT004')">
+                                            <i class="bi bi-trash me-2"></i>Delete</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="event-content">
+                            <div class="event-header">
+                                <h5 class="event-title">Business Summit 2025</h5>
+                                <div class="event-category">
+                                    <span class="badge bg-info">Business</span>
+                                </div>
+                            </div>
+                            <div class="event-details">
+                                <div class="event-info">
+                                    <div class="info-item">
+                                        <i class="bi bi-calendar3"></i>
+                                        <span>Mar 20, 2025 • 8:30 AM</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <i class="bi bi-geo-alt"></i>
+                                        <span>Shangri-La Hotel, Colombo</span>
+                                    </div>
+                                </div>
+                                <div class="event-stats">
+                                    <div class="stat">
+                                        <span class="stat-value">0</span>
+                                        <span class="stat-label">Sold</span>
+                                    </div>
+                                    <div class="stat">
+                                        <span class="stat-value">200</span>
+                                        <span class="stat-label">Capacity</span>
+                                    </div>
+                                    <div class="stat">
+                                        <span class="stat-value">Rs. 0</span>
+                                        <span class="stat-label">Revenue</span>
+                                    </div>
+                                </div>
+                                <div class="progress-container">
+                                    <div class="progress">
+                                        <div class="progress-bar bg-secondary" style="width: 0%"></div>
+                                    </div>
+                                    <small class="progress-text">Not published</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Event Card 5 -->
+                <div class="col-lg-4 col-md-6 event-card-container" data-status="completed" data-category="arts" data-event-id="EVT005">
+                    <div class="event-card">
+                        <div class="event-image">
+                            <img src="picture/event-art.jpg" alt="Art Exhibition">
+                            <div class="event-status status-completed">Completed</div>
+                            <div class="event-actions">
+                                <button class="btn btn-sm btn-light" onclick="viewEvent('EVT005')" title="View Details">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                                <div class="dropdown">
+                                    <button class="btn btn-sm btn-light dropdown-toggle" type="button" 
+                                            data-bs-toggle="dropdown">
+                                        <i class="bi bi-three-dots"></i>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="#" onclick="viewAnalytics('EVT005')">
+                                            <i class="bi bi-graph-up me-2"></i>Analytics</a></li>
+                                        <li><a class="dropdown-item" href="#" onclick="downloadReport('EVT005')">
+                                            <i class="bi bi-download me-2"></i>Download Report</a></li>
+                                        <li><a class="dropdown-item" href="#" onclick="duplicateEvent('EVT005')">
+                                            <i class="bi bi-copy me-2"></i>Duplicate</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="event-content">
+                            <div class="event-header">
+                                <h5 class="event-title">Modern Art Exhibition</h5>
+                                <div class="event-category">
+                                    <span class="badge bg-secondary">Arts & Culture</span>
+                                </div>
+                            </div>
+                            <div class="event-details">
+                                <div class="event-info">
+                                    <div class="info-item">
+                                        <i class="bi bi-calendar3"></i>
+                                        <span>Dec 15, 2024 • 6:00 PM</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <i class="bi bi-geo-alt"></i>
+                                        <span>National Museum, Colombo</span>
+                                    </div>
+                                </div>
+                                <div class="event-stats">
+                                    <div class="stat">
+                                        <span class="stat-value">89</span>
+                                        <span class="stat-label">Attended</span>
+                                    </div>
+                                    <div class="stat">
+                                        <span class="stat-value">100</span>
+                                        <span class="stat-label">Capacity</span>
+                                    </div>
+                                    <div class="stat">
+                                        <span class="stat-value">Rs. 22K</span>
+                                        <span class="stat-label">Revenue</span>
+                                    </div>
+                                </div>
+                                <div class="progress-container">
+                                    <div class="progress">
+                                        <div class="progress-bar bg-success" style="width: 89%"></div>
+                                    </div>
+                                    <small class="progress-text">89% attendance</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Event Card 6 -->
+                <div class="col-lg-4 col-md-6 event-card-container" data-status="cancelled" data-category="sports" data-event-id="EVT006">
+                    <div class="event-card">
+                        <div class="event-image">
+                            <img src="picture/event-sports.jpg" alt="Sports Tournament">
+                            <div class="event-status status-cancelled">Cancelled</div>
+                            <div class="event-actions">
+                                <button class="btn btn-sm btn-light" onclick="viewEvent('EVT006')" title="View Details">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                                <div class="dropdown">
+                                    <button class="btn btn-sm btn-light dropdown-toggle" type="button" 
+                                            data-bs-toggle="dropdown">
+                                        <i class="bi bi-three-dots"></i>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="#" onclick="duplicateEvent('EVT006')">
+                                            <i class="bi bi-copy me-2"></i>Duplicate</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item text-danger" href="#" onclick="deleteEvent('EVT006')">
+                                            <i class="bi bi-trash me-2"></i>Delete</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="event-content">
+                            <div class="event-header">
+                                <h5 class="event-title">Sports Tournament 2024</h5>
+                                <div class="event-category">
+                                    <span class="badge bg-danger">Sports</span>
+                                </div>
+                            </div>
+                            <div class="event-details">
+                                <div class="event-info">
+                                    <div class="info-item">
+                                        <i class="bi bi-calendar3"></i>
+                                        <span>Dec 10, 2024 • 9:00 AM</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <i class="bi bi-geo-alt"></i>
+                                        <span>Sugathadasa Stadium</span>
+                                    </div>
+                                </div>
+                                <div class="event-stats">
+                                    <div class="stat">
+                                        <span class="stat-value">0</span>
+                                        <span class="stat-label">Refunded</span>
+                                    </div>
+                                    <div class="stat">
+                                        <span class="stat-value">500</span>
+                                        <span class="stat-label">Capacity</span>
+                                    </div>
+                                    <div class="stat">
+                                        <span class="stat-value">Rs. 0</span>
+                                        <span class="stat-label">Revenue</span>
+                                    </div>
+                                </div>
+                                <div class="progress-container">
+                                    <div class="progress">
+                                        <div class="progress-bar bg-danger" style="width: 100%"></div>
+                                    </div>
+                                    <small class="progress-text">Event cancelled</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- No Events Found -->
+            <div class="row" id="noEventsFound" style="display: none;">
+                <div class="col-12">
+                    <div class="no-events-container">
+                        <div class="no-events-content">
+                            <div class="no-events-icon">
+                                <i class="bi bi-calendar-x"></i>
+                            </div>
+                            <h5>No events found</h5>
+                            <p>No events match your current filters. Try adjusting your search criteria or create a new event.</p>
+                            <a href="create-event.html" class="btn btn-primary">
+                                <i class="bi bi-plus-circle me-2"></i>Create Your First Event
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <div class="row mt-5">
+                <div class="col-12">
+                    <nav aria-label="Events pagination">
+                        <ul class="pagination justify-content-center" id="eventsPagination">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1">
+                                    <i class="bi bi-chevron-left"></i>
+                                </a>
+                            </li>
+                            <li class="page-item active">
+                                <a class="page-link" href="#">1</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">2</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">
+                                    <i class="bi bi-chevron-right"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
         </div>
     </section>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+
+    <script>
+        // Sample events data - implementing Task 2 requirements
+        let eventsData = [
+            {
+                eventId: 'EVT001',
+                title: 'New Year Gala 2025',
+                category: 'entertainment',
+                status: 'active',
+                date: '2024-12-31',
+                time: '8:00 PM',
+                venue: 'BMICH, Colombo',
+                ticketsSold: 340,
+                capacity: 350,
+                revenue: 85000,
+                image: 'picture/event-concert.jpg'
+            },
+            {
+                eventId: 'EVT002',
+                title: 'Jazz Night Under Stars',
+                category: 'music',
+                status: 'active',
+                date: '2025-01-30',
+                time: '7:30 PM',
+                venue: 'Royal Botanical Gardens',
+                ticketsSold: 100,
+                capacity: 150,
+                revenue: 25000,
+                image: 'picture/event-jazz.jpg'
+            },
+            {
+                eventId: 'EVT003',
+                title: 'Tech Conference 2025',
+                category: 'technology',
+                status: 'active',
+                date: '2025-02-15',
+                time: '9:00 AM',
+                venue: 'Colombo Convention Centre',
+                ticketsSold: 135,
+                capacity: 300,
+                revenue: 67500,
+                image: 'picture/event-tech.jpg'
+            },
+            {
+                eventId: 'EVT004',
+                title: 'Business Summit 2025',
+                category: 'business',
+                status: 'draft',
+                date: '2025-03-20',
+                time: '8:30 AM',
+                venue: 'Shangri-La Hotel, Colombo',
+                ticketsSold: 0,
+                capacity: 200,
+                revenue: 0,
+                image: 'picture/event-startup.jpg'
+            },
+            {
+                eventId: 'EVT005',
+                title: 'Modern Art Exhibition',
+                category: 'arts',
+                status: 'completed',
+                date: '2024-12-15',
+                time: '6:00 PM',
+                venue: 'National Museum, Colombo',
+                ticketsSold: 89,
+                capacity: 100,
+                revenue: 22250,
+                image: 'picture/event-art.jpg'
+            },
+            {
+                eventId: 'EVT006',
+                title: 'Sports Tournament 2024',
+                category: 'sports',
+                status: 'cancelled',
+                date: '2024-12-10',
+                time: '9:00 AM',
+                venue: 'Sugathadasa Stadium',
+                ticketsSold: 0,
+                capacity: 500,
+                revenue: 0,
+                image: 'picture/event-sports.jpg'
+            }
+        ];
+
+        let filteredEvents = [...eventsData];
+        let currentView = 'grid';
+
+        document.addEventListener('DOMContentLoaded', function () {
+            initializeMyEvents();
+            setupEventListeners();
+            updateOverviewStats();
+        });
+
+        function initializeMyEvents() {
+            // Check if user is logged in as organizer
+            const sessionData = localStorage.getItem('userSession') || sessionStorage.getItem('userSession');
+            
+            if (!sessionData) {
+                window.location.href = 'login.html?redirect=my-events.html';
+                return;
+            }
+
+            const currentUser = JSON.parse(sessionData);
+            
+            if (currentUser.role !== 'organizer') {
+                Swal.fire({
+                    title: 'Access Denied',
+                    text: 'This page is only accessible to event organizers.',
+                    icon: 'error',
+                    confirmButtonColor: '#6366f1'
+                }).then(() => {
+                    window.location.href = 'index.html';
+                });
+                return;
+            }
+
+            document.getElementById('userName').textContent = currentUser.name || 'Rajesh Events';
+        }
+
+        function setupEventListeners() {
+            // Search functionality
+            document.getElementById('searchEvents').addEventListener('input', filterEvents);
+            
+            // Filter dropdowns
+            document.getElementById('statusFilter').addEventListener('change', filterEvents);
+            document.getElementById('categoryFilter').addEventListener('change', filterEvents);
+            document.getElementById('sortFilter').addEventListener('change', sortEvents);
+            
+            // View toggle
+            document.getElementById('gridView').addEventListener('click', () => setView('grid'));
+            document.getElementById('listView').addEventListener('click', () => setView('list'));
+        }
+
+        function updateOverviewStats() {
+            const totalEvents = eventsData.length;
+            const activeEvents = eventsData.filter(e => e.status === 'active').length;
+            const totalTickets = eventsData.reduce((sum, e) => sum + e.ticketsSold, 0);
+            const totalRevenue = eventsData.reduce((sum, e) => sum + e.revenue, 0);
+
+            document.getElementById('totalEvents').textContent = totalEvents;
+            document.getElementById('activeEvents').textContent = activeEvents;
+            document.getElementById('totalTickets').textContent = totalTickets.toLocaleString();
+            document.getElementById('totalRevenue').textContent = `Rs. ${(totalRevenue / 1000).toFixed(0)}K`;
+        }
+
+        function filterEvents() {
+            const searchTerm = document.getElementById('searchEvents').value.toLowerCase();
+            const statusFilter = document.getElementById('statusFilter').value;
+            const categoryFilter = document.getElementById('categoryFilter').value;
+
+            filteredEvents = eventsData.filter(event => {
+                const matchesSearch = event.title.toLowerCase().includes(searchTerm) || 
+                                    event.venue.toLowerCase().includes(searchTerm);
+                const matchesStatus = statusFilter === 'all' || event.status === statusFilter;
+                const matchesCategory = categoryFilter === 'all' || event.category === categoryFilter;
+
+                return matchesSearch && matchesStatus && matchesCategory;
+            });
+
+            sortEvents();
+            displayEvents();
+        }
+
+        function sortEvents() {
+            const sortBy = document.getElementById('sortFilter').value;
+
+            filteredEvents.sort((a, b) => {
+                switch (sortBy) {
+                    case 'date_desc':
+                        return new Date(b.date) - new Date(a.date);
+                    case 'date_asc':
+                        return new Date(a.date) - new Date(b.date);
+                    case 'name_asc':
+                        return a.title.localeCompare(b.title);
+                    case 'name_desc':
+                        return b.title.localeCompare(a.title);
+                    case 'revenue_desc':
+                        return b.revenue - a.revenue;
+                    default:
+                        return 0;
+                }
+            });
+
+            displayEvents();
+        }
+
+        function displayEvents() {
+            const container = document.getElementById('eventsGrid');
+            const noEventsContainer = document.getElementById('noEventsFound');
+
+            if (filteredEvents.length === 0) {
+                container.style.display = 'none';
+                noEventsContainer.style.display = 'block';
+                return;
+            }
+
+            container.style.display = 'flex';
+            noEventsContainer.style.display = 'none';
+
+            // Hide all event cards first
+            const allCards = container.querySelectorAll('.event-card-container');
+            allCards.forEach(card => card.style.display = 'none');
+
+            // Show filtered cards
+            filteredEvents.forEach(event => {
+                const card = container.querySelector(`[data-event-id="${event.eventId}"]`);
+                if (card) {
+                    card.style.display = 'block';
+                }
+            });
+        }
+
+        function setView(view) {
+            currentView = view;
+            const gridBtn = document.getElementById('gridView');
+            const listBtn = document.getElementById('listView');
+
+            if (view === 'grid') {
+                gridBtn.classList.add('active');
+                listBtn.classList.remove('active');
+                // Grid view is default
+            } else {
+                listBtn.classList.add('active');
+                gridBtn.classList.remove('active');
+                // List view would require different HTML structure
+                Swal.fire({
+                    title: 'Coming Soon',
+                    text: 'List view will be available in the next update.',
+                    icon: 'info',
+                    confirmButtonColor: '#6366f1'
+                });
+                // Reset to grid view
+                gridBtn.classList.add('active');
+                listBtn.classList.remove('active');
+            }
+        }
+
+        // Event Action Functions - Task 2 Implementation
+        function viewEvent(eventId) {
+            window.location.href = `event-details.html?id=${eventId}`;
+        }
+
+        function editEvent(eventId) {
+            window.location.href = `edit-event.html?id=${eventId}`;
+        }
+
+        function duplicateEvent(eventId) {
+            const event = eventsData.find(e => e.eventId === eventId);
+            if (!event) return;
+
+            Swal.fire({
+                title: 'Duplicate Event',
+                text: `Create a copy of "${event.title}"?`,
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, Duplicate',
+                cancelButtonText: 'Cancel',
+                confirmButtonColor: '#6366f1'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Simulate duplication
+                    const newEvent = {
+                        ...event,
+                        eventId: 'EVT' + (Date.now().toString().slice(-3)),
+                        title: event.title + ' (Copy)',
+                        status: 'draft',
+                        ticketsSold: 0,
+                        revenue: 0
+                    };
+                    
+                    eventsData.unshift(newEvent);
+                    filteredEvents = [...eventsData];
+                    updateOverviewStats();
+                    
+                    Swal.fire({
+                        title: 'Success!',
+                        text: 'Event duplicated successfully. You can now edit the copy.',
+                        icon: 'success',
+                        confirmButtonColor: '#6366f1'
+                    }).then(() => {
+                        editEvent(newEvent.eventId);
+                    });
+                }
+            });
+        }
+
+        function publishEvent(eventId) {
+            const event = eventsData.find(e => e.eventId === eventId);
+            if (!event) return;
+
+            Swal.fire({
+                title: 'Publish Event',
+                text: `Make "${event.title}" live and visible to customers?`,
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, Publish',
+                cancelButtonText: 'Cancel',
+                confirmButtonColor: '#10b981'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    event.status = 'active';
+                    updateOverviewStats();
+                    filterEvents();
+                    
+                    Swal.fire({
+                        title: 'Published!',
+                        text: 'Your event is now live and accepting bookings.',
+                        icon: 'success',
+                        confirmButtonColor: '#6366f1'
+                    });
+                }
+            });
+        }
+
+        function deleteEvent(eventId) {
+            const event = eventsData.find(e => e.eventId === eventId);
+            if (!event) return;
+
+            Swal.fire({
+                title: 'Delete Event',
+                text: `Are you sure you want to delete "${event.title}"? This action cannot be undone.`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, Delete',
+                cancelButtonText: 'Cancel',
+                confirmButtonColor: '#ef4444',
+                dangerMode: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Check if event has bookings
+                    if (event.ticketsSold > 0) {
+                        Swal.fire({
+                            title: 'Cannot Delete',
+                            text: 'This event has existing bookings and cannot be deleted. You can cancel the event instead.',
+                            icon: 'error',
+                            confirmButtonColor: '#6366f1'
+                        });
+                        return;
+                    }
+
+                    const index = eventsData.findIndex(e => e.eventId === eventId);
+                    if (index > -1) {
+                        eventsData.splice(index, 1);
+                        filteredEvents = [...eventsData];
+                        updateOverviewStats();
+                        displayEvents();
+                        
+                        Swal.fire({
+                            title: 'Deleted!',
+                            text: 'Event has been deleted successfully.',
+                            icon: 'success',
+                            confirmButtonColor: '#6366f1'
+                        });
+                    }
+                }
+            });
+        }
+
+        function viewAnalytics(eventId) {
+            window.location.href = `event-analytics.html?id=${eventId}`;
+        }
+
+        function shareEvent(eventId) {
+            const event = eventsData.find(e => e.eventId === eventId);
+            if (!event) return;
+
+            const eventUrl = `${window.location.origin}/event-details.html?id=${eventId}`;
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: event.title,
+                    text: `Check out this amazing event: ${event.title}`,
+                    url: eventUrl
+                }).catch(console.error);
+            } else {
+                // Fallback to clipboard
+                navigator.clipboard.writeText(eventUrl).then(() => {
+                    Swal.fire({
+                        title: 'Link Copied!',
+                        text: 'Event link has been copied to your clipboard.',
+                        icon: 'success',
+                        confirmButtonColor: '#6366f1',
+                        timer: 2000
+                    });
+                }).catch(() => {
+                    // Show modal with link
+                    Swal.fire({
+                        title: 'Share Event',
+                        html: `
+                            <div class="share-options">
+                                <p class="mb-3">Share this event with your audience:</p>
+                                <div class="input-group mb-3">
+                                    <input type="text" class="form-control" value="${eventUrl}" id="shareLink" readonly>
+                                    <button class="btn btn-outline-secondary" onclick="copyShareLink()">Copy</button>
+                                </div>
+                                <div class="social-share">
+                                    <a href="https://facebook.com/sharer/sharer.php?u=${encodeURIComponent(eventUrl)}" 
+                                       target="_blank" class="btn btn-outline-primary btn-sm me-2">
+                                        <i class="bi bi-facebook"></i> Facebook
+                                    </a>
+                                    <a href="https://twitter.com/intent/tweet?url=${encodeURIComponent(eventUrl)}&text=${encodeURIComponent(event.title)}" 
+                                       target="_blank" class="btn btn-outline-info btn-sm me-2">
+                                        <i class="bi bi-twitter"></i> Twitter
+                                    </a>
+                                    <a href="https://wa.me/?text=${encodeURIComponent(event.title + ' - ' + eventUrl)}" 
+                                       target="_blank" class="btn btn-outline-success btn-sm">
+                                        <i class="bi bi-whatsapp"></i> WhatsApp
+                                    </a>
+                                </div>
+                            </div>
+                        `,
+                        showConfirmButton: false,
+                        showCloseButton: true,
+                        width: 500
+                    });
+                });
+            }
+        }
+
+        function copyShareLink() {
+            const linkInput = document.getElementById('shareLink');
+            linkInput.select();
+            document.execCommand('copy');
+            
+            Swal.fire({
+                title: 'Copied!',
+                text: 'Link copied to clipboard.',
+                icon: 'success',
+                confirmButtonColor: '#6366f1',
+                timer: 1500,
+                showConfirmButton: false
+            });
+        }
+
+        function downloadReport(eventId) {
+            const event = eventsData.find(e => e.eventId === eventId);
+            if (!event) return;
+
+            Swal.fire({
+                title: 'Download Report',
+                text: 'Select the type of report you want to download:',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Sales Report',
+                cancelButtonText: 'Analytics Report',
+                confirmButtonColor: '#6366f1'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Simulate download
+                    Swal.fire({
+                        title: 'Downloading...',
+                        text: 'Your sales report is being prepared.',
+                        icon: 'info',
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                    // Simulate download
+                    Swal.fire({
+                        title: 'Downloading...',
+                        text: 'Your analytics report is being prepared.',
+                        icon: 'info',
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                }
+            });
+        }
+
+        function logout() {
+            Swal.fire({
+                title: 'Logout',
+                text: 'Are you sure you want to logout?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, Logout',
+                cancelButtonText: 'Cancel',
+                confirmButtonColor: '#ef4444'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    localStorage.removeItem('userSession');
+                    sessionStorage.removeItem('userSession');
+                    localStorage.removeItem('userLoggedIn');
+                    
+                    Swal.fire({
+                        title: 'Logged Out',
+                        text: 'You have been successfully logged out.',
+                        icon: 'success',
+                        confirmButtonColor: '#6366f1',
+                        timer: 1500,
+                        showConfirmButton: false
+                    }).then(() => {
+                        window.location.href = 'index.html';
+                    });
+                }
+            });
+        }
+
+        // Initialize filters and display
+        filterEvents();
+    </script>
+
 </body>
 
 </html>

@@ -1,0 +1,1579 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EventHub - Sales Reports</title>
+
+    <!-- Bootstrap 5.3 CSS (Latest) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <!-- Bootstrap Icons (Latest) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        /* EventHub Custom Styles - Matching existing design */
+        * {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f8fafc;
+            line-height: 1.6;
+        }
+
+        /* Navbar Styling - From navbar.html */
+        .eventhub-navbar {
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+            padding: 0.75rem 0;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .eventhub-brand {
+            text-decoration: none;
+            color: #6366f1 !important;
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .eventhub-brand:hover {
+            color: #5855eb !important;
+            text-decoration: none;
+        }
+
+        .brand-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .brand-text {
+            color: #6366f1;
+            font-weight: 700;
+        }
+
+        .eventhub-nav-link {
+            color: #64748b !important;
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 0.5rem 1rem !important;
+            margin: 0 0.25rem;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .eventhub-nav-link:hover {
+            color: #6366f1 !important;
+            background-color: rgba(99, 102, 241, 0.1);
+        }
+
+        .eventhub-nav-link.active {
+            color: #6366f1 !important;
+            background-color: rgba(99, 102, 241, 0.15);
+            font-weight: 600;
+        }
+
+        /* User Menu */
+        .user-menu {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            color: #374151 !important;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .user-menu:hover {
+            background-color: rgba(99, 102, 241, 0.1);
+            color: #6366f1 !important;
+        }
+
+        .user-avatar {
+            font-size: 1.5rem;
+            margin-right: 0.5rem;
+            color: #6366f1;
+        }
+
+        .user-name {
+            font-weight: 500;
+        }
+
+        .user-dropdown {
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            padding: 0.5rem 0;
+        }
+
+        .user-dropdown .dropdown-item {
+            padding: 0.75rem 1.5rem;
+            color: #374151;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+        }
+
+        .user-dropdown .dropdown-item:hover {
+            background-color: rgba(99, 102, 241, 0.1);
+            color: #6366f1;
+        }
+
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 4rem 0 2rem;
+            color: white;
+        }
+
+        .page-header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            gap: 2rem;
+        }
+
+        .header-text {
+            flex: 1;
+        }
+
+        .page-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: white;
+        }
+
+        .page-subtitle {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .breadcrumb {
+            background: transparent;
+            padding: 0;
+            margin: 0;
+        }
+
+        .breadcrumb-item a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+        }
+
+        .breadcrumb-item a:hover {
+            color: white;
+        }
+
+        .breadcrumb-item.active {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .breadcrumb-item + .breadcrumb-item::before {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn-export {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-export:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Reports Overview */
+        .reports-overview {
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .overview-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .overview-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .overview-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .overview-icon.revenue {
+            background: linear-gradient(135deg, #10b981, #34d399);
+        }
+
+        .overview-icon.tickets {
+            background: linear-gradient(135deg, #3b82f6, #60a5fa);
+        }
+
+        .overview-icon.events {
+            background: linear-gradient(135deg, #8b5cf6, #a78bfa);
+        }
+
+        .overview-icon.growth {
+            background: linear-gradient(135deg, #f59e0b, #fbbf24);
+        }
+
+        .overview-content h3 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin: 0;
+        }
+
+        .overview-content p {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin: 0;
+        }
+
+        .growth-indicator {
+            display: flex;
+            align-items: center;
+            margin-top: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .growth-indicator.positive {
+            color: #10b981;
+        }
+
+        .growth-indicator.negative {
+            color: #ef4444;
+        }
+
+        /* Reports Controls */
+        .reports-controls {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+        }
+
+        .form-select {
+            border-color: #e2e8f0;
+        }
+
+        .form-select:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 0.2rem rgba(99, 102, 241, 0.1);
+        }
+
+        /* Chart Cards */
+        .chart-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .chart-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .chart-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin: 0;
+        }
+
+        .chart-subtitle {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin: 0;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+        }
+
+        .chart-container.large {
+            height: 400px;
+        }
+
+        /* Data Table */
+        .data-table {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+        }
+
+        .table {
+            margin-bottom: 0;
+        }
+
+        .table th {
+            border-top: none;
+            border-bottom: 2px solid #e2e8f0;
+            color: #374151;
+            font-weight: 600;
+            padding: 1rem 0.75rem;
+        }
+
+        .table td {
+            border-color: #f3f4f6;
+            padding: 1rem 0.75rem;
+            vertical-align: middle;
+        }
+
+        .table tbody tr:hover {
+            background-color: #f8fafc;
+        }
+
+        .event-name {
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .event-date {
+            color: #6b7280;
+            font-size: 0.875rem;
+        }
+
+        .revenue-amount {
+            font-weight: 700;
+            color: #10b981;
+        }
+
+        .tickets-sold {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .progress-mini {
+            width: 60px;
+            height: 6px;
+            background: #e2e8f0;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-mini .progress-bar {
+            height: 100%;
+            border-radius: 3px;
+        }
+
+        /* Export Section */
+        .export-section {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+        }
+
+        .export-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .export-option {
+            text-align: center;
+            padding: 1.5rem 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .export-option:hover {
+            border-color: #6366f1;
+            background: rgba(99, 102, 241, 0.05);
+        }
+
+        .export-option i {
+            font-size: 2rem;
+            color: #6366f1;
+            margin-bottom: 0.5rem;
+        }
+
+        .export-option h6 {
+            color: #1f2937;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .export-option p {
+            color: #6b7280;
+            font-size: 0.875rem;
+            margin: 0;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .page-header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .page-subtitle {
+                font-size: 1rem;
+            }
+
+            .header-actions {
+                justify-content: center;
+            }
+
+            .reports-controls .row {
+                flex-direction: column;
+            }
+
+            .reports-controls .col-lg-3 {
+                margin-bottom: 1rem;
+            }
+
+            .overview-card {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .chart-container {
+                height: 250px;
+            }
+
+            .chart-container.large {
+                height: 300px;
+            }
+        }
+
+        /* Custom Toggle */
+        .custom-toggler {
+            border: none;
+            padding: 0.25rem 0.5rem;
+        }
+
+        .custom-toggler:focus {
+            box-shadow: 0 0 0 0.2rem rgba(99, 102, 241, 0.25);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- EventHub Header - Organizer -->
+    <nav class="navbar navbar-expand-lg eventhub-navbar">
+        <div class="container-fluid px-4">
+            <!-- Brand Logo -->
+            <a class="navbar-brand eventhub-brand d-flex align-items-center" href="index.html">
+                <div class="brand-icon me-2">
+                    <i class="bi bi-calendar-event me-1"></i>
+                </div>
+                <span class="brand-text">EventHub</span>
+            </a>
+
+            <!-- Mobile Toggle Button -->
+            <button class="navbar-toggler custom-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navigation Items -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <!-- Left Navigation -->
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link eventhub-nav-link" href="index.html">
+                            <i class="bi bi-house me-1"></i>Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link eventhub-nav-link" href="event-listing.html">
+                            <i class="bi bi-calendar-event me-1"></i>Browse Events
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link eventhub-nav-link" href="my-events.html">
+                            <i class="bi bi-calendar3 me-1"></i>My Events
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link eventhub-nav-link" href="create-event.html">
+                            <i class="bi bi-plus-circle me-1"></i>Create Event
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link eventhub-nav-link active" href="sales-reports.html">
+                            <i class="bi bi-bar-chart me-1"></i>Sales Reports
+                        </a>
+                    </li>
+                </ul>
+
+                <!-- Right Navigation - User Menu -->
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle user-menu" href="#" id="userDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <div class="user-avatar">
+                                <i class="bi bi-person-circle"></i>
+                            </div>
+                            <span class="user-name" id="userName">Rajesh Events</span>
+                        </a>
+                        <ul class="dropdown-menu user-dropdown" aria-labelledby="userDropdown">
+                            <li><a class="dropdown-item" href="organizer-dashboard.html">
+                                <i class="bi bi-speedometer2 me-2"></i>Dashboard</a></li>
+                            <li><a class="dropdown-item" href="user-profile.html">
+                                <i class="bi bi-person me-2"></i>My Profile</a></li>
+                            <li><a class="dropdown-item" href="my-events.html">
+                                <i class="bi bi-calendar3 me-2"></i>My Events</a></li>
+                            <li><a class="dropdown-item" href="create-event.html">
+                                <i class="bi bi-plus-circle me-2"></i>Create Event</a></li>
+                            <li><a class="dropdown-item" href="sales-reports.html">
+                                <i class="bi bi-bar-chart me-2"></i>Sales Reports</a></li>
+                            <li><a class="dropdown-item" href="qr-scanner.html">
+                                <i class="bi bi-qr-code-scan me-2"></i>QR Scanner</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#" onclick="logout()">
+                                <i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-header-content">
+                        <div class="header-text">
+                            <h1 class="page-title">Sales Reports</h1>
+                            <p class="page-subtitle">Track your event performance, revenue analytics, and ticket sales data</p>
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                                    <li class="breadcrumb-item"><a href="organizer-dashboard.html">Dashboard</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Sales Reports</li>
+                                </ol>
+                            </nav>
+                        </div>
+                        <div class="header-actions">
+                            <button class="btn btn-export" onclick="exportAllData()">
+                                <i class="bi bi-download me-2"></i>Export All Data
+                            </button>
+                            <button class="btn btn-export" onclick="scheduleReport()">
+                                <i class="bi bi-calendar-plus me-2"></i>Schedule Report
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reports Overview Section -->
+    <section class="reports-overview py-4">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-3 col-md-6">
+                    <div class="overview-card">
+                        <div class="overview-icon revenue">
+                            <i class="bi bi-currency-dollar"></i>
+                        </div>
+                        <div class="overview-content">
+                            <h3 id="totalRevenue">Rs. 245,000</h3>
+                            <p>Total Revenue</p>
+                            <div class="growth-indicator positive">
+                                <i class="bi bi-arrow-up me-1"></i>
+                                <span>+25.4% from last month</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="overview-card">
+                        <div class="overview-icon tickets">
+                            <i class="bi bi-ticket-perforated"></i>
+                        </div>
+                        <div class="overview-content">
+                            <h3 id="totalTickets">1,247</h3>
+                            <p>Tickets Sold</p>
+                            <div class="growth-indicator positive">
+                                <i class="bi bi-arrow-up me-1"></i>
+                                <span>+18.2% from last month</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="overview-card">
+                        <div class="overview-icon events">
+                            <i class="bi bi-calendar-check"></i>
+                        </div>
+                        <div class="overview-content">
+                            <h3 id="activeEvents">5</h3>
+                            <p>Active Events</p>
+                            <div class="growth-indicator positive">
+                                <i class="bi bi-arrow-up me-1"></i>
+                                <span>+2 new events</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="overview-card">
+                        <div class="overview-icon growth">
+                            <i class="bi bi-graph-up-arrow"></i>
+                        </div>
+                        <div class="overview-content">
+                            <h3 id="avgTicketPrice">Rs. 196</h3>
+                            <p>Avg. Ticket Price</p>
+                            <div class="growth-indicator negative">
+                                <i class="bi bi-arrow-down me-1"></i>
+                                <span>-3.2% from last month</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reports Management Section -->
+    <section class="reports-management py-5">
+        <div class="container">
+            <!-- Filters and Controls -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="reports-controls">
+                        <div class="row g-3 align-items-center">
+                            <div class="col-lg-3">
+                                <label class="form-label fw-semibold">Date Range</label>
+                                <select class="form-select" id="dateRange">
+                                    <option value="7days">Last 7 Days</option>
+                                    <option value="30days" selected>Last 30 Days</option>
+                                    <option value="90days">Last 90 Days</option>
+                                    <option value="6months">Last 6 Months</option>
+                                    <option value="1year">Last Year</option>
+                                    <option value="custom">Custom Range</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-3">
+                                <label class="form-label fw-semibold">Event Status</label>
+                                <select class="form-select" id="eventStatus">
+                                    <option value="all">All Events</option>
+                                    <option value="active">Active Events</option>
+                                    <option value="completed">Completed Events</option>
+                                    <option value="cancelled">Cancelled Events</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-3">
+                                <label class="form-label fw-semibold">Event Category</label>
+                                <select class="form-select" id="eventCategory">
+                                    <option value="all">All Categories</option>
+                                    <option value="music">Music</option>
+                                    <option value="technology">Technology</option>
+                                    <option value="business">Business</option>
+                                    <option value="entertainment">Entertainment</option>
+                                    <option value="sports">Sports</option>
+                                    <option value="arts">Arts & Culture</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-3">
+                                <label class="form-label fw-semibold">Report Type</label>
+                                <select class="form-select" id="reportType">
+                                    <option value="revenue">Revenue Analysis</option>
+                                    <option value="tickets">Ticket Sales</option>
+                                    <option value="events">Event Performance</option>
+                                    <option value="customers">Customer Analytics</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Section -->
+            <div class="row g-4 mb-5">
+                <!-- Revenue Chart -->
+                <div class="col-lg-8">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <div>
+                                <h3 class="chart-title">Revenue Trends</h3>
+                                <p class="chart-subtitle">Monthly revenue performance over the last 6 months</p>
+                            </div>
+                        </div>
+                        <div class="chart-container large">
+                            <canvas id="revenueChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Event Performance Chart -->
+                <div class="col-lg-4">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <div>
+                                <h3 class="chart-title">Events by Category</h3>
+                                <p class="chart-subtitle">Distribution of events by category</p>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="categoryChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-4 mb-5">
+                <!-- Ticket Sales Chart -->
+                <div class="col-lg-6">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <div>
+                                <h3 class="chart-title">Ticket Sales Trend</h3>
+                                <p class="chart-subtitle">Daily ticket sales for the last 30 days</p>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="ticketSalesChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Top Events Chart -->
+                <div class="col-lg-6">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <div>
+                                <h3 class="chart-title">Top Performing Events</h3>
+                                <p class="chart-subtitle">Revenue by event (top 5 events)</p>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="topEventsChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detailed Data Table -->
+            <div class="row mb-5">
+                <div class="col-12">
+                    <div class="data-table">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h3 class="chart-title">Event Performance Details</h3>
+                            <button class="btn btn-outline-primary" onclick="exportTableData()">
+                                <i class="bi bi-download me-2"></i>Export Table
+                            </button>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Event Name</th>
+                                        <th>Date</th>
+                                        <th>Category</th>
+                                        <th>Tickets Sold</th>
+                                        <th>Revenue</th>
+                                        <th>Avg. Price</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="eventsTableBody">
+                                    <tr>
+                                        <td>
+                                            <div>
+                                                <div class="event-name">New Year Gala 2025</div>
+                                                <div class="event-date">BMICH, Colombo</div>
+                                            </div>
+                                        </td>
+                                        <td>Dec 31, 2024</td>
+                                        <td><span class="badge bg-primary">Entertainment</span></td>
+                                        <td>
+                                            <div class="tickets-sold">
+                                                <span>340/350</span>
+                                                <div class="progress-mini">
+                                                    <div class="progress-bar bg-success" style="width: 97%"></div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="revenue-amount">Rs. 85,000</td>
+                                        <td>Rs. 250</td>
+                                        <td><span class="badge bg-success">Active</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary" onclick="viewEventReport('EVT001')">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div>
+                                                <div class="event-name">Tech Conference 2025</div>
+                                                <div class="event-date">Colombo Convention Centre</div>
+                                            </div>
+                                        </td>
+                                        <td>Feb 15, 2025</td>
+                                        <td><span class="badge bg-warning">Technology</span></td>
+                                        <td>
+                                            <div class="tickets-sold">
+                                                <span>135/300</span>
+                                                <div class="progress-mini">
+                                                    <div class="progress-bar bg-warning" style="width: 45%"></div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="revenue-amount">Rs. 67,500</td>
+                                        <td>Rs. 500</td>
+                                        <td><span class="badge bg-success">Active</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary" onclick="viewEventReport('EVT003')">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div>
+                                                <div class="event-name">Jazz Night Under Stars</div>
+                                                <div class="event-date">Royal Botanical Gardens</div>
+                                            </div>
+                                        </td>
+                                        <td>Jan 30, 2025</td>
+                                        <td><span class="badge bg-info">Music</span></td>
+                                        <td>
+                                            <div class="tickets-sold">
+                                                <span>100/150</span>
+                                                <div class="progress-mini">
+                                                    <div class="progress-bar bg-info" style="width: 67%"></div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="revenue-amount">Rs. 25,000</td>
+                                        <td>Rs. 250</td>
+                                        <td><span class="badge bg-success">Active</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary" onclick="viewEventReport('EVT002')">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div>
+                                                <div class="event-name">Modern Art Exhibition</div>
+                                                <div class="event-date">National Museum, Colombo</div>
+                                            </div>
+                                        </td>
+                                        <td>Dec 15, 2024</td>
+                                        <td><span class="badge bg-secondary">Arts</span></td>
+                                        <td>
+                                            <div class="tickets-sold">
+                                                <span>89/100</span>
+                                                <div class="progress-mini">
+                                                    <div class="progress-bar bg-success" style="width: 89%"></div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="revenue-amount">Rs. 22,250</td>
+                                        <td>Rs. 250</td>
+                                        <td><span class="badge bg-primary">Completed</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary" onclick="viewEventReport('EVT005')">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div>
+                                                <div class="event-name">Sports Tournament 2024</div>
+                                                <div class="event-date">Sugathadasa Stadium</div>
+                                            </div>
+                                        </td>
+                                        <td>Dec 10, 2024</td>
+                                        <td><span class="badge bg-danger">Sports</span></td>
+                                        <td>
+                                            <div class="tickets-sold">
+                                                <span>0/500</span>
+                                                <div class="progress-mini">
+                                                    <div class="progress-bar bg-danger" style="width: 0%"></div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="revenue-amount">Rs. 0</td>
+                                        <td>Rs. 0</td>
+                                        <td><span class="badge bg-danger">Cancelled</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary" onclick="viewEventReport('EVT006')">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Export Options -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="export-section">
+                        <h3 class="chart-title mb-3">Export & Download Options</h3>
+                        <div class="export-options">
+                            <div class="export-option" onclick="exportReport('pdf')">
+                                <i class="bi bi-file-earmark-pdf"></i>
+                                <h6>PDF Report</h6>
+                                <p>Comprehensive sales report in PDF format</p>
+                            </div>
+                            <div class="export-option" onclick="exportReport('excel')">
+                                <i class="bi bi-file-earmark-spreadsheet"></i>
+                                <h6>Excel Spreadsheet</h6>
+                                <p>Detailed data in Excel format for analysis</p>
+                            </div>
+                            <div class="export-option" onclick="exportReport('csv')">
+                                <i class="bi bi-file-earmark-text"></i>
+                                <h6>CSV Data</h6>
+                                <p>Raw data in CSV format for custom analysis</p>
+                            </div>
+                            <div class="export-option" onclick="emailReport()">
+                                <i class="bi bi-envelope"></i>
+                                <h6>Email Report</h6>
+                                <p>Send report directly to your email</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+
+    <script>
+        // Sample sales data - implementing Task 8 requirements
+        let salesData = {
+            totalRevenue: 245000,
+            totalTickets: 1247,
+            activeEvents: 5,
+            avgTicketPrice: 196,
+            
+            // Monthly revenue data for last 6 months
+            monthlyRevenue: [
+                { month: 'Aug', revenue: 45000, tickets: 180 },
+                { month: 'Sep', revenue: 52000, tickets: 208 },
+                { month: 'Oct', revenue: 38000, tickets: 152 },
+                { month: 'Nov', revenue: 65000, tickets: 260 },
+                { month: 'Dec', revenue: 72000, tickets: 288 },
+                { month: 'Jan', revenue: 85000, tickets: 340 }
+            ],
+            
+            // Category distribution
+            categoryData: {
+                'Music': 35,
+                'Technology': 25,
+                'Entertainment': 20,
+                'Business': 15,
+                'Sports': 5
+            },
+            
+            // Top performing events
+            topEvents: [
+                { name: 'New Year Gala 2025', revenue: 85000 },
+                { name: 'Tech Conference 2025', revenue: 67500 },
+                { name: 'Jazz Night Under Stars', revenue: 25000 },
+                { name: 'Modern Art Exhibition', revenue: 22250 },
+                { name: 'Business Summit 2025', revenue: 0 }
+            ],
+            
+            // Daily ticket sales for last 30 days
+            dailyTicketSales: Array.from({length: 30}, (_, i) => {
+                return {
+                    day: i + 1,
+                    tickets: Math.floor(Math.random() * 50) + 10
+                };
+            })
+        };
+
+        let revenueChart, categoryChart, ticketSalesChart, topEventsChart;
+
+        document.addEventListener('DOMContentLoaded', function () {
+            initializeSalesReports();
+            setupEventListeners();
+            initializeCharts();
+        });
+
+        function initializeSalesReports() {
+            // Check if user is logged in as organizer
+            const sessionData = localStorage.getItem('userSession') || sessionStorage.getItem('userSession');
+            
+            if (!sessionData) {
+                window.location.href = 'login.html?redirect=sales-reports.html';
+                return;
+            }
+
+            const currentUser = JSON.parse(sessionData);
+            
+            if (currentUser.role !== 'organizer') {
+                Swal.fire({
+                    title: 'Access Denied',
+                    text: 'This page is only accessible to event organizers.',
+                    icon: 'error',
+                    confirmButtonColor: '#6366f1'
+                }).then(() => {
+                    window.location.href = 'index.html';
+                });
+                return;
+            }
+
+            document.getElementById('userName').textContent = currentUser.name || 'Rajesh Events';
+        }
+
+        function setupEventListeners() {
+            // Filter change listeners
+            document.getElementById('dateRange').addEventListener('change', updateReports);
+            document.getElementById('eventStatus').addEventListener('change', updateReports);
+            document.getElementById('eventCategory').addEventListener('change', updateReports);
+            document.getElementById('reportType').addEventListener('change', updateReports);
+        }
+
+        function initializeCharts() {
+            // Revenue Trend Chart
+            const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+            revenueChart = new Chart(revenueCtx, {
+                type: 'line',
+                data: {
+                    labels: salesData.monthlyRevenue.map(d => d.month),
+                    datasets: [{
+                        label: 'Revenue (Rs.)',
+                        data: salesData.monthlyRevenue.map(d => d.revenue),
+                        borderColor: '#6366f1',
+                        backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: '#6366f1',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return 'Rs. ' + (value / 1000) + 'K';
+                                }
+                            },
+                            grid: {
+                                color: '#f3f4f6'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: '#f3f4f6'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Category Distribution Chart
+            const categoryCtx = document.getElementById('categoryChart').getContext('2d');
+            categoryChart = new Chart(categoryCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: Object.keys(salesData.categoryData),
+                    datasets: [{
+                        data: Object.values(salesData.categoryData),
+                        backgroundColor: [
+                            '#6366f1',
+                            '#10b981',
+                            '#f59e0b',
+                            '#ef4444',
+                            '#8b5cf6'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                usePointStyle: true,
+                                padding: 20
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Ticket Sales Trend Chart
+            const ticketCtx = document.getElementById('ticketSalesChart').getContext('2d');
+            ticketSalesChart = new Chart(ticketCtx, {
+                type: 'bar',
+                data: {
+                    labels: salesData.dailyTicketSales.slice(-14).map(d => 'Day ' + d.day),
+                    datasets: [{
+                        label: 'Tickets Sold',
+                        data: salesData.dailyTicketSales.slice(-14).map(d => d.tickets),
+                        backgroundColor: 'rgba(16, 185, 129, 0.8)',
+                        borderColor: '#10b981',
+                        borderWidth: 1,
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: '#f3f4f6'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: '#f3f4f6'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Top Events Chart
+            const topEventsCtx = document.getElementById('topEventsChart').getContext('2d');
+            topEventsChart = new Chart(topEventsCtx, {
+                type: 'bar',
+                data: {
+                    labels: salesData.topEvents.map(e => e.name.length > 15 ? e.name.substring(0, 15) + '...' : e.name),
+                    datasets: [{
+                        label: 'Revenue (Rs.)',
+                        data: salesData.topEvents.map(e => e.revenue),
+                        backgroundColor: [
+                            '#6366f1',
+                            '#10b981',
+                            '#f59e0b',
+                            '#ef4444',
+                            '#8b5cf6'
+                        ],
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return 'Rs. ' + (value / 1000) + 'K';
+                                }
+                            },
+                            grid: {
+                                color: '#f3f4f6'
+                            }
+                        },
+                        y: {
+                            grid: {
+                                color: '#f3f4f6'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateReports() {
+            const dateRange = document.getElementById('dateRange').value;
+            const eventStatus = document.getElementById('eventStatus').value;
+            const eventCategory = document.getElementById('eventCategory').value;
+            const reportType = document.getElementById('reportType').value;
+
+            // Simulate data update based on filters
+            Swal.fire({
+                title: 'Updating Reports',
+                text: 'Please wait while we update your reports...',
+                icon: 'info',
+                timer: 2000,
+                showConfirmButton: false,
+                allowOutsideClick: false
+            }).then(() => {
+                // Update charts with filtered data
+                updateChartsWithFilters(dateRange, eventStatus, eventCategory, reportType);
+                
+                Swal.fire({
+                    title: 'Reports Updated',
+                    text: 'Your reports have been updated with the selected filters.',
+                    icon: 'success',
+                    confirmButtonColor: '#6366f1',
+                    timer: 1500,
+                    showConfirmButton: false
+                });
+            });
+        }
+
+        function updateChartsWithFilters(dateRange, eventStatus, eventCategory, reportType) {
+            // Simulate chart updates based on filters
+            // In a real application, this would fetch new data from the server
+            
+            // Update revenue chart
+            if (revenueChart) {
+                revenueChart.data.datasets[0].data = salesData.monthlyRevenue.map(d => 
+                    d.revenue * (0.8 + Math.random() * 0.4)
+                );
+                revenueChart.update();
+            }
+
+            // Update other charts similarly
+            if (categoryChart) {
+                categoryChart.update();
+            }
+            
+            if (ticketSalesChart) {
+                ticketSalesChart.data.datasets[0].data = salesData.dailyTicketSales.slice(-14).map(d => 
+                    Math.floor(d.tickets * (0.8 + Math.random() * 0.4))
+                );
+                ticketSalesChart.update();
+            }
+            
+            if (topEventsChart) {
+                topEventsChart.update();
+            }
+        }
+
+        // Export and Action Functions - Task 8 Implementation
+        function exportAllData() {
+            Swal.fire({
+                title: 'Export All Data',
+                text: 'Select the format for exporting all sales data:',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Excel (.xlsx)',
+                cancelButtonText: 'PDF Report',
+                confirmButtonColor: '#10b981',
+                cancelButtonColor: '#6366f1'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    exportReport('excel');
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                    exportReport('pdf');
+                }
+            });
+        }
+
+        function scheduleReport() {
+            Swal.fire({
+                title: 'Schedule Automatic Reports',
+                html: `
+                    <div class="text-start">
+                        <div class="mb-3">
+                            <label class="form-label">Report Frequency</label>
+                            <select class="form-select" id="reportFrequency">
+                                <option value="daily">Daily</option>
+                                <option value="weekly" selected>Weekly</option>
+                                <option value="monthly">Monthly</option>
+                                <option value="quarterly">Quarterly</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Email Address</label>
+                            <input type="email" class="form-control" id="reportEmail" value="rajesh@eventsltd.com">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Report Format</label>
+                            <select class="form-select" id="reportFormat">
+                                <option value="pdf">PDF Report</option>
+                                <option value="excel">Excel Spreadsheet</option>
+                                <option value="both" selected>Both Formats</option>
+                            </select>
+                        </div>
+                    </div>
+                `,
+                showCancelButton: true,
+                confirmButtonText: 'Schedule Reports',
+                cancelButtonText: 'Cancel',
+                confirmButtonColor: '#6366f1',
+                preConfirm: () => {
+                    const frequency = document.getElementById('reportFrequency').value;
+                    const email = document.getElementById('reportEmail').value;
+                    const format = document.getElementById('reportFormat').value;
+                    
+                    if (!email) {
+                        Swal.showValidationMessage('Please enter an email address');
+                        return false;
+                    }
+                    
+                    return { frequency, email, format };
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: 'Reports Scheduled!',
+                        text: `${result.value.frequency} reports will be sent to ${result.value.email}`,
+                        icon: 'success',
+                        confirmButtonColor: '#6366f1'
+                    });
+                }
+            });
+        }
+
+        function exportReport(format) {
+            let title, text;
+            
+            switch(format) {
+                case 'pdf':
+                    title = 'Generating PDF Report';
+                    text = 'Creating comprehensive sales report in PDF format...';
+                    break;
+                case 'excel':
+                    title = 'Generating Excel Report';
+                    text = 'Preparing detailed sales data in Excel format...';
+                    break;
+                case 'csv':
+                    title = 'Generating CSV Data';
+                    text = 'Exporting raw sales data in CSV format...';
+                    break;
+                default:
+                    title = 'Generating Report';
+                    text = 'Preparing your sales report...';
+            }
+
+            Swal.fire({
+                title: title,
+                text: text,
+                icon: 'info',
+                timer: 3000,
+                showConfirmButton: false,
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            }).then(() => {
+                Swal.fire({
+                    title: 'Download Ready!',
+                    text: `Your ${format.toUpperCase()} report has been generated and downloaded.`,
+                    icon: 'success',
+                    confirmButtonColor: '#6366f1'
+                });
+            });
+        }
+
+        function exportTableData() {
+            Swal.fire({
+                title: 'Export Table Data',
+                text: 'Choose format for exporting the event performance table:',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Excel (.xlsx)',
+                cancelButtonText: 'CSV (.csv)',
+                confirmButtonColor: '#10b981',
+                cancelButtonColor: '#6366f1'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    exportReport('excel');
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                    exportReport('csv');
+                }
+            });
+        }
+
+        function emailReport() {
+            Swal.fire({
+                title: 'Email Sales Report',
+                html: `
+                    <div class="text-start">
+                        <div class="mb-3">
+                            <label class="form-label">Email Address</label>
+                            <input type="email" class="form-control" id="emailAddress" value="rajesh@eventsltd.com">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Report Type</label>
+                            <select class="form-select" id="emailReportType">
+                                <option value="summary">Summary Report</option>
+                                <option value="detailed" selected>Detailed Report</option>
+                                <option value="charts">Charts & Graphs</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Additional Message (Optional)</label>
+                            <textarea class="form-control" id="emailMessage" rows="3" placeholder="Add a personal message..."></textarea>
+                        </div>
+                    </div>
+                `,
+                showCancelButton: true,
+                confirmButtonText: 'Send Report',
+                cancelButtonText: 'Cancel',
+                confirmButtonColor: '#6366f1',
+                preConfirm: () => {
+                    const email = document.getElementById('emailAddress').value;
+                    const reportType = document.getElementById('emailReportType').value;
+                    const message = document.getElementById('emailMessage').value;
+                    
+                    if (!email) {
+                        Swal.showValidationMessage('Please enter an email address');
+                        return false;
+                    }
+                    
+                    return { email, reportType, message };
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: 'Report Sent!',
+                        text: `Sales report has been sent to ${result.value.email}`,
+                        icon: 'success',
+                        confirmButtonColor: '#6366f1'
+                    });
+                }
+            });
+        }
+
+        function viewEventReport(eventId) {
+            Swal.fire({
+                title: 'Event Report',
+                text: `Opening detailed report for event ${eventId}...`,
+                icon: 'info',
+                timer: 1500,
+                showConfirmButton: false
+            }).then(() => {
+                window.location.href = `event-analytics.html?id=${eventId}`;
+            });
+        }
+
+        function logout() {
+            Swal.fire({
+                title: 'Logout',
+                text: 'Are you sure you want to logout?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, Logout',
+                cancelButtonText: 'Cancel',
+                confirmButtonColor: '#ef4444'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    localStorage.removeItem('userSession');
+                    sessionStorage.removeItem('userSession');
+                    localStorage.removeItem('userLoggedIn');
+                    
+                    Swal.fire({
+                        title: 'Logged Out',
+                        text: 'You have been successfully logged out.',
+                        icon: 'success',
+                        confirmButtonColor: '#6366f1',
+                        timer: 1500,
+                        showConfirmButton: false
+                    }).then(() => {
+                        window.location.href = 'index.html';
+                    });
+                }
+            });
+        }
+    </script>
+
+</body>
+
+</html>
