@@ -329,6 +329,16 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link eventhub-nav-link" href="about.html">
+                            <i class="bi bi-info-circle me-1"></i>About
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link eventhub-nav-link" href="contact.html">
+                            <i class="bi bi-telephone me-1"></i>Contact
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link eventhub-nav-link" href="my-bookings.html">
                             <i class="bi bi-ticket-perforated me-1"></i>My Bookings
                         </a>
@@ -393,7 +403,7 @@
 
     <script>
         // Payment History JavaScript
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             initializeNavigation();
             updateUserInfo();
             setActiveNavigation();
@@ -406,10 +416,10 @@
             if (dropdownToggle) {
                 console.log('Navigation dropdown initialized');
             }
-            
+
             const navLinks = document.querySelectorAll('.eventhub-nav-link');
             navLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
+                link.addEventListener('click', function (e) {
                     navLinks.forEach(l => l.classList.remove('active'));
                     this.classList.add('active');
                 });
@@ -420,7 +430,7 @@
         function updateUserInfo() {
             const userNameElement = document.getElementById('userName');
             const userSession = localStorage.getItem('userSession') || sessionStorage.getItem('userSession');
-            
+
             if (userSession) {
                 try {
                     const userData = JSON.parse(userSession);
@@ -445,10 +455,10 @@
             const currentPage = 'payment-history.html';
             const navLinks = document.querySelectorAll('.eventhub-nav-link');
             const dropdownItems = document.querySelectorAll('.dropdown-item');
-            
+
             navLinks.forEach(link => link.classList.remove('active'));
             dropdownItems.forEach(item => item.classList.remove('active'));
-            
+
             dropdownItems.forEach(item => {
                 const href = item.getAttribute('href');
                 if (href === currentPage) {
@@ -494,7 +504,7 @@
             localStorage.removeItem('userSession');
             sessionStorage.removeItem('userSession');
             localStorage.removeItem('userLoggedIn');
-            
+
             Swal.fire({
                 title: 'Logged Out',
                 text: 'You have been successfully logged out.',
@@ -508,14 +518,14 @@
         }
 
         // Close mobile navigation when clicking outside
-        document.addEventListener('click', function(event) {
+        document.addEventListener('click', function (event) {
             const navbar = document.querySelector('.navbar-collapse');
             const toggler = document.querySelector('.navbar-toggler');
-            
-            if (navbar && navbar.classList.contains('show') && 
-                !navbar.contains(event.target) && 
+
+            if (navbar && navbar.classList.contains('show') &&
+                !navbar.contains(event.target) &&
                 !toggler.contains(event.target)) {
-                
+
                 const bsCollapse = bootstrap.Collapse.getInstance(navbar);
                 if (bsCollapse) {
                     bsCollapse.hide();
